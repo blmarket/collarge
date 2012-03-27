@@ -22,8 +22,8 @@ import android.widget.TextView;
 
 public class ImageAdapter extends BaseAdapter {
 
-	public static final int THUMBNAIL_HEIGHT = 150;
-	public static final int THUMBNAIL_WIDTH = 150;
+	public static final int THUMBNAIL_HEIGHT = 100;
+	public static final int THUMBNAIL_WIDTH = 100;
 
 	Context mContext;
 	Cursor cursor;
@@ -34,7 +34,7 @@ public class ImageAdapter extends BaseAdapter {
 			ContentResolver contentResolver) {
 		mContext = context;
 		this.cursor = cursor;
-		thumbnailBuilder = new SimpleThumbnailBuilder(contentResolver);
+		thumbnailBuilder = new MySimpleThumbnailBuilder(contentResolver);
 
 		uris = new ArrayList<Uri>();
 		while (cursor.moveToNext()) {
