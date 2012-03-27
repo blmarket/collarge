@@ -42,18 +42,6 @@ public class ImageAdapter extends BaseAdapter {
 					.getColumnIndexOrThrow(MediaStore.Images.Media._ID));
 			uris.add(ContentUris.withAppendedId(
 					MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id));
-
-			/*
-			 * String fileName = cursor.getString(2);
-			 * 
-			 * Bitmap bmp = BitmapFactory.decodeFile(fileName); Float width =
-			 * new Float(bmp.getWidth()); Float height = new
-			 * Float(bmp.getHeight()); Float ratio = width / height; bmp =
-			 * Bitmap.createScaledBitmap(bmp, (int) (THUMBNAIL_HEIGHT * ratio),
-			 * THUMBNAIL_HEIGHT, false);
-			 * 
-			 * bitmaps.add(bmp);
-			 */
 		}
 	}
 
