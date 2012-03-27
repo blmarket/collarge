@@ -34,7 +34,8 @@ public class ImageAdapter extends BaseAdapter {
 			ContentResolver contentResolver) {
 		mContext = context;
 		this.cursor = cursor;
-		thumbnailBuilder = new MySimpleThumbnailBuilder(contentResolver);
+		//thumbnailBuilder = new MySimpleThumbnailBuilder(contentResolver);
+		thumbnailBuilder = new DBCacheThumbnailBuilder(context, new MySimpleThumbnailBuilder(contentResolver));
 
 		uris = new ArrayList<Uri>();
 		while (cursor.moveToNext()) {
