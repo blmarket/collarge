@@ -27,14 +27,14 @@ public class ImageAdapter extends BaseAdapter {
 
 	Context mContext;
 	Cursor cursor;
-	ContentResolver contentResolver;
 	ArrayList<Uri> uris;
+	IThumbnailBuilder thumbnailBuilder;
 
 	public ImageAdapter(Context context, Cursor cursor,
 			ContentResolver contentResolver) {
 		mContext = context;
 		this.cursor = cursor;
-		this.contentResolver = contentResolver;
+		thumbnailBuilder = new SimpleThumbnailBuilder(contentResolver);
 
 		uris = new ArrayList<Uri>();
 		while (cursor.moveToNext()) {
@@ -81,9 +81,7 @@ public class ImageAdapter extends BaseAdapter {
 		else
 			imageView = new ImageView(mContext);
 
-		Bitmap bmp = Thumbnails.getThumbnail(contentResolver,
-				ContentUris.parseId(uris.get(position)), Thumbnails.MICRO_KIND,
-				null);
+		Bitmap bmp = thumbnailBuilder.build(uris.get(position));
 		if(bmp == null)
 			bmp = Bitmap.createBitmap(10,10,Bitmap.Config.ALPHA_8);
 		int padding = (THUMBNAIL_WIDTH - bmp.getWidth()) / 2;

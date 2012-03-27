@@ -1,5 +1,8 @@
 package net.blmarket.android.dbrunner;
 
-public interface IThumbnailBuilder {
+import android.graphics.Bitmap;
+import android.net.Uri;
 
+public interface IThumbnailBuilder {
+	Bitmap build(Uri uri);
 }
