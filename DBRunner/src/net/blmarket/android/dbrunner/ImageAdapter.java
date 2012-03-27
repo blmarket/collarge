@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Thumbnails;
+import android.util.Config;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -84,7 +85,7 @@ public class ImageAdapter extends BaseAdapter {
 				ContentUris.parseId(uris.get(position)), Thumbnails.MICRO_KIND,
 				null);
 		if(bmp == null)
-			bmp = Bitmap.createBitmap(10, 10, null);
+			bmp = Bitmap.createBitmap(10,10,Bitmap.Config.ALPHA_8);
 		int padding = (THUMBNAIL_WIDTH - bmp.getWidth()) / 2;
 
 		imageView.setPadding(padding, 0, padding, 0);
