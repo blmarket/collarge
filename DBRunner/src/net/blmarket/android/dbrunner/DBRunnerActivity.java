@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+// œX¶óœX¶ó
 public class DBRunnerActivity extends Activity implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 	public static final int LOADER_ID = 0x1;
