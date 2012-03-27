@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDB extends SQLiteOpenHelper {
 	
-	private static final int VERSION  = 3;
+	private static final int VERSION  = 4;
 	
 	public MyDB(Context context) {
 		super(context, "myDB.db", null, VERSION);
