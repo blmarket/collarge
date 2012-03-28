@@ -13,8 +13,11 @@
         android:id="@+id/gridView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fastScrollAlwaysVisible="true"
-        android:fastScrollEnabled="true"
+        android:fastScrollAlwaysVisible="false"
+        android:fastScrollEnabled="false"
+        android:scrollbarThumbVertical="@drawable/scrollbar_vertical_thumb"
+        android:scrollbarTrackVertical="@drawable/scrollbar_vertical_track"
+        android:scrollbarSize="6.67dp"
         android:numColumns="2"
         android:scrollbarStyle="insideOverlay" />
 
