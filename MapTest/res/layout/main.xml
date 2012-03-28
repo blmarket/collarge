@@ -8,15 +8,13 @@
         android:id="@+id/mapView"
         android:layout_width="fill_parent"
         android:layout_height="400dp"
-        android:apiKey="0YQNu-oUS8hxhHiq5YeTvNME_MzRJtxzInHoqaw"
+		android:apiKey="0YQNu-oUS8hzjNyP6GkORaVYl9p0-UBHFV4jZuw"
         android:clickable="true" />
 
-    <EditText
-        android:id="@+id/editText1"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:ems="10"
-        android:inputType="textMultiLine" >
-    </EditText>
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 
 </LinearLayout>
