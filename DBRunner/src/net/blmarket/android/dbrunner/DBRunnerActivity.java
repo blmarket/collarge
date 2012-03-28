@@ -38,6 +38,7 @@ public class DBRunnerActivity extends Activity implements
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
 		GridView view = (GridView) findViewById(R.id.gridView1);
 		view.setAdapter(new ImageAdapter(this, arg1, getContentResolver()));
+		
 	}
 
 	public void onLoaderReset(Loader<Cursor> arg0) {
