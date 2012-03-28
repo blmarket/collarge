@@ -23,7 +23,6 @@ public class DBRunnerActivity extends Activity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
 		getLoaderManager().initLoader(LOADER_ID, null, this);
 	}
 
@@ -37,18 +36,7 @@ public class DBRunnerActivity extends Activity implements
 	}
 
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
-		TextView tv = (TextView) findViewById(R.id.textView1);
-		String[] columnNames = arg1.getColumnNames();
-
-		String tmp = "" + arg1.getCount() + "[ ";
-
-		for (String v : columnNames) {
-			tmp = tmp + "," + v;
-		}
-		tv.setText(tmp);
-
 		GridView view = (GridView) findViewById(R.id.gridView1);
-		
 		view.setAdapter(new ImageAdapter(this, arg1, getContentResolver()));
 	}
 

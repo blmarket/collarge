@@ -9,19 +9,13 @@
         android:layout_height="wrap_content"
         android:text="@string/hello" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <GridView
         android:id="@+id/gridView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fastScrollAlwaysVisible="true"
+        android:fastScrollEnabled="true"
         android:numColumns="2"
-        android:scrollbarStyle="insideOverlay" >
-    </GridView>
+        android:scrollbarStyle="insideOverlay" />
 
 </LinearLayout>
