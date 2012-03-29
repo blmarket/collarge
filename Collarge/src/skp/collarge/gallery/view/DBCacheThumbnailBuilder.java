@@ -1,9 +1,10 @@
-package net.blmarket.android.dbrunner;
+package skp.collarge.gallery.view;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 
-import net.blmarket.android.dbrunner.db.MyDB;
+import skp.collarge.gallery.db.MyDB;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;

@@ -1,4 +1,4 @@
-package net.blmarket.android.dbrunner;
+package skp.collarge.gallery.view;
 
 import skp.collarge.R;
 import android.app.Activity;
