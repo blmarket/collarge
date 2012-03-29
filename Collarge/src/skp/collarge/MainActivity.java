@@ -10,6 +10,6 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        startActivity(new Intent(this, skp.collarge.gallery.view.DBRunnerActivity.class));
+        startActivity(new Intent(this, skp.collage.mapview.MyMapView.class));
     }
 }
