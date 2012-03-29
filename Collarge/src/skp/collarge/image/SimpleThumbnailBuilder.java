@@ -1,4 +1,4 @@
-package skp.collarge.gallery.view;
+package skp.collarge.image;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;

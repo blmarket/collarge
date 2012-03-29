@@ -1,4 +1,4 @@
-package skp.collarge.gallery.view;
+package skp.collarge.image;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
