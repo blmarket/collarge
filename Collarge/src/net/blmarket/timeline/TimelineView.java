@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import skp.collarge.image.DBCacheThumbnailBuilder;
+import skp.collarge.image.IThumbnailBuilder;
+import skp.collarge.image.MySimpleThumbnailBuilder;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -28,7 +32,7 @@ public class TimelineView extends View {
 	}
 
 	private ContentResolver contentResolver;
-	private ArrayList<UriImage> contentUris;
+	private ArrayList<UriImage> uriImages;
 
 	private void init() {
 		contentResolver = null;
@@ -52,25 +56,40 @@ public class TimelineView extends View {
 	public void setImages(ContentResolver contentResolver,
 			Collection<Uri> imageUris) {
 		this.contentResolver = contentResolver;
-		this.contentUris = new ArrayList<TimelineView.UriImage>();
+		this.uriImages = new ArrayList<TimelineView.UriImage>();
+
+		IThumbnailBuilder builder = new DBCacheThumbnailBuilder(getContext(),
+				new MySimpleThumbnailBuilder(contentResolver));
+
 		for (Uri item : imageUris) {
 			UriImage ui = new UriImage(item);
 			try {
-				ui.image = MediaStore.Images.Media.getBitmap(contentResolver, item);
+				ui.image = builder.build(item);
 			} catch (Exception e) {
 				ui.image = null;
 			}
-			contentUris.add(ui);
+			uriImages.add(ui);
 		}
 	}
 
 	@Override
-	public void draw(Canvas canvas) {
+	protected void onDraw(Canvas canvas) {
 		// TODO Auto-generated method stub
-		super.draw(canvas);
+		super.onDraw(canvas);
 		Paint p = new Paint();
-		p.setColor(0x77777777);
+		// p.setColor(0x77777777);
 
-		canvas.drawRect(new Rect(5, 5, 100, 100), new Paint());
+		float pos = 5;
+		for (UriImage item : uriImages) {
+			canvas.drawBitmap(item.image, 5, pos, p);
+			pos += item.image.getHeight();
+		}
+	}
+
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		// TODO Auto-generated method stub
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		setMeasuredDimension(500, 5000);
 	}
 }

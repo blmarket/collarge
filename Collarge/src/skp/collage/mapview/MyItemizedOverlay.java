@@ -11,6 +11,10 @@ import android.widget.Toast;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
+class BalloonItemizedOverlay<T> {
+	
+}
+
 public class MyItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 
 	private ArrayList<OverlayItem> m_overlays = new ArrayList<OverlayItem>();
@@ -27,12 +31,10 @@ public class MyItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 		this.populate();
 	}
 
-	@Override
 	protected OverlayItem createItem(int i) {
 		return m_overlays.get(i);
 	}
 
-	@Override
 	public int size() {
 		return m_overlays.size();
 	}

@@ -2,6 +2,10 @@ package skp.collarge.gallery.view;
 
 import java.util.ArrayList;
 
+import skp.collarge.image.DBCacheThumbnailBuilder;
+import skp.collarge.image.IThumbnailBuilder;
+import skp.collarge.image.MySimpleThumbnailBuilder;
+
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package skp.collarge.gallery.view;
+package skp.collarge.image;
 
 import android.graphics.Bitmap;
 import android.net.Uri;

@@ -1,4 +1,4 @@
-package skp.collarge.gallery.db;
+package skp.collarge.db;
 
 import android.content.ContentValues;
 import android.content.Context;

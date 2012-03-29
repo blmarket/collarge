@@ -1,9 +1,9 @@
-package skp.collarge.gallery.view;
+package skp.collarge.image;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 
-import skp.collarge.gallery.db.MyDB;
+import skp.collarge.db.MyDB;
 
 import android.content.Context;
 import android.graphics.Bitmap;
