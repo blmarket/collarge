@@ -19,7 +19,7 @@ public class DBCacheThumbnailBuilder implements IThumbnailBuilder {
 	public DBCacheThumbnailBuilder(Context context, IThumbnailBuilder builder) {
 		this.localBuilder = builder;
 		db = new MyDB(context);
-		
+
 	}
 
 	@Override
@@ -35,6 +35,8 @@ public class DBCacheThumbnailBuilder implements IThumbnailBuilder {
 
 		if (bmp == null) {
 			bmp = localBuilder.build(uri);
+			if (bmp == null)
+				return null;
 			System.out.println("Bitmap Created : " + bmp.getWidth() + " "
 					+ bmp.getHeight());
 
