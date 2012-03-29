@@ -5,8 +5,9 @@
     android:versionName="1.0" >
 
     <uses-sdk android:minSdkVersion="15" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:icon="@drawable/ic_launcher"
@@ -23,7 +24,9 @@
         <activity android:name="skp.collarge.TestActivity" />
         <activity android:name=".gallery.view.DBRunnerActivity" />
         <activity android:name="skp.collage.mapview.MyMapView" />
-        <uses-library android:name="com.google.android.maps"/>
+        <activity android:name="net.blmarket.timeline.TimelineViewActivity" />
+
+        <uses-library android:name="com.google.android.maps" />
     </application>
 
 </manifest>

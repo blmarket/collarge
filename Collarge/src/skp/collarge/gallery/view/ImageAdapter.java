@@ -44,6 +44,10 @@ public class ImageAdapter extends BaseAdapter {
 			uris.add(ContentUris.withAppendedId(
 					MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id));
 		}
+		
+		for(Uri i : uris) { 
+			System.out.println(i);
+		}
 	}
 
 	public int getCount() {
