@@ -11,10 +11,6 @@ import android.widget.Toast;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
-class BalloonItemizedOverlay<T> {
-	
-}
-
 public class MyItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 
 	private ArrayList<OverlayItem> m_overlays = new ArrayList<OverlayItem>();
