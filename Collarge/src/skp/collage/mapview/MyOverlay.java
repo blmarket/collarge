@@ -25,7 +25,7 @@ public class MyOverlay extends ItemizedOverlay<OverlayItem> {
 	}
 
 	public MyOverlay(Drawable drawable) {
-		super(boundCenter(drawable));
+		super(boundCenterBottom(drawable));
 		// TODO Auto-generated constructor stub
 	}
 
