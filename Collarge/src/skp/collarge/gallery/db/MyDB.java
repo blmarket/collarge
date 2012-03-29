@@ -1,4 +1,4 @@
-package net.blmarket.android.dbrunner.db;
+package skp.collarge.gallery.db;
 
 import android.content.ContentValues;
 import android.content.Context;

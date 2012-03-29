@@ -1,9 +1,10 @@
-package net.blmarket.android.dbrunner;
+package skp.collarge.gallery.view;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 
-import net.blmarket.android.dbrunner.db.MyDB;
+import skp.collarge.gallery.db.MyDB;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -18,7 +19,7 @@ public class DBCacheThumbnailBuilder implements IThumbnailBuilder {
 	public DBCacheThumbnailBuilder(Context context, IThumbnailBuilder builder) {
 		this.localBuilder = builder;
 		db = new MyDB(context);
-		
+
 	}
 
 	@Override
@@ -34,6 +35,8 @@ public class DBCacheThumbnailBuilder implements IThumbnailBuilder {
 
 		if (bmp == null) {
 			bmp = localBuilder.build(uri);
+			if (bmp == null)
+				return null;
 			System.out.println("Bitmap Created : " + bmp.getWidth() + " "
 					+ bmp.getHeight());
 
