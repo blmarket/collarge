@@ -19,16 +19,15 @@ public class MyMapView extends MapActivity {
 
 	private String imagePath = "/mnt/sdcard/DCIM/Camera/20120328_151059.jpg";
 	private MapView mapView;
-	//MyLocationOverlay2 mLocation;
 	
 	ExifInterface exif;
 	private int latitude;
 	private int longitude;
 	
 	Drawable drawable;
-	MyOverlay myOverlay;
 	MyItemizedOverlay itemizedOverlay;
 	BalloonOverlayView balloonView;
+	List<Overlay> mapOverlays;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,22 +36,28 @@ public class MyMapView extends MapActivity {
 		
 		mapView = (MapView)findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
-		List<Overlay> mapOverlays = mapView.getOverlays();
+		mapOverlays = mapView.getOverlays();
 		
+		//사진 GEO 태그 찾음
 		try {
 			exif = new ExifInterface(imagePath.toString());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		
 		// 티타워를 중심으로...
 		GeoPoint point = new GeoPoint(37566417,126985133);
-		GeoPoint point2 = new GeoPoint(getLatitude(exif), getLongitude(exif));
+		GeoPoint basePoint = new GeoPoint(getLatitude(exif), getLongitude(exif));
 		MapController mapController = mapView.getController();
 		mapController.setCenter(point);
 		mapController.setZoom(17);
+		
+		drawable = getResources().getDrawable(R.drawable.bubble_point);
+		itemizedOverlay = new MyItemizedOverlay(drawable, mapView);
+		
+		OverlayItem overlayItem = new OverlayItem(basePoint, "Tomorrow Never Dies (1997)", "(M gives Bond his mission in Daimler car)");
+		itemizedOverlay.addOverlay(overlayItem);
+		mapOverlays.add(itemizedOverlay);
 		
 		
 		/* 
@@ -65,45 +70,6 @@ public class MyMapView extends MapActivity {
             }
         });
         */
-		
-		
-		drawable = getResources().getDrawable(R.drawable.bubblepoint);
-		itemizedOverlay = new MyItemizedOverlay(drawable, mapView);
-		OverlayItem overlayItem = new OverlayItem(point2, "", "");
-		itemizedOverlay.addOverlay(overlayItem);
-		mapOverlays.add(itemizedOverlay);
-		
-		
-		/*
-		mapOverlays = mapView.getOverlays();
-		drawable = getResources().getDrawable(R.drawable.bubblepoint);
-		itemizedOverlay = new MyItemizedOverlay(drawable, mapView);
-		OverlayItem overlayItem = new OverlayItem(point, "", "");
-		itemizedOverlay.addOverlay(overlayItem);
-		//mapOverlays.add(itemizedOverlay);
-		
-		try {
-			balloonView = new BalloonOverlayView(mapView.getContext());
-			balloonView.setVisibility(View.GONE);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		MapView.LayoutParams lp;
-		lp = new MapView.LayoutParams(MapView.LayoutParams.WRAP_CONTENT, MapView.LayoutParams.WRAP_CONTENT,
-				10, 10, MapView.LayoutParams.TOP_LEFT);
-		mapView.addView(balloonView, lp);
-		
-		
-		
-		overLayList = mapView.getOverlays();
-		drawable = this.getResources().getDrawable(R.drawable.bubblepoint);
-		myOverlay = new MyOverlay(drawable);
-		OverlayItem overlayItem = new OverlayItem(point, "", "");
-		myOverlay.addOverlay(overlayItem);
-		overLayList.add(myOverlay);
-		*/
 		
 	}
 	
