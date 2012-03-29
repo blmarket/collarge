@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name="skp.collarge.TestActivity" />
-        <activity android:name="net.blmarket.android.dbrunner.DBRunnerActivity" />
+        <activity android:name=".gallery.view.DBRunnerActivity" />
         <activity android:name="skp.collage.mapview.MyMapView" />
         <uses-library android:name="com.google.android.maps"/>
     </application>
