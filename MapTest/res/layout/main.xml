@@ -3,12 +3,18 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
+
     <com.google.android.maps.MapView
-	    android:id="@+id/mapView"
-	    android:clickable="true"       
-	    android:layout_width="fill_parent"                 
-	    android:layout_height="fill_parent"                 
-	    android:apiKey="0YQNu-oUS8hxhHiq5YeTvNME_MzRJtxzInHoqaw" />
+        android:id="@+id/mapView"
+        android:layout_width="fill_parent"
+        android:layout_height="400dp"
+		android:apiKey="0YQNu-oUS8hzjNyP6GkORaVYl9p0-UBHFV4jZuw"
+        android:clickable="true" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 
 </LinearLayout>
