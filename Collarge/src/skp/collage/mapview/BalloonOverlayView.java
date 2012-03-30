@@ -1,10 +1,5 @@
 package skp.collage.mapview;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import skp.collarge.R;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,41 +11,55 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.google.android.maps.OverlayItem;
+
 public class BalloonOverlayView extends FrameLayout {
 
 	private LinearLayout layout;
-	ImageView picImage;
-	Bitmap bitmap;
+	private ImageView image;
+	private String imagePath = "/mnt/sdcard/DCIM/Camera/20120329_125341.jpg";
+	Bitmap bMap;
 
-	public BalloonOverlayView(Context context) throws FileNotFoundException {
+	public BalloonOverlayView(Context context, int balloonBottomOffset, String path) {
 		super(context);
-		
-		picImage = (ImageView) findViewById(R.id.picture_image);
-		setPadding(5, 5, 5, 5);
-		
-		layout = new LinearLayout(context); // mapView에 LinearLayout 생성-
-		layout.setVisibility(LinearLayout.VISIBLE); // VISIBLE-
-		layout.setBackgroundDrawable(getResources().getDrawable(R.drawable.bubble_back));
 
-		// mapview_balloon_overlay.xml에 이미지를 입혀준다.
-		// FileInputStream in = new FileInputStream(new
-		// File("/mnt/sdcard/DCIM/Camera/20120328_151059.jpg"));
-		// BufferedInputStream buf = new BufferedInputStream(in);
+		setPadding(10, 0, 10, balloonBottomOffset);
+		layout = new LinearLayout(context);
+		layout.setVisibility(VISIBLE);
 
+		// TODO
+		// 최적화 해야 함(썸네일을 이용해야할 듯)
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = 20;
+		bMap = BitmapFactory.decodeFile(path, options);
 
-		// 말풍선을 view로 만들어서 띄워준다.
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.mapview_balloon_overlay, layout);
-		bitmap = BitmapFactory
-				.decodeFile("/mnt/sdcard/DCIM/Camera/20120328_151059.jpg");
-		// picImage.setImageBitmap(bitmap);
+		image = (ImageView) v.findViewById(R.id.balloon_item_image);
+		image.setImageBitmap(bMap);
 
-		// FrameLayout 조절-
-		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
 		params.gravity = Gravity.NO_GRAVITY;
 
 		addView(layout, params);
 	}
+
+	public void setData(OverlayItem item) {
+		layout.setVisibility(VISIBLE);
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
+	// 말풍선 Visibility 조절
+	public void closeBalloonOverlayView() {
+		layout.setVisibility(GONE);
+	}
+
+	public void onBalloonOverlayView() {
+		layout.setVisibility(VISIBLE);
+	}
+
 }

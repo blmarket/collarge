@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.text.Layout;
 import android.widget.Toast;
 
 import com.google.android.maps.MapView;

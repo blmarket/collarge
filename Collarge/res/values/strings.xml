@@ -3,5 +3,7 @@
 
     <string name="hello">Hello World, CollargeActivity!</string>
     <string name="app_name">Collarge</string>
+    <string name="timeline_level">타임라인 레벨</string>
+    <string name="vpos">위치 정보</string>
 
 </resources>

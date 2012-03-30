@@ -1,10 +1,8 @@
 package skp.collarge.image;
 
 import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
 
 import skp.collarge.db.MyDB;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -50,4 +48,10 @@ public class DBCacheThumbnailBuilder implements IThumbnailBuilder {
 				+ bmp.getHeight());
 		return bmp;
 	}
+
+	@Override
+	public void close() {
+		localBuilder.close();
+		db.close();		
+	}	
 }
