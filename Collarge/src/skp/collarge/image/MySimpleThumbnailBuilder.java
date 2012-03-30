@@ -1,8 +1,5 @@
 package skp.collarge.image;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import android.content.ContentResolver;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -33,6 +30,12 @@ public class MySimpleThumbnailBuilder implements IThumbnailBuilder {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	@Override
+	public void close() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

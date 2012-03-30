@@ -5,4 +5,5 @@ import android.net.Uri;
 
 public interface IThumbnailBuilder {
 	Bitmap build(Uri uri);
+	void close();
 }
