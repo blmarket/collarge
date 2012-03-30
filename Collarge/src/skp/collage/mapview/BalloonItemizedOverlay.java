@@ -11,8 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Toast;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapController;
@@ -20,17 +18,15 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
-public abstract class BalloonItemizedOverlay<Item> extends
-		ItemizedOverlay<OverlayItem> {
+public abstract class BalloonItemizedOverlay<Item> extends ItemizedOverlay<OverlayItem> {
 
-	private class BooooomHeadshot {
+	private class Bolloon {
 		BalloonOverlayView balloonView;
 		View clickRegion;
 	}
-	
 
 	private MapView mapView;
-	private ArrayList<BooooomHeadshot> boombs = new ArrayList<BalloonItemizedOverlay<Item>.BooooomHeadshot>();
+	private ArrayList<Bolloon> boombs = new ArrayList<BalloonItemizedOverlay<Item>.Bolloon>();
 	private int viewOffset;
 	final MapController mc;
 
@@ -49,50 +45,53 @@ public abstract class BalloonItemizedOverlay<Item> extends
 		return false;
 	}
 
-	/*
-	 * public void closeBalloon() { Toast.makeText(mapView.getContext(),
-	 * "close balloonOverlay" , Toast.LENGTH_SHORT).show();
-	 * balloonView.closeBalloonOverlayView(); }
-	 * 
-	 * public void onBalloonOverlay() { Toast.makeText(mapView.getContext(),
-	 * "Open balloonOverlay" , Toast.LENGTH_SHORT).show();
-	 * balloonView.onBalloonOverlayView(); }
-	 */
+	public void closeBalloon() {
+		Log.i("CLOSE_Balloon", "Close_balloon() Start");
+		for(int i=0; i<boombs.size(); i++) {
+			Log.i("CLOSE_Balloon", ""+i);
+			System.out.println(boombs.get(i).balloonView);
+			boombs.get(i).balloonView.closeBalloonOverlayView();
+		}
+	}
 
-	protected final boolean onTap(int index) {
+	public void onBalloonOverlay() {
+		for(int i=0; i<boombs.size(); i++) {
+			Log.i("CLOSE_Balloon", ""+i);
+			boombs.get(i).balloonView.onBalloonOverlayView();
+		}
+	}
 
-		Toast.makeText(mapView.getContext(), "point ÅÍÄ¡", Toast.LENGTH_SHORT)
-				.show();
+	protected final boolean onTap(int index, String path) {
 
 		final int thisIndex;
 		GeoPoint point;
-
 		thisIndex = index;
 		point = createItem(index).getPoint();
 
-		BooooomHeadshot shot = new BooooomHeadshot();
-		shot.balloonView = new BalloonOverlayView(mapView.getContext(),
-				viewOffset);
-		shot.clickRegion = (View) shot.balloonView
-				.findViewById(R.id.balloon_inner_layout);
+		Bolloon bolloon = new Bolloon();
+		bolloon.balloonView = new BalloonOverlayView(mapView.getContext(), viewOffset, path);
+		bolloon.clickRegion = (View) bolloon.balloonView.findViewById(R.id.balloon_inner_layout);
+		
+		
 
-		shot.balloonView.setVisibility(View.GONE);
+		bolloon.balloonView.setVisibility(View.GONE);
 
 		List<Overlay> mapOverlays = mapView.getOverlays();
 
-		shot.balloonView.setData(createItem(index));
+		bolloon.balloonView.setData(createItem(index));
 
-		MapView.LayoutParams params = new MapView.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, point,
-				MapView.LayoutParams.BOTTOM_CENTER);
+		MapView.LayoutParams params = new MapView.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
+				point, MapView.LayoutParams.BOTTOM_CENTER);
 		params.mode = MapView.LayoutParams.MODE_MAP;
 
-		setBalloonTouchListener(shot.clickRegion, thisIndex);
+		setBalloonTouchListener(bolloon.clickRegion, thisIndex);
 
-		shot.balloonView.setVisibility(View.VISIBLE);
+		bolloon.balloonView.setVisibility(View.VISIBLE);
 
-		mapView.addView(shot.balloonView, params);
-
+		mapView.addView(bolloon.balloonView, params);
+		
+		
+		boombs.add(bolloon);
 		return true;
 	}
 
@@ -114,14 +113,12 @@ public abstract class BalloonItemizedOverlay<Item> extends
 	private void setBalloonTouchListener(View clickRegion, final int thisIndex) {
 		try {
 			@SuppressWarnings("unused")
-			Method m = this.getClass().getDeclaredMethod("onBalloonTap",
-					int.class);
+			Method m = this.getClass().getDeclaredMethod("onBalloonTap", int.class);
 
 			clickRegion.setOnTouchListener(new OnTouchListener() {
 				public boolean onTouch(View v, MotionEvent event) {
 
-					View l = ((View) v.getParent())
-							.findViewById(R.id.balloon_main_layout);
+					View l = ((View) v.getParent()).findViewById(R.id.balloon_main_layout);
 					Drawable d = l.getBackground();
 
 					if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -146,8 +143,7 @@ public abstract class BalloonItemizedOverlay<Item> extends
 			});
 
 		} catch (SecurityException e) {
-			Log.e("BalloonItemizedOverlay",
-					"setBalloonTouchListener reflection SecurityException");
+			Log.e("BalloonItemizedOverlay", "setBalloonTouchListener reflection SecurityException");
 			return;
 		} catch (NoSuchMethodException e) {
 			// method not overridden - do nothing

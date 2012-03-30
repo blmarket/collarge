@@ -38,104 +38,89 @@ public class MyMapView extends MapActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
-		try
-		{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main_mapview);
 
-		mapView = (MapView) findViewById(R.id.mapview);
-		mapView.setBuiltInZoomControls(true);
-		mapOverlays = mapView.getOverlays();
-		imagePathList.add("/mnt/sdcard/DCIM/Camera/1328103966815.jpg");
-		imagePathList.add("/mnt/sdcard/DCIM/Camera/1329893292704.jpg");
-
-		// 사진 GEO 태그 찾음
 		try {
-			exif = new ExifInterface(
-					"/mnt/sdcard/DCIM/Camera/1328103966815.jpg");
-			exif2 = new ExifInterface(
-					"/mnt/sdcard/DCIM/Camera/1329893292704.jpg");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			super.onCreate(savedInstanceState);
+			setContentView(R.layout.main_mapview);
 
-		// 티타워를 중심으로...
-		GeoPoint point = new GeoPoint(37566417, 126985133);
-		MapController mapController = mapView.getController();
-		mapController.setCenter(point);
-		mapController.setZoom(17);
+			mapView = (MapView) findViewById(R.id.mapview);
+			mapView.setBuiltInZoomControls(true);
+			mapOverlays = mapView.getOverlays();
+			imagePathList.add("/mnt/sdcard/DCIM/Camera/20120329_125341.jpg");
+			imagePathList.add("/mnt/sdcard/DCIM/Camera/20120329_123720.jpg");
 
-		drawable = getResources().getDrawable(R.drawable.bubble_point);
-		itemizedOverlay = new MyItemizedOverlay(drawable, mapView);
-
-		// 1. 마커(말풍선) 생성
-		//GeoPoint basePoint = new GeoPoint(getLatitude(exif), getLongitude(exif));
-		GeoPoint basePoint = new GeoPoint(37566420, 126985140);
-		OverlayItem overlayItem = new OverlayItem(basePoint, "", "");
-		itemizedOverlay.addOverlay(overlayItem);
-
-		GeoPoint basePoint2 = new GeoPoint(getLatitude(exif2),
-				getLongitude(exif2));
-		OverlayItem overlayItem2 = new OverlayItem(basePoint2, "", "");
-		itemizedOverlay.addOverlay(overlayItem2);
-
-		// 2 .itemizedOverlay 순회하면서 마커(말풍선) 띄우기
-		for (int i = 0; i < itemizedOverlay.size(); i++) {
-			itemizedOverlay.onTap(i);
-		}
-
-		// 3. mapView의 Overlays에 추가
-		mapOverlays.add(itemizedOverlay);
-
-		final ImageView markerControlButton = (ImageView) findViewById(R.id.balloon_control);
-		markerControlButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (buttonAction) {
-					// TODO: hide all buttons
-					/*
-					 * for (int i = 0; i < itemizedOverlay.size(); i++) {
-					 * itemizedOverlay.closeBalloon();
-					 * markerControlButton.setImageDrawable
-					 * (getResources().getDrawable(R.drawable.btn_on));
-					 * buttonAction = false; }
-					 */
-				} else {
-					// TODO: show all balloons
-					/*
-					 * for (int i = 0; i < itemizedOverlay.size(); i++) {
-					 * itemizedOverlay.onBalloonOverlay();
-					 * markerControlButton.setImageDrawable
-					 * (getResources().getDrawable(R.drawable.btn_off));
-					 * buttonAction = true; }
-					 */
-				}
+			// 사진 GEO 태그 찾음
+			try {
+				exif = new ExifInterface("/mnt/sdcard/DCIM/Camera/20120329_125341.jpg");
+				exif2 = new ExifInterface("/mnt/sdcard/DCIM/Camera/20120329_123720.jpg");
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		});
 
-		/*
-		 * 내 위치를 찾고 싶다면 이 코드를 살리면 mLocation = new MyLocationOverlay2(this,
-		 * mapView); mapOverlays.add(mLocation); mLocation.runOnFirstFix(new
-		 * Runnable() { public void run() {
-		 * mapView.getController().animateTo(mLocation.getMyLocation()); } });
-		 */
-		} catch(Exception E)
-		{
-			E.printStackTrace();			
+			// 티타워를 중심으로...
+			GeoPoint point = new GeoPoint(37566417, 126985133);
+			MapController mapController = mapView.getController();
+			mapController.setCenter(point);
+			mapController.setZoom(17);
+
+			drawable = getResources().getDrawable(R.drawable.bubble_point);
+			itemizedOverlay = new MyItemizedOverlay(drawable, mapView);
+
+			// 1. 마커(말풍선) 생성
+			GeoPoint basePoint = new GeoPoint(getLatitude(exif), getLongitude(exif));
+			OverlayItem overlayItem = new OverlayItem(basePoint, "", "");
+			itemizedOverlay.addOverlay(overlayItem);
+
+			GeoPoint basePoint2 = new GeoPoint(getLatitude(exif2), getLongitude(exif2));
+			OverlayItem overlayItem2 = new OverlayItem(basePoint2, "", "");
+			itemizedOverlay.addOverlay(overlayItem2);
+
+			// 2 .itemizedOverlay 순회하면서 마커(말풍선) 띄우기
+			for (int i = 0; i < itemizedOverlay.size(); i++) {
+				itemizedOverlay.onTap(i, imagePathList.get(i));
+			}
+
+			// 3. mapView의 Overlays에 추가
+			mapOverlays.add(itemizedOverlay);
+
+			final ImageView markerControlButton = (ImageView) findViewById(R.id.balloon_control);
+			markerControlButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (buttonAction) {
+						itemizedOverlay.closeBalloon();
+						markerControlButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_on));
+						buttonAction = false;
+					} else {
+						itemizedOverlay.onBalloonOverlay();
+						markerControlButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_off));
+						buttonAction = true;
+					}
+				}
+			});
+
+			/*
+			 * 내 위치를 찾고 싶다면 이 코드를 살리면 mLocation = new MyLocationOverlay2(this,
+			 * mapView); mapOverlays.add(mLocation); mLocation.runOnFirstFix(new
+			 * Runnable() { public void run() {
+			 * mapView.getController().animateTo(mLocation.getMyLocation()); }
+			 * });
+			 */
+			
+			
+		} catch (Exception E) {
+			E.printStackTrace();
 		}
 
 	}
 
 	private int getLatitude(ExifInterface exif) {
-		latitude = Integer.parseInt(exif.getAttribute(
-				ExifInterface.TAG_GPS_LATITUDE).split("/")[0]);
+		latitude = Integer.parseInt(exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE).split("/")[0]);
 		return latitude / 10;
 	}
 
 	private int getLongitude(ExifInterface exif) {
-		longitude = Integer.parseInt(exif.getAttribute(
-				ExifInterface.TAG_GPS_LONGITUDE).split("/")[0]);
+		longitude = Integer.parseInt(exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE).split("/")[0]);
 		return longitude / 10;
 	}
 

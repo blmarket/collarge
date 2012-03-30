@@ -1,17 +1,28 @@
 package skp.collarge;
 
-import skp.collage.mapview.MyMapView;
-import net.blmarket.timeline.TimelineViewActivity;
+import skp.collarge.main.CollageMain;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 public class MainActivity extends Activity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        startActivity(new Intent(this, MyMapView.class));
+        setContentView(R.layout.main_start);
+        
+        Handler mHandler = new Handler();
+    	mHandler.postDelayed(new Runnable() {
+    		public void run() { 
+    			// 1.5초 뒤에 Menu 액티비티 전환
+    			Intent intent = new Intent(MainActivity.this, CollageMain.class);
+    			startActivity(intent);
+    			finish();
+    		}
+    	}, 1500);
+    	
     }
 }
