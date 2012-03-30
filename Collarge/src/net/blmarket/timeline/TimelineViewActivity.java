@@ -3,20 +3,28 @@ package net.blmarket.timeline;
 import java.util.ArrayList;
 
 import skp.collarge.R;
+import skp.collarge.image.DBCacheThumbnailBuilder;
+import skp.collarge.image.IThumbnailBuilder;
+import skp.collarge.image.MySimpleThumbnailBuilder;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.View.OnTouchListener;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.ViewFlipper;
 
-public class TimelineViewActivity extends Activity implements OnTouchListener {
+public class TimelineViewActivity extends Activity implements OnTouchListener, OnClickListener {
 
 	ViewFlipper flipper;
 	ScrollView scroller;
@@ -42,10 +50,15 @@ public class TimelineViewActivity extends Activity implements OnTouchListener {
 							.getColumnIndex(MediaStore.Images.Media._ID))));
 		}
 
+		setImages(findViewById(R.id.timeline_1), uris, 1);
+		setImages(findViewById(R.id.timeline_2), uris, 20);
+		
+		/*
 		((TimelineView) findViewById(R.id.timeline_1)).setImages(
 				getContentResolver(), uris, 1);
 		((TimelineView) findViewById(R.id.timeline_2)).setImages(
 				getContentResolver(), uris, 20);
+				*/
 
 		flipper = ((ViewFlipper) findViewById(R.id.timelineflipper));
 		flipper.setOnTouchListener(this);
@@ -53,6 +66,31 @@ public class TimelineViewActivity extends Activity implements OnTouchListener {
 				.setOnTouchListener(this);
 		((ScrollView) findViewById(R.id.timeline_scroll_2))
 				.setOnTouchListener(this);
+	}
+
+	private void setImages(View v, ArrayList<Uri> uris, int step) {
+		LinearLayout ll = (LinearLayout)v;
+		
+		IThumbnailBuilder builder = new DBCacheThumbnailBuilder(this,
+				new MySimpleThumbnailBuilder(getContentResolver()));
+
+		for(int i=0;i<uris.size();i += step)
+		{
+			Uri item = uris.get(i);
+			Bitmap image;
+			try {
+				image = builder.build(item);
+			} catch (Exception e) {
+				image = null;
+			}
+			
+			if(image == null) continue;
+			ImageView imv = new ImageView(this);
+			imv.setImageBitmap(image);
+			imv.setOnClickListener(this);
+			ll.addView(imv);
+		}
+		builder.close();
 	}
 
 	// View.OnTouchListenerÀÇ abstract method
@@ -96,5 +134,11 @@ public class TimelineViewActivity extends Activity implements OnTouchListener {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		System.out.println(v);
 	}
 }

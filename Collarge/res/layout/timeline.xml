@@ -35,20 +35,23 @@
             android:id="@+id/timeline_scroll_1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
-            <net.blmarket.timeline.TimelineView
+            
+            <LinearLayout
                 android:id="@+id/timeline_1"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:background="#fff" />
         </ScrollView>
         <ScrollView
             android:id="@+id/timeline_scroll_2"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
-            <net.blmarket.timeline.TimelineView
+            <LinearLayout
                 android:id="@+id/timeline_2"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:background="#fff" />
         </ScrollView>
         

@@ -38,13 +38,15 @@ public class DBRunnerActivity extends Activity implements
 
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
 		GridView view = (GridView) findViewById(R.id.gridView1);
-		view.setAdapter(new skp.collarge.gallery.view.ImageAdapter(this, arg1, getContentResolver()));
+		view.setAdapter(new skp.collarge.gallery.view.ImageAdapter(this, arg1,
+				getContentResolver()));
 		view.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Uri uri = (Uri)(arg1.getTag());
-				startActivity(new Intent(getApplicationContext(), skp.collarge.TestActivity.class));
+				Uri uri = (Uri) (arg1.getTag());
+				startActivity(new Intent(getApplicationContext(),
+						skp.collarge.TestActivity.class));
 			}
 		});
 	}
