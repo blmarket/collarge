@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
@@ -25,6 +26,7 @@ public abstract class BalloonItemizedOverlay<Item> extends ItemizedOverlay<Overl
 	private View clickRegion;
 	private int viewOffset;
 	final MapController mc;
+	boolean isRecycled;
 	
 	
 	public BalloonItemizedOverlay(Drawable defaultMarker, MapView mapView) {
@@ -43,12 +45,21 @@ public abstract class BalloonItemizedOverlay<Item> extends ItemizedOverlay<Overl
 	protected boolean onBalloonTap(int index) {
 		return false;
 	}
-
 	
-	@Override
+	public void closeBalloon() {
+		Toast.makeText(mapView.getContext(), "close balloonOverlay" , Toast.LENGTH_SHORT).show();
+		balloonView.closeBalloonOverlayView();
+	}
+	
+	public void onBalloonOverlay() {
+		Toast.makeText(mapView.getContext(), "Open balloonOverlay" , Toast.LENGTH_SHORT).show();
+		balloonView.onBalloonOverlayView();
+	}
+
 	protected final boolean onTap(int index) {
 		
-		boolean isRecycled;
+		Toast.makeText(mapView.getContext(), "point ÅÍÄ¡" , Toast.LENGTH_SHORT).show();
+		
 		final int thisIndex;
 		GeoPoint point;
 		
@@ -57,18 +68,16 @@ public abstract class BalloonItemizedOverlay<Item> extends ItemizedOverlay<Overl
 		
 		if (balloonView == null) {
 			balloonView = new BalloonOverlayView(mapView.getContext(), viewOffset);
+			
 			clickRegion = (View) balloonView.findViewById(R.id.balloon_inner_layout);
 			isRecycled = false;
 		} else {
 			isRecycled = true;
 		}
-	
+		
 		balloonView.setVisibility(View.GONE);
 		
 		List<Overlay> mapOverlays = mapView.getOverlays();
-		if (mapOverlays.size() > 1) {
-			hideOtherBalloons(mapOverlays);
-		}
 		
 		balloonView.setData(createItem(index));
 		
@@ -87,7 +96,7 @@ public abstract class BalloonItemizedOverlay<Item> extends ItemizedOverlay<Overl
 			mapView.addView(balloonView, params);
 		}
 		
-		mc.animateTo(point);
+		//mc.animateTo(point);
 		
 		return true;
 	}
@@ -112,7 +121,6 @@ public abstract class BalloonItemizedOverlay<Item> extends ItemizedOverlay<Overl
 	
 
 	private void setBalloonTouchListener(final int thisIndex) {
-		
 		try {
 			@SuppressWarnings("unused")
 			Method m = this.getClass().getDeclaredMethod("onBalloonTap", int.class);
