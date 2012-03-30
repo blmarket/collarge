@@ -27,7 +27,7 @@ import android.widget.ViewFlipper;
 
 public class TimelineViewActivity extends Activity implements OnTouchListener,
 		OnClickListener {
-
+	
 	ViewFlipper flipper;
 	ArrayList<ScrollView> scroller = new ArrayList<ScrollView>();
 	// 터치 이벤트 발생 지점의 x좌표 저장
@@ -101,22 +101,23 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 
 			if (image == null)
 				continue;
-			ImageView imv = new ImageView(this);
-			imv.setId(i);
-			imv.setTag(R.string.timeline_level, new Integer(level));
-			imv.setTag(R.string.vpos, new Integer(vpos));
+			ImageTextView imtv = new ImageTextView(this);
+			imtv.setId(i);
+			imtv.setTag(R.string.timeline_level, new Integer(level));
+			imtv.setTag(R.string.vpos, new Integer(vpos));
 
 			vpos = nextvpos;
 			nextvpos = vpos + image.getHeight();
-			imv.setImageBitmap(image);
-			imv.setOnTouchListener(this);
+			imtv.setImageBitmap(image);
+			imtv.setOnTouchListener(this);
 			// imv.setOnClickListener(this);
-			ll.addView(imv);
+			ll.addView(imtv);
 		}
 		builder.close();
 		return result;
 	}
 
+	// FIXME: 좌우 플링할때 보고있는 View에 최대한 근접하게 보여주기
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
