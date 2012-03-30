@@ -1,5 +1,6 @@
 package net.blmarket.timeline;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 import skp.collarge.R;
@@ -30,8 +31,9 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 	ViewFlipper flipper;
 	ArrayList<ScrollView> scroller = new ArrayList<ScrollView>();
 	// 터치 이벤트 발생 지점의 x좌표 저장
-	float xAtDown;
-	float xAtUp;
+	float xAtDown, yAtDown;
+	float xAtUp, yAtUp;
+	ArrayList<ArrayList<Float>> levelpos;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -51,26 +53,44 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 							.getColumnIndex(MediaStore.Images.Media._ID))));
 		}
 
-		setImages(findViewById(R.id.timeline_1), uris, 1, 0);
-		setImages(findViewById(R.id.timeline_2), uris, 5, 1);
+		levelpos = new ArrayList<ArrayList<Float>>();
+		levelpos.add(setImages(findViewById(R.id.timeline_1), uris, 1, 0));
+		levelpos.add(setImages(findViewById(R.id.timeline_2), uris, 5, 1));
+		levelpos.add(setImages(findViewById(R.id.timeline_3), uris, 25, 2));
 
 		flipper = ((ViewFlipper) findViewById(R.id.timelineflipper));
 		flipper.setOnTouchListener(this);
 
 		scroller.add((ScrollView) findViewById(R.id.timeline_scroll_1));
 		scroller.add((ScrollView) findViewById(R.id.timeline_scroll_2));
+		scroller.add((ScrollView) findViewById(R.id.timeline_scroll_3));
 		for (ScrollView view : scroller) {
 			view.setOnTouchListener(this);
 		}
 	}
 
-	private void setImages(View v, ArrayList<Uri> uris, int step, int level) {
+	private ArrayList<Float> setImages(View v, ArrayList<Uri> uris, int step,
+			int level) {
+		ArrayList<Float> result = new ArrayList<Float>();
+		if (step == 0)
+			throw new InvalidParameterException();
 		LinearLayout ll = (LinearLayout) v;
 
 		IThumbnailBuilder builder = new DBCacheThumbnailBuilder(this,
 				new MySimpleThumbnailBuilder(getContentResolver()));
 
-		for (int i = 0; i < uris.size(); i += step) {
+		int vpos = 0;
+		int nextvpos = 0;
+		for (int i = 0; i < uris.size(); i++) {
+			int mi = (i % step);
+
+			if (mi != 0) {
+				result.add(new Float((nextvpos * mi + vpos * (step - mi))
+						/ step));
+				continue;
+			}
+			result.add(new Float(nextvpos));
+
 			Uri item = uris.get(i);
 			Bitmap image;
 			try {
@@ -82,28 +102,45 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 			if (image == null)
 				continue;
 			ImageView imv = new ImageView(this);
+			imv.setId(i);
 			imv.setTag(R.string.timeline_level, new Integer(level));
+			imv.setTag(R.string.vpos, new Integer(vpos));
+
+			vpos = nextvpos;
+			nextvpos = vpos + image.getHeight();
 			imv.setImageBitmap(image);
-			//imv.setOnClickListener(this);
+			imv.setOnTouchListener(this);
+			// imv.setOnClickListener(this);
 			ll.addView(imv);
 		}
 		builder.close();
+		return result;
 	}
 
-	// View.OnTouchListener의 abstract method
-	// flipper 터지 이벤트 리스너
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			xAtDown = event.getX(); // 터치 시작지점 x좌표 저장
-			System.out.println("xAtDown : " + xAtDown);
+			yAtDown = event.getY();
 			v.onTouchEvent(event);
 			return true;
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
 			xAtUp = event.getX(); // 터치 끝난지점 x좌표 저장
-			System.out.println("xAtUp : " + xAtUp);
+			yAtUp = event.getY();
 
-			if (Math.abs(xAtUp - xAtDown) < 80)
+			float xdiff = Math.abs(xAtUp - xAtDown);
+			float ydiff = Math.abs(yAtUp - yAtDown);
+
+			// 터치할 때 어딘가로 슬라이드 하지 않았다면...
+			if (xdiff < 20 && ydiff < 20) {
+				// 그리고 터치한 곳이 이미지 위라면...
+				if (v instanceof ImageView)
+					onClick(v); // 그 이미지를 클릭한 것처럼 작동하도록 함.
+			}
+
+			if (xdiff < 40)
+				return false;
+			if (ydiff > xdiff)
 				return false;
 
 			if (xAtUp < xAtDown) {
@@ -136,7 +173,8 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 		System.out.println(v);
 		int level = ((Integer) v.getTag(R.string.timeline_level)).intValue();
 		if (level > 0) {
-			scroller.get(level - 1).setScrollY(0);
+			scroller.get(level - 1).setScrollY(
+					levelpos.get(level - 1).get(v.getId()).intValue());
 			flipper.showPrevious();
 		}
 	}

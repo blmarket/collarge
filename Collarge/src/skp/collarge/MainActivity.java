@@ -12,6 +12,6 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        startActivity(new Intent(this, MyMapView.class));
+        startActivity(new Intent(this, TimelineViewActivity.class));
     }
 }
