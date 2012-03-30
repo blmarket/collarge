@@ -13,10 +13,6 @@ import android.widget.LinearLayout;
 
 import com.google.android.maps.OverlayItem;
 
-import com.google.android.maps.OverlayItem;
-
-import com.google.android.maps.OverlayItem;
-
 public class BalloonOverlayView extends FrameLayout {
 
 	private LinearLayout layout;

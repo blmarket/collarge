@@ -1,5 +1,6 @@
 package skp.collarge;
 
+import skp.collage.mapview.MyMapView;
 import net.blmarket.timeline.TimelineViewActivity;
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +12,6 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        startActivity(new Intent(this, TimelineViewActivity.class));
+        startActivity(new Intent(this, MyMapView.class));
     }
 }
