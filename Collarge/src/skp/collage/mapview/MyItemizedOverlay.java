@@ -3,7 +3,6 @@ package skp.collage.mapview;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.widget.Toast;
 

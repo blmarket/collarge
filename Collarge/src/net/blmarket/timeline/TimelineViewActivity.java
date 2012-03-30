@@ -1,8 +1,8 @@
 package net.blmarket.timeline;
 
-import skp.collarge.R;
 import java.util.ArrayList;
 
+import skp.collarge.R;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;

@@ -1,22 +1,17 @@
 package net.blmarket.timeline;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import skp.collarge.image.DBCacheThumbnailBuilder;
 import skp.collarge.image.IThumbnailBuilder;
 import skp.collarge.image.MySimpleThumbnailBuilder;
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.view.View;
 

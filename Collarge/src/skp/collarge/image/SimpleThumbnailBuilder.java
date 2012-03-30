@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore.Images;
 import android.provider.MediaStore.Images.Thumbnails;
 
 // TODO: make it efficient

@@ -1,8 +1,5 @@
 package skp.collarge.image;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import android.content.ContentResolver;
 import android.graphics.Bitmap;
 import android.net.Uri;

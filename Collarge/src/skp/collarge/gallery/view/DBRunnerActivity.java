@@ -7,19 +7,13 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
 public class DBRunnerActivity extends Activity implements
 		LoaderManager.LoaderCallbacks<Cursor> {
@@ -44,7 +38,7 @@ public class DBRunnerActivity extends Activity implements
 
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
 		GridView view = (GridView) findViewById(R.id.gridView1);
-		view.setAdapter(new ImageAdapter(this, arg1, getContentResolver()));
+		view.setAdapter(new skp.collarge.gallery.view.ImageAdapter(this, arg1, getContentResolver()));
 		view.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,

@@ -1,12 +1,7 @@
 package skp.collage.mapview;
 
-import java.io.FileNotFoundException;
-
-import com.google.android.maps.OverlayItem;
-
 import skp.collarge.R;
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +9,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.maps.OverlayItem;
 
 public class BalloonOverlayView extends FrameLayout {
 
