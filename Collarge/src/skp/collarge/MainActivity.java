@@ -23,6 +23,6 @@ public class MainActivity extends Activity {
     			finish();
     		}
     	}, 1500);
-    	
+   	
     }
 }
