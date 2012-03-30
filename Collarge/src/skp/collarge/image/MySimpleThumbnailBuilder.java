@@ -32,4 +32,10 @@ public class MySimpleThumbnailBuilder implements IThumbnailBuilder {
 		}
 	}
 
+	@Override
+	public void close() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

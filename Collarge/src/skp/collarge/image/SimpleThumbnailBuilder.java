@@ -19,4 +19,10 @@ public class SimpleThumbnailBuilder implements IThumbnailBuilder {
 	public Bitmap build(Uri uri) {
 		return Thumbnails.getThumbnail(contentResolver, ContentUris.parseId(uri), Thumbnails.MICRO_KIND, null);
 	}
+
+	@Override
+	public void close() {
+		// TODO Auto-generated method stub
+		
+	}
 }

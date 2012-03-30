@@ -48,4 +48,10 @@ public class DBCacheThumbnailBuilder implements IThumbnailBuilder {
 				+ bmp.getHeight());
 		return bmp;
 	}
+
+	@Override
+	public void close() {
+		localBuilder.close();
+		db.close();		
+	}	
 }

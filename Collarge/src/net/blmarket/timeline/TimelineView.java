@@ -65,6 +65,7 @@ public class TimelineView extends View {
 			}
 			uriImages.add(ui);
 		}
+		builder.close();
 	}
 
 	@Override
@@ -85,6 +86,14 @@ public class TimelineView extends View {
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		// TODO Auto-generated method stub
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		setMeasuredDimension(500, 5000);
+
+		int maxwidth = 0, totalheight = 0;
+
+		for (UriImage item : uriImages) {
+			maxwidth = Math.max(maxwidth, item.image.getWidth());
+			totalheight = totalheight + item.image.getHeight();
+		}
+		
+		setMeasuredDimension(maxwidth + 10, totalheight + 10);
 	}
 }

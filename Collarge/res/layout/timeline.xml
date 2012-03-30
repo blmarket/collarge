@@ -1,13 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <net.blmarket.timeline.TimelineView
-        android:id="@+id/time"
+    <TextView
+        android:id="@+id/timeline_header"
+        android:layout_alignParentTop="true"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
-        android:background="#fff"
+        android:layout_height="wrap_content"
+        android:text="@string/hello" />
+
+    <TextView
+        android:id="@+id/timeline_footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello" 
+        android:layout_alignParentBottom="true"
         />
-</ScrollView>
+    
+    <ViewFlipper
+        android:id="@+id/timelineflipper"
+        android:layout_above="@id/timeline_footer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hello" />
+
+        <ScrollView
+            android:id="@+id/timeline_scroll"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <net.blmarket.timeline.TimelineView
+                android:id="@+id/timeline_1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff" />
+        </ScrollView>
+    </ViewFlipper>
+</RelativeLayout>
