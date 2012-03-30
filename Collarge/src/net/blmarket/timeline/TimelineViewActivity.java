@@ -24,10 +24,11 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.ViewFlipper;
 
-public class TimelineViewActivity extends Activity implements OnTouchListener, OnClickListener {
+public class TimelineViewActivity extends Activity implements OnTouchListener,
+		OnClickListener {
 
 	ViewFlipper flipper;
-	ScrollView scroller;
+	ArrayList<ScrollView> scroller = new ArrayList<ScrollView>();
 	// 터치 이벤트 발생 지점의 x좌표 저장
 	float xAtDown;
 	float xAtUp;
@@ -50,32 +51,26 @@ public class TimelineViewActivity extends Activity implements OnTouchListener, O
 							.getColumnIndex(MediaStore.Images.Media._ID))));
 		}
 
-		setImages(findViewById(R.id.timeline_1), uris, 1);
-		setImages(findViewById(R.id.timeline_2), uris, 20);
-		
-		/*
-		((TimelineView) findViewById(R.id.timeline_1)).setImages(
-				getContentResolver(), uris, 1);
-		((TimelineView) findViewById(R.id.timeline_2)).setImages(
-				getContentResolver(), uris, 20);
-				*/
+		setImages(findViewById(R.id.timeline_1), uris, 1, 0);
+		setImages(findViewById(R.id.timeline_2), uris, 5, 1);
 
 		flipper = ((ViewFlipper) findViewById(R.id.timelineflipper));
 		flipper.setOnTouchListener(this);
-		((ScrollView) findViewById(R.id.timeline_scroll_1))
-				.setOnTouchListener(this);
-		((ScrollView) findViewById(R.id.timeline_scroll_2))
-				.setOnTouchListener(this);
+
+		scroller.add((ScrollView) findViewById(R.id.timeline_scroll_1));
+		scroller.add((ScrollView) findViewById(R.id.timeline_scroll_2));
+		for (ScrollView view : scroller) {
+			view.setOnTouchListener(this);
+		}
 	}
 
-	private void setImages(View v, ArrayList<Uri> uris, int step) {
-		LinearLayout ll = (LinearLayout)v;
-		
+	private void setImages(View v, ArrayList<Uri> uris, int step, int level) {
+		LinearLayout ll = (LinearLayout) v;
+
 		IThumbnailBuilder builder = new DBCacheThumbnailBuilder(this,
 				new MySimpleThumbnailBuilder(getContentResolver()));
 
-		for(int i=0;i<uris.size();i += step)
-		{
+		for (int i = 0; i < uris.size(); i += step) {
 			Uri item = uris.get(i);
 			Bitmap image;
 			try {
@@ -83,11 +78,13 @@ public class TimelineViewActivity extends Activity implements OnTouchListener, O
 			} catch (Exception e) {
 				image = null;
 			}
-			
-			if(image == null) continue;
+
+			if (image == null)
+				continue;
 			ImageView imv = new ImageView(this);
+			imv.setTag(R.string.timeline_level, new Integer(level));
 			imv.setImageBitmap(image);
-			imv.setOnClickListener(this);
+			//imv.setOnClickListener(this);
 			ll.addView(imv);
 		}
 		builder.close();
@@ -97,9 +94,6 @@ public class TimelineViewActivity extends Activity implements OnTouchListener, O
 	// flipper 터지 이벤트 리스너
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		// 터치 이벤트가 일어난 뷰가 ViewFlipper가 아니면 return
-		// if(v != flipper) return false;
-
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			xAtDown = event.getX(); // 터치 시작지점 x좌표 저장
 			System.out.println("xAtDown : " + xAtDown);
@@ -140,5 +134,10 @@ public class TimelineViewActivity extends Activity implements OnTouchListener, O
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		System.out.println(v);
+		int level = ((Integer) v.getTag(R.string.timeline_level)).intValue();
+		if (level > 0) {
+			scroller.get(level - 1).setScrollY(0);
+			flipper.showPrevious();
+		}
 	}
 }
