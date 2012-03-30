@@ -22,6 +22,7 @@
     <ViewFlipper
         android:id="@+id/timelineflipper"
         android:layout_above="@id/timeline_footer"
+        android:layout_below="@id/timeline_header"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 
@@ -31,15 +32,26 @@
             android:text="@string/hello" />
 
         <ScrollView
-            android:id="@+id/timeline_scroll"
+            android:id="@+id/timeline_scroll_1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
-
             <net.blmarket.timeline.TimelineView
                 android:id="@+id/timeline_1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="#fff" />
         </ScrollView>
+        <ScrollView
+            android:id="@+id/timeline_scroll_2"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+            <net.blmarket.timeline.TimelineView
+                android:id="@+id/timeline_2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff" />
+        </ScrollView>
+        
+            
     </ViewFlipper>
 </RelativeLayout>

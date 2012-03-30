@@ -1,7 +1,7 @@
 package net.blmarket.timeline;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import skp.collarge.image.DBCacheThumbnailBuilder;
 import skp.collarge.image.IThumbnailBuilder;
@@ -28,6 +28,7 @@ public class TimelineView extends View {
 
 	private ContentResolver contentResolver;
 	private ArrayList<UriImage> uriImages;
+	private int step;
 
 	private void init() {
 		contentResolver = null;
@@ -49,14 +50,17 @@ public class TimelineView extends View {
 	}
 
 	public void setImages(ContentResolver contentResolver,
-			Collection<Uri> imageUris) {
+			AbstractList<Uri> imageUris, int step) {
 		this.contentResolver = contentResolver;
 		this.uriImages = new ArrayList<TimelineView.UriImage>();
+		this.step = step;
 
 		IThumbnailBuilder builder = new DBCacheThumbnailBuilder(getContext(),
 				new MySimpleThumbnailBuilder(contentResolver));
 
-		for (Uri item : imageUris) {
+		for(int i=0;i<imageUris.size();i=i+step)
+		{
+			Uri item = imageUris.get(i);
 			UriImage ui = new UriImage(item);
 			try {
 				ui.image = builder.build(item);
@@ -95,5 +99,5 @@ public class TimelineView extends View {
 		}
 		
 		setMeasuredDimension(maxwidth + 10, totalheight + 10);
-	}
+	}	
 }

@@ -34,7 +34,7 @@ public class TimelineViewActivity extends Activity implements OnTouchListener {
 		Cursor cursor = MediaStore.Images.Media.query(getContentResolver(),
 				MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection);
 		ArrayList<Uri> uris = new ArrayList<Uri>();
-		
+
 		while (cursor.moveToNext()) {
 			uris.add(ContentUris.withAppendedId(
 					MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
@@ -43,11 +43,16 @@ public class TimelineViewActivity extends Activity implements OnTouchListener {
 		}
 
 		((TimelineView) findViewById(R.id.timeline_1)).setImages(
-				getContentResolver(), uris);
+				getContentResolver(), uris, 1);
+		((TimelineView) findViewById(R.id.timeline_2)).setImages(
+				getContentResolver(), uris, 20);
+
 		flipper = ((ViewFlipper) findViewById(R.id.timelineflipper));
 		flipper.setOnTouchListener(this);
-		scroller = (ScrollView) findViewById(R.id.timeline_scroll);
-		scroller.setOnTouchListener(this);
+		((ScrollView) findViewById(R.id.timeline_scroll_1))
+				.setOnTouchListener(this);
+		((ScrollView) findViewById(R.id.timeline_scroll_2))
+				.setOnTouchListener(this);
 	}
 
 	// View.OnTouchListener¿« abstract method
