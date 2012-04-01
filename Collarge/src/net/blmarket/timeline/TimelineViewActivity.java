@@ -27,7 +27,7 @@ import android.widget.ViewFlipper;
 
 public class TimelineViewActivity extends Activity implements OnTouchListener,
 		OnClickListener {
-	
+
 	ViewFlipper flipper;
 	ArrayList<ScrollView> scroller = new ArrayList<ScrollView>();
 	// 터치 이벤트 발생 지점의 x좌표 저장
@@ -145,6 +145,8 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 				return false;
 
 			if (xAtUp < xAtDown) {
+				if (flipper.getDisplayedChild() == flipper.getChildCount() - 1)
+					return true;
 				// 왼쪽 방향 에니메이션 지정
 				flipper.setInAnimation(AnimationUtils.loadAnimation(this,
 						R.anim.push_left_in));
@@ -155,6 +157,8 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 				flipper.showNext();
 				return true;
 			} else if (xAtUp > xAtDown) {
+				if (flipper.getDisplayedChild() == 0)
+					return true;
 				// 오른쪽 방향 에니메이션 지정
 				flipper.setInAnimation(AnimationUtils.loadAnimation(this,
 						R.anim.push_right_in));
