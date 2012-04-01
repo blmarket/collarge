@@ -1,16 +1,15 @@
 package skp.collarge.main;
 
 import skp.collage.mapview.MyMapView;
-import skp.collarge.MainActivity;
 import skp.collarge.R;
 import android.app.Activity;
 import android.content.Intent;
-import android.drm.DrmStore.Action;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 public class CollageMain extends Activity {
@@ -24,6 +23,10 @@ public class CollageMain extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_collage);
+        
+        // 메뉴 애니매이션 효
+        final Animation animation_moveRight = AnimationUtils.loadAnimation(this, R.anim.push_right_in);
+        final Animation animation_moveLeft = AnimationUtils.loadAnimation(this, R.anim.push_left_out);
         
         leftImageButton = (ImageView)findViewById(R.id.table_leftbutton);
         rightImageButton = (ImageView)findViewById(R.id.table_rightbutton);
@@ -41,12 +44,14 @@ public class CollageMain extends Activity {
 						leftImageButton.setImageDrawable(getResources()
 								.getDrawable(R.drawable.top_btn_left_over));
 						groupImageView.setVisibility(View.VISIBLE);
+						groupImageView.startAnimation(animation_moveRight);
 						leftImageButton_action = false;
 					}
 				} else {
 					if (event.getAction() == MotionEvent.ACTION_UP) {
 						leftImageButton.setImageDrawable(getResources()
 								.getDrawable(R.drawable.top_btn_left_normal));
+						groupImageView.startAnimation(animation_moveLeft);
 						groupImageView.setVisibility(View.INVISIBLE);
 						leftImageButton_action = true;
 					}
