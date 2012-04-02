@@ -2,19 +2,13 @@ package skp.collarge.event;
 
 import java.util.AbstractList;
 
-import skp.collarge.AllTheEvil;
 import skp.collarge.image.DBCacheThumbnailBuilder;
 import skp.collarge.image.IThumbnailBuilder;
 import skp.collarge.image.MySimpleThumbnailBuilder;
-import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.net.Uri;
-import android.provider.MediaStore.Images.Thumbnails;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;

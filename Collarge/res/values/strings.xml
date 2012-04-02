@@ -6,6 +6,6 @@
     <string name="timeline_level">타임라인 레벨</string>
     <string name="vpos">위치 정보</string>
     
-    <color name="background_white">#FFFFFF</color>
+    <color name="background_white">#EBEBEB</color>
 
 </resources>
