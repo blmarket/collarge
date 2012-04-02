@@ -1,7 +1,7 @@
 package skp.collarge.main;
 
-import skp.collage.mapview.MyMapView;
 import skp.collarge.R;
+import skp.collarge.viewer.mapview.MyMapView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

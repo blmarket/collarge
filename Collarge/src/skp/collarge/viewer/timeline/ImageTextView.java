@@ -1,4 +1,4 @@
-package net.blmarket.timeline;
+package skp.collarge.viewer.timeline;
 
 import android.content.Context;
 import android.graphics.Bitmap;

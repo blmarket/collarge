@@ -1,4 +1,4 @@
-package skp.collarge.gallery.view;
+package skp.collarge.viewer.gallery.view;
 
 import skp.collarge.R;
 import android.app.Activity;
@@ -38,7 +38,7 @@ public class DBRunnerActivity extends Activity implements
 
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
 		GridView view = (GridView) findViewById(R.id.gridView1);
-		view.setAdapter(new skp.collarge.gallery.view.ImageAdapter(this, arg1,
+		view.setAdapter(new skp.collarge.viewer.gallery.view.ImageAdapter(this, arg1,
 				getContentResolver()));
 		view.setOnItemClickListener(new OnItemClickListener() {
 			@Override

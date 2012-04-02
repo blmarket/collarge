@@ -1,4 +1,4 @@
-package skp.collage.mapview;
+package skp.collarge.viewer.mapview;
 
 import skp.collarge.R;
 import android.content.Context;

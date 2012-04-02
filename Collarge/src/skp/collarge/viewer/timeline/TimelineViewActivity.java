@@ -1,4 +1,4 @@
-package net.blmarket.timeline;
+package skp.collarge.viewer.timeline;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
