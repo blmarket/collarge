@@ -10,45 +10,31 @@ import skp.collarge.db.MyDB;
 import android.content.ContentUris;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.provider.MediaStore.Images;
 
-public class EventManager {
+public class DummyEventManager {
 
-	private static EventManager instance;
-
+	private static DummyEventManager instance;
+	
 	private ArrayList<IEvent> eventList;
 
-	private EventManager() {
+	private DummyEventManager() {
 		eventList = new ArrayList<IEvent>();
 		MyDB mydb = AllTheEvil.getInstance().getDB();
 		SQLiteDatabase db = mydb.getReadableDatabase();
 		Cursor c = db.rawQuery("select * from events", null);
-		while (c.moveToNext()) {
+		while(c.moveToNext())
+		{
 			String json = c.getString(c.getColumnIndex("json"));
-			IEvent ev = fromString(json);
-			if (ev.getEventPhotoList().size() == 0)
-				continue;
-			eventList.add(ev);
-		}
-		c.close();
-
-		// FIXME: remove this bunch of shit
-		if (eventList.size() == 0) {
-			eventList.clear();
-			System.out.println("getit");
-			DummyEventManager.getInstance().getEventSize();
-			for (int i = 0; i < Math.min(2, DummyEventManager.getInstance()
-					.getEventSize()); i++) {
-				System.out.println("Creating trash event " + i);
-				eventList.add(DummyEventManager.getInstance().getEvent(i));
-			}
+			eventList.add(fromString(json));
 		}
 	}
 
-	public static EventManager getInstance() {
+	public static DummyEventManager getInstance() {
 		if (instance == null) {
-			instance = new EventManager();
+			instance = new DummyEventManager();
 		}
 		return instance;
 	}
@@ -59,16 +45,35 @@ public class EventManager {
 		for (int i = 0; i < instance.getEventSize(); i++) {
 			IEvent e = instance.getEvent(i);
 			String json = instance.serializeEvent(e);
-			AllTheEvil.getInstance().getDB().putEvent(i, json);
+			AllTheEvil.getInstance().getDB().putEvent(i, json);			
 		}
 	}
 
 	public IEvent getEvent(int eventId) {
-		return eventList.get(eventId);
+		AllTheEvil ate = AllTheEvil.getInstance();
+		Cursor c = ate
+				.getContext()
+				.getContentResolver()
+				.query(Images.Media.EXTERNAL_CONTENT_URI, null, null, null,
+						null); // Imageµ¥ÀÌÅÍ
+		
+		ArrayList<Uri> ret = new ArrayList<Uri>();
+		while(c.moveToNext())
+		{
+			String str = c.getString(c.getColumnIndex(Images.Media.DATA));
+			System.out.println(str);
+			if(str.startsWith("/mnt/sdcard/Collarge"))
+			{
+				ret.add(ContentUris.withAppendedId(
+						Images.Media.EXTERNAL_CONTENT_URI,
+						c.getLong(c.getColumnIndex(Images.Media._ID))));
+			}
+		}
+		return new Event(ate.getContext(), ret);
 	}
 
 	public int getEventSize() {
-		return eventList.size();
+		return 1;
 	}
 
 	public String serializeEvent(IEvent event) {

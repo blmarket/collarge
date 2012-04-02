@@ -21,7 +21,7 @@ public class DBCacheThumbnailBuilder implements IThumbnailBuilder {
 	@Override
 	public Bitmap build(Uri uri) {
 		String key = uri.toString();
-		byte[] cache = AllTheEvil.getInstance().getDB().get(key);
+		byte[] cache = AllTheEvil.getInstance().getDB().getThumb(key);
 		Bitmap bmp = null;
 
 		if (cache != null) {
@@ -39,7 +39,7 @@ public class DBCacheThumbnailBuilder implements IThumbnailBuilder {
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
 			bmp.compress(CompressFormat.JPEG, 50, stream);
 			System.out.println("Stream size : " + stream.size());
-			AllTheEvil.getInstance().getDB().put(key, stream.toByteArray());
+			AllTheEvil.getInstance().getDB().putThumb(key, stream.toByteArray());
 			return bmp;
 		}
 		System.out.println("Bitmap Loaded : " + bmp.getWidth() + " "
