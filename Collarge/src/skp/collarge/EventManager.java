@@ -1,5 +1,6 @@
 package skp.collarge;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -13,11 +14,14 @@ public class EventManager {
 
 	private static EventManager instance;
 
+	private ContentResolver contentResolver;
+
 	private EventManager() {
 	}
 
-	public static void Initialize() {
+	public static void Initialize(ContentResolver contentResolver) {
 		instance = new EventManager();
+		instance.contentResolver = contentResolver;
 	}
 
 	public static EventManager getInstance() {
@@ -27,7 +31,7 @@ public class EventManager {
 		return instance;
 	}
 
-	public Collection<Uri> getEvent(ContentResolver contentResolver, int eventId) {
+	public AbstractList<Uri> getEvent(int eventId) {
 		Cursor c = contentResolver.query(Images.Media.EXTERNAL_CONTENT_URI,
 				null, null, null, null); // Image데이터
 		for (int i = 0; i < eventId * 10; i++) {
@@ -43,5 +47,11 @@ public class EventManager {
 					c.getLong(c.getColumnIndex(Images.Media._ID))));
 		}
 		return ret;
+	}
+	
+	public int getEventSize() {
+		Cursor c = contentResolver.query(Images.Media.EXTERNAL_CONTENT_URI,
+				null, null, null, null); // Image데이터
+		return (c.getCount()+9) / 10;
 	}
 }

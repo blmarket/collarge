@@ -14,6 +14,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_start);
         
+        EventManager.Initialize(getContentResolver());
+        
         Handler mHandler = new Handler();
     	mHandler.postDelayed(new Runnable() {
     		public void run() { 

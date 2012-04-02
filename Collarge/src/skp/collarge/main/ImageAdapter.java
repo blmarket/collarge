@@ -1,7 +1,16 @@
 package skp.collarge.main;
 
+import java.util.AbstractList;
+import java.util.Collection;
+
+import skp.collarge.EventManager;
 import skp.collarge.R;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore.Images.Thumbnails;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -10,50 +19,50 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 public class ImageAdapter extends BaseAdapter {
-    private Context mContext;
- 
-    public ImageAdapter(Context c) {
-                  mContext = c;
-    }
- 
-    public int getCount() {
-                  return mThumbIds.length;
-    }
- 
-    public Object getItem(int position) {
-                  return null;
-    }
- 
-    public long getItemId(int position) {
-                  return 0;
-    }
- 
-    // create a new ImageView for each item referenced by the Adapter
-    public View getView(int position, View convertView, ViewGroup parent) {
-                  ImageView imageView;
-                  if (convertView == null) {           // if it's not recycled, initialize some attributes
-                                   imageView = new ImageView(mContext);
-                                   imageView.setLayoutParams(new GridView.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-                                   imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                                   imageView.setPadding(0, 0, 0, 0);
-   
-                                   
-                  } else {
-                                   imageView = (ImageView) convertView;
+	private Context mContext;
+	private ContentResolver contentResolver;
 
-        }
-                  imageView.setImageResource(mThumbIds[position]);
-                  return imageView;
-    }
- 
-    // references to our images
-    private Integer[] mThumbIds = {
-    		
-    		R.drawable.newepisode, R.drawable.episode1, 
-    		R.drawable.episode2, R.drawable.episode3, 
-    		R.drawable.episode4, R.drawable.episode5,
-    		R.drawable.episode3, R.drawable.episode2
-    		
-    			
-    };
+	public ImageAdapter(Context c, ContentResolver contentResolver) {
+		mContext = c;
+		this.contentResolver = contentResolver;
+	}
+
+	public int getCount() {
+		return EventManager.getInstance().getEventSize();
+	}
+
+	public Object getItem(int position) {
+		return null;
+	}
+
+	public long getItemId(int position) {
+		return 0;
+	}
+
+	// create a new ImageView for each item referenced by the Adapter
+	public View getView(int position, View convertView, ViewGroup parent) {
+
+		ImageView imageView = (ImageView) convertView;
+		if (imageView == null) {
+			imageView = new ImageView(mContext);
+			imageView.setLayoutParams(new GridView.LayoutParams(
+					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+			imageView.setPadding(0, 0, 0, 0);
+			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		}
+
+		if (position == 0) {
+			imageView.setImageResource(R.drawable.newepisode);
+		} else {
+
+			AbstractList<Uri> images = EventManager.getInstance().getEvent(
+					position);
+			Bitmap bmp = Thumbnails.getThumbnail(contentResolver,
+					ContentUris.parseId(images.get(0)), Thumbnails.MICRO_KIND,
+					null);
+			
+			imageView.setImageBitmap(bmp);
+		}
+		return imageView;
+	}
 }
