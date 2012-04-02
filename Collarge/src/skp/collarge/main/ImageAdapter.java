@@ -1,22 +1,10 @@
 package skp.collarge.main;
 
-import java.util.AbstractList;
-import java.util.Collection;
-
 import skp.collarge.R;
 import skp.collarge.event.EventManager;
 import skp.collarge.event.IEvent;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
-import android.view.Display;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.view.WindowManager;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore.Images.Thumbnails;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -26,11 +14,9 @@ import android.widget.ImageView;
 
 public class ImageAdapter extends BaseAdapter {
 	private Context mContext;
-	private ContentResolver contentResolver;
 
-	public ImageAdapter(Context c, ContentResolver contentResolver) {
+	public ImageAdapter(Context c) {
 		mContext = c;
-		this.contentResolver = contentResolver;
 	}
 
 	public int getCount() {
