@@ -3,8 +3,9 @@ package skp.collarge.main;
 import java.util.AbstractList;
 import java.util.Collection;
 
-import skp.collarge.EventManager;
 import skp.collarge.R;
+import skp.collarge.event.EventManager;
+import skp.collarge.event.IEvent;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -54,14 +55,8 @@ public class ImageAdapter extends BaseAdapter {
 		if (position == 0) {
 			imageView.setImageResource(R.drawable.newepisode);
 		} else {
-
-			AbstractList<Uri> images = EventManager.getInstance().getEvent(
-					position);
-			Bitmap bmp = Thumbnails.getThumbnail(contentResolver,
-					ContentUris.parseId(images.get(0)), Thumbnails.MICRO_KIND,
-					null);
-			
-			imageView.setImageBitmap(bmp);
+			IEvent event = EventManager.getInstance().getEvent(position);
+			return event.getThumbnailView();
 		}
 		return imageView;
 	}

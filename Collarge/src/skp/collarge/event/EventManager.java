@@ -1,8 +1,10 @@
-package skp.collarge;
+package skp.collarge.event;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import skp.collarge.AllTheEvil;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -14,44 +16,45 @@ public class EventManager {
 
 	private static EventManager instance;
 
-	private ContentResolver contentResolver;
-
 	private EventManager() {
-	}
-
-	public static void Initialize(ContentResolver contentResolver) {
-		instance = new EventManager();
-		instance.contentResolver = contentResolver;
 	}
 
 	public static EventManager getInstance() {
 		if (instance == null) {
-			throw new RuntimeException("getInstance하시기 전에 꼭 Initialize해주세0");
+			instance = new EventManager();
 		}
 		return instance;
 	}
 
-	public AbstractList<Uri> getEvent(int eventId) {
-		Cursor c = contentResolver.query(Images.Media.EXTERNAL_CONTENT_URI,
-				null, null, null, null); // Image데이터
+	public IEvent getEvent(int eventId) {
+		AllTheEvil ate = AllTheEvil.getInstance();
+		Cursor c = ate
+				.getContext()
+				.getContentResolver()
+				.query(Images.Media.EXTERNAL_CONTENT_URI, null, null, null,
+						null); // Image데이터
 		for (int i = 0; i < eventId * 10; i++) {
 			if (c.moveToNext() == false)
-				return new ArrayList<Uri>();
+				return new Event(ate.getContext(), new ArrayList<Uri>());
 		}
 		ArrayList<Uri> ret = new ArrayList<Uri>();
 		for (int i = 0; i < 10; i++) {
 			if (c.moveToNext() == false)
-				return ret;
+				return new Event(ate.getContext(), ret);
 			ret.add(ContentUris.withAppendedId(
 					Images.Media.EXTERNAL_CONTENT_URI,
 					c.getLong(c.getColumnIndex(Images.Media._ID))));
 		}
-		return ret;
+		return new Event(ate.getContext(), ret);
 	}
-	
+
 	public int getEventSize() {
-		Cursor c = contentResolver.query(Images.Media.EXTERNAL_CONTENT_URI,
-				null, null, null, null); // Image데이터
-		return (c.getCount()+9) / 10;
+		Cursor c = AllTheEvil
+				.getInstance()
+				.getContext()
+				.getContentResolver()
+				.query(Images.Media.EXTERNAL_CONTENT_URI, null, null, null,
+						null); // Image데이터
+		return (c.getCount() + 9) / 10;
 	}
 }

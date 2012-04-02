@@ -1,5 +1,6 @@
 package skp.collarge;
 
+import skp.collarge.event.EventManager;
 import skp.collarge.main.CollageMain;
 
 import android.app.Activity;
@@ -14,7 +15,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_start);
         
-        EventManager.Initialize(getContentResolver());
+        AllTheEvil.initialize(getApplicationContext());
         
         Handler mHandler = new Handler();
     	mHandler.postDelayed(new Runnable() {
