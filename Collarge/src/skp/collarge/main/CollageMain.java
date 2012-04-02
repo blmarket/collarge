@@ -41,7 +41,7 @@ public class CollageMain extends Activity {
         
         
         
-        // 메뉴 애니매이션 효
+        // 메뉴 애니매이션 효과
         final Animation animation_moveRight = AnimationUtils.loadAnimation(this, R.anim.push_right_in);
         final Animation animation_moveLeft = AnimationUtils.loadAnimation(this, R.anim.push_left_out);
         
