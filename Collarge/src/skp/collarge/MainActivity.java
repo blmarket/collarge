@@ -2,10 +2,11 @@ package skp.collarge;
 
 import skp.collarge.event.EventManager;
 import skp.collarge.main.CollargeMain;
-import skp.collarge.main.EventView;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 
 public class MainActivity extends Activity {
@@ -26,6 +27,9 @@ public class MainActivity extends Activity {
     		}
     	}, 1500);
     	
+		sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://"
+	            + Environment.getExternalStorageDirectory()))); 		
+		
         AllTheEvil.initialize(getApplicationContext());
         EventManager.getInstance();
     }

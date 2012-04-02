@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDB extends SQLiteOpenHelper {
 
-	private static final int VERSION = 5;
+	private static final int VERSION = 6;
 
 	public MyDB(Context context) {
 		super(context, "myDB.db", null, VERSION);
@@ -30,6 +30,9 @@ public class MyDB extends SQLiteOpenHelper {
 		case 4:
 			db.execSQL("create table events (_id INTEGER PRIMARY KEY, json TEXT);");
 		case 5:
+			db.execSQL("drop table events");
+			db.execSQL("create table events (_id INTEGER PRIMARY KEY, json TEXT);");
+		case 6:
 		}
 	}
 

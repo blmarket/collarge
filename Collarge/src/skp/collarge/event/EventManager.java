@@ -26,12 +26,15 @@ public class EventManager {
 		Cursor c = db.rawQuery("select * from events", null);
 		while (c.moveToNext()) {
 			String json = c.getString(c.getColumnIndex("json"));
-			eventList.add(fromString(json));
+			IEvent ev = fromString(json);
+			if (ev.getEventPhotoList().size() == 0)
+				continue;
+			eventList.add(ev);
 		}
 		c.close();
 
 		// FIXME: remove this bunch of shit
-		if (eventList.size() == 0 || true) {
+		if (eventList.size() == 0) {
 			eventList.clear();
 			System.out.println("getit");
 			DummyEventManager.getInstance().getEventSize();

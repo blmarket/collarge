@@ -10,6 +10,7 @@ import skp.collarge.db.MyDB;
 import android.content.ContentUris;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.provider.MediaStore.Images;
 
@@ -60,6 +61,7 @@ public class DummyEventManager {
 		while(c.moveToNext())
 		{
 			String str = c.getString(c.getColumnIndex(Images.Media.DATA));
+			System.out.println(str);
 			if(str.startsWith("/mnt/sdcard/Collarge"))
 			{
 				ret.add(ContentUris.withAppendedId(
