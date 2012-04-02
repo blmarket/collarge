@@ -24,6 +24,8 @@ import com.google.android.maps.OverlayItem;
 public class MyMapView extends MapActivity {
 
 	private ArrayList<String> imagePathList = new ArrayList<String>();
+	private ArrayList<ExifInterface> exifList = new ArrayList<ExifInterface>();
+	private ArrayList<GeoPoint> geoList = new ArrayList<GeoPoint>();
 	private MapView mapView;
 
 	ExifInterface exif, exif2;
@@ -46,13 +48,16 @@ public class MyMapView extends MapActivity {
 			mapView = (MapView) findViewById(R.id.mapview);
 			mapView.setBuiltInZoomControls(true);
 			mapOverlays = mapView.getOverlays();
-			imagePathList.add("/mnt/sdcard/DCIM/Camera/20120329_125341.jpg");
-			imagePathList.add("/mnt/sdcard/DCIM/Camera/20120329_123720.jpg");
+			imagePathList.add("/mnt/sdcard/DCIM/Camera/collarge/20120329_125341.jpg");
+			imagePathList.add("/mnt/sdcard/DCIM/Camera/collarge/20120329_123720.jpg");
+			imagePathList.add("/mnt/sdcard/DCIM/Camera/collarge/20120329_124707.jpg");
+			imagePathList.add("/mnt/sdcard/DCIM/Camera/collarge/20120329_122943.jpg");
 
 			// 사진 GEO 태그 찾음
 			try {
-				exif = new ExifInterface("/mnt/sdcard/DCIM/Camera/20120329_125341.jpg");
-				exif2 = new ExifInterface("/mnt/sdcard/DCIM/Camera/20120329_123720.jpg");
+				for(int i=0; i<imagePathList.size(); i++) {
+					exifList.add(new ExifInterface(imagePathList.get(i)));
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -67,13 +72,21 @@ public class MyMapView extends MapActivity {
 			itemizedOverlay = new MyItemizedOverlay(drawable, mapView);
 
 			// 1. 마커(말풍선) 생성
+			for(int i=0; i<imagePathList.size(); i++) {
+				GeoPoint basePoint = new GeoPoint(getLatitude(exifList.get(i)), getLongitude(exifList.get(i)));
+				OverlayItem overlayItem = new OverlayItem(basePoint, "", "");
+				itemizedOverlay.addOverlay(overlayItem);
+				
+			}
+			/*
+			
 			GeoPoint basePoint = new GeoPoint(getLatitude(exif), getLongitude(exif));
 			OverlayItem overlayItem = new OverlayItem(basePoint, "", "");
 			itemizedOverlay.addOverlay(overlayItem);
 
 			GeoPoint basePoint2 = new GeoPoint(getLatitude(exif2), getLongitude(exif2));
 			OverlayItem overlayItem2 = new OverlayItem(basePoint2, "", "");
-			itemizedOverlay.addOverlay(overlayItem2);
+			itemizedOverlay.addOverlay(overlayItem2);*/
 
 			// 2 .itemizedOverlay 순회하면서 마커(말풍선) 띄우기
 			for (int i = 0; i < itemizedOverlay.size(); i++) {

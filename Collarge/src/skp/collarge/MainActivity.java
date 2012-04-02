@@ -20,6 +20,7 @@ public class MainActivity extends Activity {
     			// 1.5초 뒤에 Menu 액티비티 전환
     			Intent intent = new Intent(MainActivity.this, CollageMain.class);
     			startActivity(intent);
+    			overridePendingTransition(R.anim.fade_out, R.anim.hold);
     			finish();
     		}
     	}, 1500);
