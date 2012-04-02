@@ -9,24 +9,33 @@ import skp.collarge.image.IThumbnailBuilder;
 import skp.collarge.image.MySimpleThumbnailBuilder;
 import android.app.Activity;
 import android.content.ContentUris;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.View.OnTouchListener;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 public class TimelineViewActivity extends Activity implements OnTouchListener,
-		OnClickListener {
+		OnClickListener, OnItemSelectedListener {
 
 	ViewFlipper flipper;
 	ArrayList<ScrollView> scroller = new ArrayList<ScrollView>();
@@ -34,6 +43,7 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 	float xAtDown, yAtDown;
 	float xAtUp, yAtUp;
 	ArrayList<ArrayList<Float>> levelpos;
+	Gallery gallery;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -67,6 +77,11 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 		for (ScrollView view : scroller) {
 			view.setOnTouchListener(this);
 		}
+
+		gallery = (Gallery) (findViewById(R.id.timeline_footer));
+		gallery.setAdapter(new GalleryAdapter(this));
+		gallery.setSpacing(30);
+		gallery.setOnItemSelectedListener(this);
 	}
 
 	private ArrayList<Float> setImages(View v, ArrayList<Uri> uris, int step,
@@ -147,25 +162,14 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 			if (xAtUp < xAtDown) {
 				if (flipper.getDisplayedChild() == flipper.getChildCount() - 1)
 					return true;
-				// 왼쪽 방향 에니메이션 지정
-				flipper.setInAnimation(AnimationUtils.loadAnimation(this,
-						R.anim.push_left_in));
-				flipper.setOutAnimation(AnimationUtils.loadAnimation(this,
-						R.anim.push_left_out));
-
-				// 다음 view 보여줌
-				flipper.showNext();
+				setFlipperPage(1);
+				gallery.setSelection(flipper.getDisplayedChild());
 				return true;
 			} else if (xAtUp > xAtDown) {
 				if (flipper.getDisplayedChild() == 0)
 					return true;
-				// 오른쪽 방향 에니메이션 지정
-				flipper.setInAnimation(AnimationUtils.loadAnimation(this,
-						R.anim.push_right_in));
-				flipper.setOutAnimation(AnimationUtils.loadAnimation(this,
-						R.anim.push_right_out));
-				// 전 view 보여줌
-				flipper.showPrevious();
+				setFlipperPage(-1);
+				gallery.setSelection(flipper.getDisplayedChild());
 				return true;
 			}
 		}
@@ -180,7 +184,81 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 		if (level > 0) {
 			scroller.get(level - 1).setScrollY(
 					levelpos.get(level - 1).get(v.getId()).intValue());
-			flipper.showPrevious();
+			setFlipperPage(-1);
+			gallery.setSelection(flipper.getDisplayedChild());
 		}
+	}
+
+	class GalleryAdapter extends BaseAdapter {
+		private Context mContext;
+		private String[] items = { "사진순", "5장단위", "25장단위" };
+
+		public GalleryAdapter(Context context) {
+			this.mContext = context;
+		}
+
+		@Override
+		public int getCount() {
+			return 3; // FIXME: 아 싫다 이런 하드코딩
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			TextView tv = new TextView(mContext);
+			tv.setText(items[position]);
+			tv.setMinimumHeight(50);
+			tv.setGravity(Gravity.CENTER);
+			return tv;
+		}
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+			long arg3) {
+		flipper.setInAnimation(null);
+		flipper.setOutAnimation(null);
+		flipper.setDisplayedChild(arg2);
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+		// do nothing
+	}
+
+	boolean setFlipperPage(int direction) {
+		int target = flipper.getDisplayedChild() + direction;
+		if (target < 0 || target >= flipper.getChildCount())
+			return false;
+
+		if (direction == 1) {
+			// 왼쪽 방향 에니메이션 지정
+			flipper.setInAnimation(AnimationUtils.loadAnimation(this,
+					R.anim.push_left_in));
+			flipper.setOutAnimation(AnimationUtils.loadAnimation(this,
+					R.anim.push_left_out));
+			// 다음 view 보여줌
+			flipper.showNext();
+		} else if (direction == -1) {
+			// 오른쪽 방향 에니메이션 지정
+			flipper.setInAnimation(AnimationUtils.loadAnimation(this,
+					R.anim.push_right_in));
+			flipper.setOutAnimation(AnimationUtils.loadAnimation(this,
+					R.anim.push_right_out));
+			// 전 view 보여줌
+			flipper.showPrevious();
+		} else {
+			return false;
+		}
+		return true;
 	}
 }
