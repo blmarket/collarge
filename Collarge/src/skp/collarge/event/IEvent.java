@@ -2,7 +2,6 @@ package skp.collarge.event;
 
 import java.util.AbstractList;
 
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.View;
 

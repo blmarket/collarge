@@ -3,7 +3,6 @@ package skp.collarge.main;
 import skp.collarge.R;
 import skp.collarge.event.EventManager;
 import skp.collarge.event.IEvent;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;

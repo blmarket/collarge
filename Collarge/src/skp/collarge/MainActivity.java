@@ -1,9 +1,6 @@
 package skp.collarge;
 
-import skp.collarge.event.EventManager;
-import skp.collarge.main.CollageMain;
 import skp.collarge.main.EventView;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

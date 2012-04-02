@@ -1,12 +1,8 @@
 package skp.collarge.event;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import skp.collarge.AllTheEvil;
-
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;

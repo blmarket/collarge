@@ -1,6 +1,5 @@
 package skp.collarge;
 
-import android.content.ContentResolver;
 import android.content.Context;
 
 public class AllTheEvil {

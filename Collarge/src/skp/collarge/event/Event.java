@@ -1,10 +1,8 @@
 package skp.collarge.event;
 
 import java.util.AbstractList;
-import java.util.ArrayList;
 
 import skp.collarge.AllTheEvil;
-
 import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.Bitmap;
