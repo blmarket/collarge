@@ -1,4 +1,4 @@
-package skp.collarge.gallery.view;
+package skp.collarge.viewer.gallery.view;
 
 import java.util.ArrayList;
 

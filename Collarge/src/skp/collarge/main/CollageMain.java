@@ -1,7 +1,7 @@
 package skp.collarge.main;
 
-import skp.collage.mapview.MyMapView;
 import skp.collarge.R;
+import skp.collarge.viewer.mapview.MyMapView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,7 +31,7 @@ public class CollageMain extends Activity {
         
         //Gridview ºÎºÐ
         GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this));
+        gridview.setAdapter(new ImageAdapter(this, getContentResolver()));
      
         gridview.setOnItemClickListener(new OnItemClickListener() {
                       public void onItemClick(AdapterView<?> parent, View v, int position, long id) {

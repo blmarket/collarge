@@ -28,7 +28,7 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity android:name="net.blmarket.timeline.TimelineViewActivity" 
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity android:name="skp.collarge.main.CollageMain" 
+        <activity android:name=".main.CollageMain" 
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         
         <uses-library android:name="com.google.android.maps" />

@@ -1,4 +1,4 @@
-package skp.collage.mapview;
+package skp.collarge.viewer.mapview;
 
 import java.io.IOException;
 import java.util.ArrayList;

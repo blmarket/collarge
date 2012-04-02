@@ -1,4 +1,4 @@
-package net.blmarket.timeline;
+package skp.collarge.viewer.timeline;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -41,9 +41,9 @@ public class ImageTextView extends ImageView {
 		// canvas.drawARGB(200, 255, 255, 255);
 		// canvas.drawPaint(paint);
 		canvas.drawRect(0, 100, width, height, paint);
-		paint.setARGB(255, 0, 0, 0);
+		paint.setARGB(255, 0, 255, 255);
 		paint.setTextSize(20);
-		canvas.drawText("안녕하세요", 0, 110, paint);
+		canvas.drawText("TODO: 적절한 시간", 0, 120, paint);
 
 		// canvas.drawRect(0, height / 2, width, height, paint);
 	}

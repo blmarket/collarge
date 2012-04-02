@@ -1,4 +1,4 @@
-package skp.collage.mapview;
+package skp.collarge.viewer.mapview;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
