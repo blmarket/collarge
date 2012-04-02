@@ -2,9 +2,9 @@ package skp.collarge.event;
 
 import java.util.AbstractList;
 
-import skp.collarge.image.DBCacheThumbnailBuilder;
-import skp.collarge.image.IThumbnailBuilder;
-import skp.collarge.image.MySimpleThumbnailBuilder;
+import skp.collarge.thumbnail.DBCacheThumbnailBuilder;
+import skp.collarge.thumbnail.IThumbnailBuilder;
+import skp.collarge.thumbnail.MySimpleThumbnailBuilder;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;

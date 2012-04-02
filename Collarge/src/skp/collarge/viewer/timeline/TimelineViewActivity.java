@@ -4,9 +4,9 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 import skp.collarge.R;
-import skp.collarge.image.DBCacheThumbnailBuilder;
-import skp.collarge.image.IThumbnailBuilder;
-import skp.collarge.image.MySimpleThumbnailBuilder;
+import skp.collarge.thumbnail.DBCacheThumbnailBuilder;
+import skp.collarge.thumbnail.IThumbnailBuilder;
+import skp.collarge.thumbnail.MySimpleThumbnailBuilder;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;

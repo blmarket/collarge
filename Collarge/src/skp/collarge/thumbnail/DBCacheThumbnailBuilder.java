@@ -1,4 +1,4 @@
-package skp.collarge.image;
+package skp.collarge.thumbnail;
 
 import java.io.ByteArrayOutputStream;
 
