@@ -1,6 +1,7 @@
 package skp.collarge.main;
 
 import skp.collarge.AllTheEvil;
+import skp.collarge.MainActivity;
 import skp.collarge.R;
 import skp.collarge.event.EventManager;
 import skp.collarge.viewer.mapview.MyMapView;
@@ -38,22 +39,27 @@ public class CollargeMain extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_collage);
 
+		
+		
 		// Gridview 부분
 		GridView gridview = (GridView) findViewById(R.id.gridview);
 		gridview.setAdapter(new ImageAdapter(this));
 
 		gridview.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View v,
-					int position, long id) {
-				Toast.makeText(
-						CollargeMain.this,
-						""
-								+ ((GridView) findViewById(R.id.gridview))
-										.getChildCount() + " " + position,
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+				Toast.makeText(CollargeMain.this,
+						"" + ((GridView) findViewById(R.id.gridview)).getChildCount() + " " + position,
 						Toast.LENGTH_SHORT).show();
+
+				Intent intent = new Intent(CollargeMain.this, EventView.class);
+				intent.putExtra("eventNuber", position);
+				startActivity(intent);
+				overridePendingTransition(R.anim.fade_out, R.anim.hold);
 			}
 		}); // GridView 끝
 
+		
+		
 		// 메뉴 애니매이션 효과
 		final Animation animation_moveRight = AnimationUtils.loadAnimation(
 				this, R.anim.push_right_in);

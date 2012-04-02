@@ -50,6 +50,7 @@ public class DummyEventManager {
 	}
 
 	public IEvent getEvent(int eventId) {
+		System.out.println("Getting");
 		AllTheEvil ate = AllTheEvil.getInstance();
 		Cursor c = ate
 				.getContext()
@@ -62,6 +63,7 @@ public class DummyEventManager {
 		{
 			String str = c.getString(c.getColumnIndex(Images.Media.DATA));
 			System.out.println(str);
+			
 			if(str.startsWith("/mnt/sdcard/Collarge"))
 			{
 				ret.add(ContentUris.withAppendedId(

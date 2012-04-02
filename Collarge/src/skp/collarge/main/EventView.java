@@ -1,15 +1,16 @@
 package skp.collarge.main;
 
 import skp.collarge.R;
+import skp.collarge.event.EventManager;
 import android.app.Activity;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -40,10 +41,14 @@ public class EventView extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_event);
-
+		
+		Intent intent = getIntent();
+		int eventNum = intent.getExtras().getInt("eventNumber");
+		
+		
 		// Gridview ºÎºÐ
 		GridView gridview = (GridView) findViewById(R.id.gridview);
-		gridview.setAdapter(new ImageAdapter(this));
+		gridview.setAdapter(new EventImageAdapter(this, EventManager.getInstance().getEvent(eventNum)));
 
 		gridview.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {

@@ -2,6 +2,7 @@ package skp.collarge;
 
 import skp.collarge.event.EventManager;
 import skp.collarge.main.CollargeMain;
+import skp.collarge.main.EventView;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -20,7 +21,7 @@ public class MainActivity extends Activity {
     	mHandler.postDelayed(new Runnable() {
     		public void run() { 
     			// 1.5초 뒤에 Menu 액티비티 전환
-    			Intent intent = new Intent(MainActivity.this, EventView.class);
+    			Intent intent = new Intent(MainActivity.this, CollargeMain.class);
     			startActivity(intent);
     			overridePendingTransition(R.anim.fade_out, R.anim.hold);
     			finish();
