@@ -10,7 +10,11 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class CollageMain extends Activity {
 	
@@ -23,6 +27,19 @@ public class CollageMain extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_collage);
+        
+        
+        //Gridview 부분
+        GridView gridview = (GridView) findViewById(R.id.gridview);
+        gridview.setAdapter(new ImageAdapter(this));
+     
+        gridview.setOnItemClickListener(new OnItemClickListener() {
+                      public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                        Toast.makeText(CollageMain.this, "" + position, Toast.LENGTH_SHORT).show();
+                      }
+        }); // GridView 끝
+        
+        
         
         // 메뉴 애니매이션 효
         final Animation animation_moveRight = AnimationUtils.loadAnimation(this, R.anim.push_right_in);
