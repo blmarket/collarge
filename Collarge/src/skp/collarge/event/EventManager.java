@@ -28,12 +28,15 @@ public class EventManager {
 			String json = c.getString(c.getColumnIndex("json"));
 			eventList.add(fromString(json));
 		}
+		c.close();
 
 		// FIXME: remove this bunch of shit
 		if (eventList.size() == 0) {
 			for (int i = 0; i < Math.min(2, CopyOfEventManager.getInstance()
-					.getEventSize()); i++)
+					.getEventSize()); i++) {
+				System.out.println("Creating trash event " + i);
 				eventList.add(CopyOfEventManager.getInstance().getEvent(i));
+			}
 		}
 	}
 

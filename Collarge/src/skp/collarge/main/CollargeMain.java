@@ -45,7 +45,11 @@ public class CollargeMain extends Activity {
 		gridview.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v,
 					int position, long id) {
-				Toast.makeText(CollargeMain.this, "" + position,
+				Toast.makeText(
+						CollargeMain.this,
+						""
+								+ ((GridView) findViewById(R.id.gridview))
+										.getChildCount() + " " + position,
 						Toast.LENGTH_SHORT).show();
 			}
 		}); // GridView ³¡

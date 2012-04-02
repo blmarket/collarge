@@ -67,6 +67,7 @@ public class MyDB extends SQLiteOpenHelper {
 		for (String val : cols)
 			System.out.println(val);
 		System.out.println("cursors : " + cursor.getCount());
+		cursor.close();
 	}
 
 	public byte[] getThumb(String key) {
@@ -74,8 +75,11 @@ public class MyDB extends SQLiteOpenHelper {
 		Cursor cursor = db.rawQuery("select * from thumbs where file='" + key
 				+ "'", null);
 		if (cursor.moveToNext()) {
-			return cursor.getBlob(cursor.getColumnIndex("data"));
+			byte[] ret = cursor.getBlob(cursor.getColumnIndex("data"));
+			cursor.close();
+			return ret;
 		}
+		cursor.close();
 		return null;
 	}
 
@@ -83,9 +87,11 @@ public class MyDB extends SQLiteOpenHelper {
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor cursor = db.rawQuery("select * from events where _id='" + id
 				+ "'", null);
+		String ret = null;
 		if (cursor.moveToNext()) {
-			return cursor.getString(cursor.getColumnIndex("json"));
+			ret = cursor.getString(cursor.getColumnIndex("json"));
 		}
-		return null;
+		cursor.close();
+		return ret;
 	}
 }

@@ -19,7 +19,7 @@ public class ImageAdapter extends BaseAdapter {
 	}
 
 	public int getCount() {
-		return EventManager.getInstance().getEventSize();
+		return EventManager.getInstance().getEventSize() + 1;
 	}
 
 	public Object getItem(int position) {
@@ -45,7 +45,7 @@ public class ImageAdapter extends BaseAdapter {
 		if (position == 0) {
 			imageView.setImageResource(R.drawable.newepisode);
 		} else {
-			IEvent event = EventManager.getInstance().getEvent(position);
+			IEvent event = EventManager.getInstance().getEvent(position - 1);
 			return event.getThumbnailView();
 		}
 		return imageView;
