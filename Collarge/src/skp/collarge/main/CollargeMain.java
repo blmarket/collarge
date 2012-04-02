@@ -16,7 +16,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class CollageMain extends Activity {
+public class CollargeMain extends Activity {
 
 	ImageView leftImageButton;
 	ImageView rightImageButton;
@@ -35,7 +35,7 @@ public class CollageMain extends Activity {
 		gridview.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v,
 					int position, long id) {
-				Toast.makeText(CollageMain.this, "" + position,
+				Toast.makeText(CollargeMain.this, "" + position,
 						Toast.LENGTH_SHORT).show();
 			}
 		}); // GridView 끝
@@ -91,7 +91,7 @@ public class CollageMain extends Activity {
 								.getDrawable(R.drawable.top_btn_right_over));
 
 						// 즐겨찾기 메뉴 활성화
-						Intent intent = new Intent(CollageMain.this,
+						Intent intent = new Intent(CollargeMain.this,
 								MyMapView.class);
 						startActivity(intent);
 						rightImageButton_action = false;

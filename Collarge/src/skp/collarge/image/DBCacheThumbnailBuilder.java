@@ -2,6 +2,7 @@ package skp.collarge.image;
 
 import java.io.ByteArrayOutputStream;
 
+import skp.collarge.AllTheEvil;
 import skp.collarge.db.MyDB;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,18 +13,15 @@ import android.net.Uri;
 public class DBCacheThumbnailBuilder implements IThumbnailBuilder {
 
 	IThumbnailBuilder localBuilder;
-	MyDB db;
 
 	public DBCacheThumbnailBuilder(Context context, IThumbnailBuilder builder) {
 		this.localBuilder = builder;
-		db = new MyDB(context);
-
 	}
 
 	@Override
 	public Bitmap build(Uri uri) {
 		String key = uri.toString();
-		byte[] cache = db.get(key);
+		byte[] cache = AllTheEvil.getInstance().getDB().get(key);
 		Bitmap bmp = null;
 
 		if (cache != null) {
@@ -41,7 +39,7 @@ public class DBCacheThumbnailBuilder implements IThumbnailBuilder {
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
 			bmp.compress(CompressFormat.JPEG, 50, stream);
 			System.out.println("Stream size : " + stream.size());
-			db.put(key, stream.toByteArray());
+			AllTheEvil.getInstance().getDB().put(key, stream.toByteArray());
 			return bmp;
 		}
 		System.out.println("Bitmap Loaded : " + bmp.getWidth() + " "
@@ -52,6 +50,5 @@ public class DBCacheThumbnailBuilder implements IThumbnailBuilder {
 	@Override
 	public void close() {
 		localBuilder.close();
-		db.close();		
-	}	
+	}
 }

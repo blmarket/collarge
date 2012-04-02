@@ -1,88 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tableLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-
-
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/tableLayout1"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
-        <TableRow
-            android:id="@+id/tableRow1"
+        <ImageView
+            android:id="@+id/table_leftbutton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            
-            <LinearLayout
+            android:layout_height="wrap_content"
+            android:src="@drawable/top_btn_left_normal" />
+
+        <ImageView
+            android:id="@+id/table_centerbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/top_btn_center" />
+
+        <ImageView
+            android:id="@+id/table_rightbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/top_btn_right_normal" />
+    </LinearLayout>
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:paddingLeft="0dp" >
+
+        <!-- PictureGallery 위치하는 곳 -->
+
+        <GridView
             xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/gridview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="horizontal" >
+            android:columnWidth="480dp"
+            android:gravity="center"
+            android:horizontalSpacing="0dp"
+            android:listSelector="@drawable/list_selector"
+            android:numColumns="2"
+            android:padding="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="0dp" />
 
-            <ImageView
-                android:id="@+id/table_leftbutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/top_btn_left_normal" />
-"
-
-            <ImageView
-                android:id="@+id/table_centerbutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/top_btn_center" />
-
-            <ImageView
-                android:id="@+id/table_rightbutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/top_btn_right_normal" />
-        	</LinearLayout>
-		</TableRow>
-        
-  		<TableRow
-            android:id="@+id/tableRow2"
+        <ImageView
+            android:id="@+id/group_menu"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" 
-            >
+            android:layout_height="wrap_content"
+            android:src="@drawable/group_back"
+            android:visibility="invisible" />
+    </FrameLayout>
 
-      
-      		<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-          		android:layout_width="fill_parent"
-         		android:layout_height="fill_parent"
-            	android:layout_marginLeft="0dp"
-            	android:layout_marginTop="0dp"
-            	android:paddingLeft="0dp"         		
-         		          
-          		>
-
-  		<!-- PictureGallery 위치하는 곳 -->    
-
-           
-	    			<GridView xmlns:android="http://schemas.android.com/apk/res/android"
-	    				android:id="@+id/gridview"
-	    				android:layout_width="fill_parent"
-	    				android:layout_height="fill_parent"
-	    				android:columnWidth="480dp"
-	    				android:numColumns="2"
-	    				android:verticalSpacing="0dp"
-	    				android:horizontalSpacing="0dp"
-	    				android:stretchMode="columnWidth"
-	    				android:gravity="center"
-	    				android:paddingLeft="0dp"
-	    				android:paddingRight="0dp"
-	    				android:padding="0dp"
-	    				android:listSelector="@drawable/list_selector"
-	    				
-						/>   
-
-	    
-        			<ImageView
-                		android:id="@+id/group_menu"
-                		android:layout_width="wrap_content"
-                		android:layout_height="wrap_content"
-                		android:src="@drawable/group_back"
-                		android:visibility="invisible"/> 	    
-
-			</FrameLayout>
-  		</TableRow>
-</TableLayout>
+</LinearLayout>

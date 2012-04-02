@@ -18,7 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 // FIXME: implements onDestroy things to close thumbnailBuilder
-public class ImageAdapter extends BaseAdapter {
+public class DBRunnerImageAdapter extends BaseAdapter {
 
 	public static final int THUMBNAIL_HEIGHT = 100;
 	public static final int THUMBNAIL_WIDTH = 100;
@@ -28,7 +28,7 @@ public class ImageAdapter extends BaseAdapter {
 	ArrayList<Uri> uris;
 	IThumbnailBuilder thumbnailBuilder;
 
-	public ImageAdapter(Context context, Cursor cursor,
+	public DBRunnerImageAdapter(Context context, Cursor cursor,
 			ContentResolver contentResolver) {
 		mContext = context;
 		this.cursor = cursor;
