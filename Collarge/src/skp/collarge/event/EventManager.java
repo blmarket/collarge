@@ -31,11 +31,14 @@ public class EventManager {
 		c.close();
 
 		// FIXME: remove this bunch of shit
-		if (eventList.size() == 0) {
-			for (int i = 0; i < Math.min(2, CopyOfEventManager.getInstance()
+		if (eventList.size() == 0 || true) {
+			eventList.clear();
+			System.out.println("getit");
+			DummyEventManager.getInstance().getEventSize();
+			for (int i = 0; i < Math.min(2, DummyEventManager.getInstance()
 					.getEventSize()); i++) {
 				System.out.println("Creating trash event " + i);
-				eventList.add(CopyOfEventManager.getInstance().getEvent(i));
+				eventList.add(DummyEventManager.getInstance().getEvent(i));
 			}
 		}
 	}

@@ -13,13 +13,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.provider.MediaStore.Images;
 
-public class CopyOfEventManager {
+public class DummyEventManager {
 
-	private static CopyOfEventManager instance;
+	private static DummyEventManager instance;
 	
 	private ArrayList<IEvent> eventList;
 
-	private CopyOfEventManager() {
+	private DummyEventManager() {
 		eventList = new ArrayList<IEvent>();
 		MyDB mydb = AllTheEvil.getInstance().getDB();
 		SQLiteDatabase db = mydb.getReadableDatabase();
@@ -31,9 +31,9 @@ public class CopyOfEventManager {
 		}
 	}
 
-	public static CopyOfEventManager getInstance() {
+	public static DummyEventManager getInstance() {
 		if (instance == null) {
-			instance = new CopyOfEventManager();
+			instance = new DummyEventManager();
 		}
 		return instance;
 	}
@@ -55,29 +55,23 @@ public class CopyOfEventManager {
 				.getContentResolver()
 				.query(Images.Media.EXTERNAL_CONTENT_URI, null, null, null,
 						null); // Image데이터
-		for (int i = 0; i < eventId * 10; i++) {
-			if (c.moveToNext() == false)
-				return new Event(ate.getContext(), new ArrayList<Uri>());
-		}
+		
 		ArrayList<Uri> ret = new ArrayList<Uri>();
-		for (int i = 0; i < 10; i++) {
-			if (c.moveToNext() == false)
-				return new Event(ate.getContext(), ret);
-			ret.add(ContentUris.withAppendedId(
-					Images.Media.EXTERNAL_CONTENT_URI,
-					c.getLong(c.getColumnIndex(Images.Media._ID))));
+		while(c.moveToNext())
+		{
+			String str = c.getString(c.getColumnIndex(Images.Media.DATA));
+			if(str.startsWith("/mnt/sdcard/Collarge"))
+			{
+				ret.add(ContentUris.withAppendedId(
+						Images.Media.EXTERNAL_CONTENT_URI,
+						c.getLong(c.getColumnIndex(Images.Media._ID))));
+			}
 		}
 		return new Event(ate.getContext(), ret);
 	}
 
 	public int getEventSize() {
-		Cursor c = AllTheEvil
-				.getInstance()
-				.getContext()
-				.getContentResolver()
-				.query(Images.Media.EXTERNAL_CONTENT_URI, null, null, null,
-						null); // Image데이터
-		return (c.getCount() + 9) / 10;
+		return 1;
 	}
 
 	public String serializeEvent(IEvent event) {
