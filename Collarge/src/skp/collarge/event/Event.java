@@ -9,7 +9,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.View;
-import android.widget.AbsListView;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
@@ -67,7 +67,7 @@ public class Event implements IEvent {
 		
 		imv.setImageBitmap(thumbnail);
 		imv.setScaleType(ScaleType.CENTER_CROP);
-		imv.setLayoutParams(new AbsListView.LayoutParams(240, 200));
+		imv.setLayoutParams(new LayoutParams(240, 200));
 		//imv.setMinimumHeight(200);
 		//imv.setMinimumWidth(240);
 		return imv;
