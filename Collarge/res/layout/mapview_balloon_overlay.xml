@@ -3,9 +3,9 @@
     android:id="@+id/balloon_main_layout"
     android:layout_width="108dip"
     android:layout_height="112dip"
-    android:background="@drawable/bubble_back2"
+    android:background="@drawable/bubble_back"
     android:orientation="horizontal"
-    android:paddingBottom="30dip"
+    android:paddingBottom="40dip"
     android:paddingLeft="7dip"
     android:paddingRight="7dip"
     android:paddingTop="5dip" >
