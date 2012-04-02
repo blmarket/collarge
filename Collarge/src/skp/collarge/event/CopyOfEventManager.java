@@ -13,33 +13,27 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.provider.MediaStore.Images;
 
-public class EventManager {
+public class CopyOfEventManager {
 
-	private static EventManager instance;
-
+	private static CopyOfEventManager instance;
+	
 	private ArrayList<IEvent> eventList;
 
-	private EventManager() {
+	private CopyOfEventManager() {
 		eventList = new ArrayList<IEvent>();
 		MyDB mydb = AllTheEvil.getInstance().getDB();
 		SQLiteDatabase db = mydb.getReadableDatabase();
 		Cursor c = db.rawQuery("select * from events", null);
-		while (c.moveToNext()) {
+		while(c.moveToNext())
+		{
 			String json = c.getString(c.getColumnIndex("json"));
 			eventList.add(fromString(json));
 		}
-
-		// FIXME: remove this bunch of shit
-		if (eventList.size() == 0) {
-			for (int i = 0; i < Math.min(2, CopyOfEventManager.getInstance()
-					.getEventSize()); i++)
-				eventList.add(CopyOfEventManager.getInstance().getEvent(i));
-		}
 	}
 
-	public static EventManager getInstance() {
+	public static CopyOfEventManager getInstance() {
 		if (instance == null) {
-			instance = new EventManager();
+			instance = new CopyOfEventManager();
 		}
 		return instance;
 	}
@@ -50,16 +44,40 @@ public class EventManager {
 		for (int i = 0; i < instance.getEventSize(); i++) {
 			IEvent e = instance.getEvent(i);
 			String json = instance.serializeEvent(e);
-			AllTheEvil.getInstance().getDB().putEvent(i, json);
+			AllTheEvil.getInstance().getDB().putEvent(i, json);			
 		}
 	}
 
 	public IEvent getEvent(int eventId) {
-		return eventList.get(eventId);
+		AllTheEvil ate = AllTheEvil.getInstance();
+		Cursor c = ate
+				.getContext()
+				.getContentResolver()
+				.query(Images.Media.EXTERNAL_CONTENT_URI, null, null, null,
+						null); // Image데이터
+		for (int i = 0; i < eventId * 10; i++) {
+			if (c.moveToNext() == false)
+				return new Event(ate.getContext(), new ArrayList<Uri>());
+		}
+		ArrayList<Uri> ret = new ArrayList<Uri>();
+		for (int i = 0; i < 10; i++) {
+			if (c.moveToNext() == false)
+				return new Event(ate.getContext(), ret);
+			ret.add(ContentUris.withAppendedId(
+					Images.Media.EXTERNAL_CONTENT_URI,
+					c.getLong(c.getColumnIndex(Images.Media._ID))));
+		}
+		return new Event(ate.getContext(), ret);
 	}
 
 	public int getEventSize() {
-		return eventList.size();
+		Cursor c = AllTheEvil
+				.getInstance()
+				.getContext()
+				.getContentResolver()
+				.query(Images.Media.EXTERNAL_CONTENT_URI, null, null, null,
+						null); // Image데이터
+		return (c.getCount() + 9) / 10;
 	}
 
 	public String serializeEvent(IEvent event) {

@@ -1,5 +1,6 @@
 package skp.collarge;
 
+import skp.collarge.event.EventManager;
 import skp.collarge.main.CollargeMain;
 import skp.collarge.main.EventView;
 import android.app.Activity;
@@ -14,8 +15,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_start);
         
-        AllTheEvil.initialize(getApplicationContext());
-        
         Handler mHandler = new Handler();
     	mHandler.postDelayed(new Runnable() {
     		public void run() { 
@@ -26,11 +25,8 @@ public class MainActivity extends Activity {
     			finish();
     		}
     	}, 1500);
+    	
+        AllTheEvil.initialize(getApplicationContext());
+        EventManager.getInstance();
     }
-
-	@Override
-	protected void onDestroy() {
-		AllTheEvil.close();
-		super.onDestroy();
-	}
 }

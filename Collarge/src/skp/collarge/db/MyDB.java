@@ -43,11 +43,20 @@ public class MyDB extends SQLiteOpenHelper {
 		db.close();
 	}
 
+	public void addEvent(String data) {
+		putEvent(-1, data);
+	}
+
 	public void putEvent(long key, String data) {
+		System.out.println("Putting event : " + key + " = " + data);
 		ContentValues values = new ContentValues();
+		if (key != -1) {
+			values.put("_id", new Long(key));
+		}
 		values.put("json", data);
 		SQLiteDatabase db = getWritableDatabase();
-		db.insert("events", null, values);
+		db.insertWithOnConflict("events", null, values,
+				SQLiteDatabase.CONFLICT_REPLACE);
 		db.close();
 	}
 

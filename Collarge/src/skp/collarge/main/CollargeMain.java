@@ -1,6 +1,8 @@
 package skp.collarge.main;
 
+import skp.collarge.AllTheEvil;
 import skp.collarge.R;
+import skp.collarge.event.EventManager;
 import skp.collarge.viewer.mapview.MyMapView;
 import android.app.Activity;
 import android.content.Intent;
@@ -24,12 +26,18 @@ public class CollargeMain extends Activity {
 	private boolean leftImageButton_action = true;
 	private boolean rightImageButton_action = true;
 
+	@Override
+	protected void onDestroy() {
+		EventManager.close();
+		// should be closed after all other singletons closed
+		AllTheEvil.close();
+		super.onDestroy();
+	}
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_collage);
 
-		
-		
 		// Gridview 부분
 		GridView gridview = (GridView) findViewById(R.id.gridview);
 		gridview.setAdapter(new ImageAdapter(this));
@@ -42,8 +50,6 @@ public class CollargeMain extends Activity {
 			}
 		}); // GridView 끝
 
-		
-		
 		// 메뉴 애니매이션 효과
 		final Animation animation_moveRight = AnimationUtils.loadAnimation(
 				this, R.anim.push_right_in);
