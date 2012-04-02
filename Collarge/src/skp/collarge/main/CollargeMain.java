@@ -28,6 +28,8 @@ public class CollargeMain extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_collage);
 
+		
+		
 		// Gridview 부분
 		GridView gridview = (GridView) findViewById(R.id.gridview);
 		gridview.setAdapter(new ImageAdapter(this));
@@ -40,6 +42,8 @@ public class CollargeMain extends Activity {
 			}
 		}); // GridView 끝
 
+		
+		
 		// 메뉴 애니매이션 효과
 		final Animation animation_moveRight = AnimationUtils.loadAnimation(
 				this, R.anim.push_right_in);
