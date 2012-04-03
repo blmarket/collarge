@@ -1,10 +1,8 @@
 package skp.collarge.main;
 
 import skp.collarge.AllTheEvil;
-import skp.collarge.MainActivity;
 import skp.collarge.R;
 import skp.collarge.event.EventManager;
-import skp.collarge.viewer.mapview.MyMapView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,29 +37,31 @@ public class CollargeMain extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_collage);
 
-		
-		
 		// Gridview & Listener
 		GridView gridview = (GridView) findViewById(R.id.gridview);
 		gridview.setAdapter(new ImageAdapter(this));
 		gridview.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View v,
+					int position, long id) {
 				if (position == 0) {
-					Toast.makeText(CollargeMain.this, "New Eposode를 추가해야 할 때", Toast.LENGTH_SHORT).show();
+					Toast.makeText(CollargeMain.this, "New Eposode를 추가해야 할 때",
+							Toast.LENGTH_SHORT).show();
+					addNewEpisode();
 				} else {
-					Intent intent = new Intent(CollargeMain.this, EventView.class);
-					intent.putExtra("eventNuber", position);
+					Intent intent = new Intent(CollargeMain.this,
+							EventView.class);
+					intent.putExtra("eventNumber", position - 1);
 					startActivity(intent);
 					overridePendingTransition(R.anim.fade_out, R.anim.hold);
 				}
 			}
 		}); // end GridView
 
-		
-		
 		// menu animation
-		final Animation animation_moveRight = AnimationUtils.loadAnimation(this, R.anim.push_right_in);
-		final Animation animation_moveLeft = AnimationUtils.loadAnimation(this, R.anim.push_left_out);
+		final Animation animation_moveRight = AnimationUtils.loadAnimation(
+				this, R.anim.push_right_in);
+		final Animation animation_moveLeft = AnimationUtils.loadAnimation(this,
+				R.anim.push_left_out);
 
 		leftImageButton = (ImageView) findViewById(R.id.table_leftbutton);
 		rightImageButton = (ImageView) findViewById(R.id.table_rightbutton);
@@ -121,5 +121,11 @@ public class CollargeMain extends Activity {
 				return true;
 			}
 		});
+	}
+
+	private void addNewEpisode() {
+		EventManager.getInstance().createEvent();
+		GridView gridview = (GridView) findViewById(R.id.gridview);
+		gridview.setAdapter(new ImageAdapter(this));
 	}
 }

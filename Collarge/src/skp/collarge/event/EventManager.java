@@ -1,27 +1,17 @@
 package skp.collarge.event;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import skp.collarge.AllTheEvil;
-import skp.collarge.db.MyDB;
-import android.content.ContentUris;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.provider.MediaStore.Images;
 
 public class EventManager {
 
@@ -47,8 +37,6 @@ public class EventManager {
 			for (int i = 0; i < arr.length(); i++) {
 				JSONObject obj = arr.getJSONObject(i);
 				IEvent ev = fromJSONObject(obj);
-				if (ev.getEventPhotoList().size() == 0)
-					continue;
 				eventList.add(ev);
 			}
 		} catch (Exception e) { // 파일 없으면? 그냥 안하는 거지 뭐...
@@ -56,7 +44,7 @@ public class EventManager {
 		}
 
 		// FIXME: remove this bunch of shit
-		if (eventList.size() == 0) {
+		if (eventList.size() == 0 || true) {
 			eventList.clear();
 			System.out.println("getit");
 			DummyEventManager.getInstance().getEventSize();
@@ -149,5 +137,12 @@ public class EventManager {
 		} catch (JSONException E) {
 			return null;
 		}
+	}
+
+	public IEvent createEvent() {
+		IEvent ret = new Event(AllTheEvil.getInstance().getContext(),
+				new ArrayList<Uri>());
+		this.eventList.add(ret);
+		return ret;
 	}
 }

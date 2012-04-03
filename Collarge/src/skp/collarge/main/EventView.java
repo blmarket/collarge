@@ -1,15 +1,15 @@
 package skp.collarge.main;
 
-import com.google.android.maps.MapActivity;
-
 import skp.collarge.R;
 import skp.collarge.event.EventManager;
+import skp.collarge.event.IEvent;
 import skp.collarge.viewer.mapview.MyMapView;
 import android.app.Activity;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.provider.MediaStore.Images;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,11 +25,13 @@ import android.widget.Toast;
 
 public class EventView extends Activity {
 
-/*	ImageView imageView1;
-	BitmapFactory.Options options = new BitmapFactory.Options();
-	Animation animation_moveRight;
-	Bitmap bMap;*/
-	
+	/*
+	 * ImageView imageView1; BitmapFactory.Options options = new
+	 * BitmapFactory.Options(); Animation animation_moveRight; Bitmap bMap;
+	 */
+
+	private static final int PICK_GALLERY = 0;
+
 	protected static final ContextWrapper context = null;
 	ImageView leftImageButton;
 	ImageView rightImageButton;
@@ -38,9 +40,9 @@ public class EventView extends Activity {
 	ImageView mapViewButton;
 	ImageView timeViewButton;
 	int eventNum;
-	
+
 	LinearLayout viewImageView;
-	
+
 	private boolean leftImageButton_action = true;
 	private boolean rightImageButton_action = true;
 	private boolean bookmarkButton_action = true;
@@ -49,40 +51,50 @@ public class EventView extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_event);
-		
+
 		Intent intent = getIntent();
 		eventNum = intent.getExtras().getInt("eventNumber");
-		
-		
+		IEvent event = EventManager.getInstance().getEvent(eventNum);
+
 		// Gridview 부분
 		GridView gridview = (GridView) findViewById(R.id.gridview);
-		gridview.setAdapter(new EventImageAdapter(this, EventManager.getInstance().getEvent(eventNum)));
+		gridview.setAdapter(new EventImageAdapter(this, event));
 
 		gridview.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				Toast.makeText(EventView.this, "" + position, Toast.LENGTH_SHORT).show();
+			public void onItemClick(AdapterView<?> parent, View v,
+					int position, long id) {
+				Toast.makeText(EventView.this, "" + position,
+						Toast.LENGTH_SHORT).show();
+				if (position == 0) // do add
+				{
+					addImage();
+				}
 			}
 		}); // GridView 끝
 
 		// title bar 부분
-		
-		// 메뉴 애니매이션 효과
-		final Animation animation_moveLeft_in = AnimationUtils.loadAnimation(this, R.anim.push_right_in);
-		final Animation animation_moveLeft_out = AnimationUtils.loadAnimation(this, R.anim.push_left_out);
-		final Animation animation_moveRight_in = AnimationUtils.loadAnimation(this, R.anim.push_left_in);
-		final Animation animation_moveRight_out = AnimationUtils.loadAnimation(this, R.anim.push_right_out);
-		final Animation animation_bookmark_out = AnimationUtils.loadAnimation(this, R.anim.push_bookmark_out);
 
-		
+		// 메뉴 애니매이션 효과
+		final Animation animation_moveLeft_in = AnimationUtils.loadAnimation(
+				this, R.anim.push_right_in);
+		final Animation animation_moveLeft_out = AnimationUtils.loadAnimation(
+				this, R.anim.push_left_out);
+		final Animation animation_moveRight_in = AnimationUtils.loadAnimation(
+				this, R.anim.push_left_in);
+		final Animation animation_moveRight_out = AnimationUtils.loadAnimation(
+				this, R.anim.push_right_out);
+		final Animation animation_bookmark_out = AnimationUtils.loadAnimation(
+				this, R.anim.push_bookmark_out);
+
 		leftImageButton = (ImageView) findViewById(R.id.table_leftbutton);
 		rightImageButton = (ImageView) findViewById(R.id.table_rightbutton);
 		bookmarkButton = (ImageView) findViewById(R.id.bookmark_menu);
 		mapViewButton = (ImageView) findViewById(R.id.map_view_menu);
 		timeViewButton = (ImageView) findViewById(R.id.time_view_menu);
 		bookmarkButton.scrollTo(200, 0);
-		
+
 		groupImageView = (ImageView) findViewById(R.id.group_menu);
-		viewImageView = (LinearLayout)findViewById(R.id.view_menu);
+		viewImageView = (LinearLayout) findViewById(R.id.view_menu);
 
 		leftImageButton.setOnTouchListener(new OnTouchListener() {
 
@@ -90,16 +102,19 @@ public class EventView extends Activity {
 			public boolean onTouch(View v, MotionEvent event) {
 				if (leftImageButton_action) {
 					if (event.getAction() == MotionEvent.ACTION_DOWN) {
-						leftImageButton.setImageDrawable(getResources().getDrawable(R.drawable.top_btn_left_on));
+						leftImageButton.setImageDrawable(getResources()
+								.getDrawable(R.drawable.top_btn_left_on));
 					} else {
-						leftImageButton.setImageDrawable(getResources().getDrawable(R.drawable.top_btn_left_over));
+						leftImageButton.setImageDrawable(getResources()
+								.getDrawable(R.drawable.top_btn_left_over));
 						groupImageView.setVisibility(View.VISIBLE);
 						groupImageView.startAnimation(animation_moveLeft_in);
 						leftImageButton_action = false;
 					}
 				} else {
 					if (event.getAction() == MotionEvent.ACTION_UP) {
-						leftImageButton.setImageDrawable(getResources().getDrawable(R.drawable.top_btn_left_normal));
+						leftImageButton.setImageDrawable(getResources()
+								.getDrawable(R.drawable.top_btn_left_normal));
 						groupImageView.startAnimation(animation_moveLeft_out);
 						groupImageView.setVisibility(View.INVISIBLE);
 						leftImageButton_action = true;
@@ -115,16 +130,22 @@ public class EventView extends Activity {
 			public boolean onTouch(View v, MotionEvent event) {
 				if (rightImageButton_action) {
 					if (event.getAction() == MotionEvent.ACTION_DOWN) {
-						rightImageButton.setImageDrawable(getResources().getDrawable(R.drawable.event_top_btn_right_on));
+						rightImageButton
+								.setImageDrawable(getResources().getDrawable(
+										R.drawable.event_top_btn_right_on));
 					} else {
-						rightImageButton.setImageDrawable(getResources().getDrawable(R.drawable.event_top_btn_right_over));
+						rightImageButton.setImageDrawable(getResources()
+								.getDrawable(
+										R.drawable.event_top_btn_right_over));
 						viewImageView.setVisibility(View.VISIBLE);
 						viewImageView.startAnimation(animation_moveRight_in);
 						rightImageButton_action = false;
 					}
 				} else {
 					if (event.getAction() == MotionEvent.ACTION_UP) {
-						rightImageButton.setImageDrawable(getResources().getDrawable(R.drawable.event_top_btn_right_normal));
+						rightImageButton.setImageDrawable(getResources()
+								.getDrawable(
+										R.drawable.event_top_btn_right_normal));
 						viewImageView.startAnimation(animation_moveRight_out);
 						viewImageView.setVisibility(View.INVISIBLE);
 						rightImageButton_action = true;
@@ -133,28 +154,27 @@ public class EventView extends Activity {
 				return true;
 			}
 		});
-		
+
 		bookmarkButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(bookmarkButton_action) {
+				if (bookmarkButton_action) {
 					bookmarkButton.scrollTo(0, 0);
 					bookmarkButton.startAnimation(animation_moveLeft_in);
-					bookmarkButton_action=false;
+					bookmarkButton_action = false;
 				} else {
 					bookmarkButton.scrollTo(200, 0);
 					bookmarkButton.startAnimation(animation_bookmark_out);
-					bookmarkButton_action=true;
+					bookmarkButton_action = true;
 				}
-				
+
 			}
 		});
-		
-		
+
 		mapViewButton.setOnTouchListener(new OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				Intent intent = new Intent(EventView.this, MyMapView.class);
@@ -163,10 +183,9 @@ public class EventView extends Activity {
 				return false;
 			}
 		});
-		
-		
+
 		timeViewButton.setOnTouchListener(new OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
@@ -198,4 +217,29 @@ public class EventView extends Activity {
 	 * };
 	 */
 
+	private void addImage() {
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_PICK);
+		startActivityForResult(intent, PICK_GALLERY);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case PICK_GALLERY:
+			if(resultCode == RESULT_OK)
+			{
+				Uri resultData = data.getData();
+				IEvent event = EventManager.getInstance().getEvent(eventNum);
+				event.addData(resultData);
+				
+				// reset gridview...
+				GridView gridview = (GridView) findViewById(R.id.gridview);
+				gridview.setAdapter(new EventImageAdapter(this, event));
+			}
+			break;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
 }

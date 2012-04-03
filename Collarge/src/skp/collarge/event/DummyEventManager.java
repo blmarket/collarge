@@ -64,6 +64,7 @@ public class DummyEventManager {
 			String str = c.getString(c.getColumnIndex(Images.Media.DATA));
 			if(str.startsWith("/mnt/sdcard/Collarge"))
 			{
+				System.out.println(str);
 				ret.add(ContentUris.withAppendedId(
 						Images.Media.EXTERNAL_CONTENT_URI,
 						c.getLong(c.getColumnIndex(Images.Media._ID))));
