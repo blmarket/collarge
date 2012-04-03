@@ -72,4 +72,9 @@ public class Event implements IEvent {
 		//imv.setMinimumWidth(240);
 		return imv;
 	}
+
+	@Override
+	public void addData(Uri item) {
+		imageList.add(item);
+	}
 }

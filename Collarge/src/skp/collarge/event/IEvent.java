@@ -8,4 +8,5 @@ import android.view.View;
 public interface IEvent {
 	public AbstractList<Uri> getEventPhotoList();
 	public View getThumbnailView();
+	public void addData(Uri item);
 }

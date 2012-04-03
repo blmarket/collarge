@@ -47,8 +47,6 @@ public class EventManager {
 			for (int i = 0; i < arr.length(); i++) {
 				JSONObject obj = arr.getJSONObject(i);
 				IEvent ev = fromJSONObject(obj);
-				if (ev.getEventPhotoList().size() == 0)
-					continue;
 				eventList.add(ev);
 			}
 		} catch (Exception e) { // 파일 없으면? 그냥 안하는 거지 뭐...
@@ -56,7 +54,7 @@ public class EventManager {
 		}
 
 		// FIXME: remove this bunch of shit
-		if (eventList.size() == 0) {
+		if (eventList.size() == 0 || true) {
 			eventList.clear();
 			System.out.println("getit");
 			DummyEventManager.getInstance().getEventSize();
