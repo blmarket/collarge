@@ -24,7 +24,7 @@
         </activity>
         <activity android:name=".gallery.view.DBRunnerActivity" 
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity android:name="skp.collage.mapview.MyMapView" 
+        <activity android:name=".viewer.mapview.MyMapView" 
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity android:name="net.blmarket.timeline.TimelineViewActivity" 
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
