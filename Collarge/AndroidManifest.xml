@@ -32,6 +32,8 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity android:name=".main.EventView" 
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity android:name=".TestActivity" 
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         
         <uses-library android:name="com.google.android.maps" />
         

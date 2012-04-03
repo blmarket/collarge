@@ -1,4 +1,4 @@
-package skp.collarge.image;
+package skp.collarge.thumbnail;
 
 import android.content.ContentResolver;
 import android.graphics.Bitmap;

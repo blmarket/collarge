@@ -2,14 +2,12 @@ package skp.collarge;
 
 import skp.collarge.event.EventManager;
 import skp.collarge.main.CollargeMain;
-import skp.collarge.main.EventView;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaScannerConnection;
 import android.media.MediaScannerConnection.MediaScannerConnectionClient;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 
 public class MainActivity extends Activity implements MediaScannerConnectionClient {
@@ -44,7 +42,7 @@ public class MainActivity extends Activity implements MediaScannerConnectionClie
     	mHandler.postDelayed(new Runnable() {
     		public void run() { 
     			// 1.5초 뒤에 Menu 액티비티 전환
-    			Intent intent = new Intent(MainActivity.this, CollargeMain.class);
+    			Intent intent = new Intent(MainActivity.this, TestActivity.class);
     			startActivity(intent);
     			overridePendingTransition(R.anim.fade_out, R.anim.hold);
     			finish();
