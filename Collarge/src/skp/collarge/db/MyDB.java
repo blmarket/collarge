@@ -5,10 +5,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 
 public class MyDB extends SQLiteOpenHelper {
 
-	private static final int VERSION = 6;
+	public class Thumb {
+		public long id;
+		public Uri uri;
+		public byte[] data;
+		public String path;
+	}
+
+	private static final int VERSION = 7;
 
 	public MyDB(Context context) {
 		super(context, "myDB.db", null, VERSION);
@@ -17,7 +25,7 @@ public class MyDB extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		System.out.println("Database creating");
-		db.execSQL("create table thumbs (_id INTEGER PRIMARY KEY, file TEXT UNIQUE, data BLOB);");
+		db.execSQL("create table thumbs (_id INTEGER PRIMARY KEY, file TEXT UNIQUE, data BLOB, path TEXT);");
 		db.execSQL("create table events (_id INTEGER PRIMARY KEY, json TEXT);");
 	}
 
@@ -33,13 +41,17 @@ public class MyDB extends SQLiteOpenHelper {
 			db.execSQL("drop table events");
 			db.execSQL("create table events (_id INTEGER PRIMARY KEY, json TEXT);");
 		case 6:
+			db.execSQL("drop table thumbs");
+			db.execSQL("create table thumbs (_id INTEGER PRIMARY KEY, file TEXT UNIQUE, data BLOB, path TEXT);");
+		case 7:
 		}
 	}
 
-	public void putThumb(String key, byte[] data) {
+	public void putThumb(String key, byte[] data, String path) {
 		ContentValues values = new ContentValues();
 		values.put("file", key);
 		values.put("data", data);
+		values.put("path", path);
 		SQLiteDatabase db = getWritableDatabase();
 		db.insertWithOnConflict("thumbs", null, values,
 				SQLiteDatabase.CONFLICT_REPLACE);
@@ -73,17 +85,22 @@ public class MyDB extends SQLiteOpenHelper {
 		cursor.close();
 	}
 
-	public byte[] getThumb(String key) {
+	public Thumb getThumb(String key) {
+		Thumb ret = null;
+
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor cursor = db.rawQuery("select * from thumbs where file='" + key
 				+ "'", null);
 		if (cursor.moveToNext()) {
-			byte[] ret = cursor.getBlob(cursor.getColumnIndex("data"));
-			cursor.close();
-			return ret;
+			ret = new Thumb();
+			ret.data = cursor.getBlob(cursor.getColumnIndex("data"));
+			ret.uri = Uri
+					.parse(cursor.getString(cursor.getColumnIndex("file")));
+			ret.path = cursor.getString(cursor.getColumnIndex("path"));
 		}
 		cursor.close();
-		return null;
+		db.close();
+		return ret;
 	}
 
 	public String getEvent(long id) {
@@ -95,6 +112,7 @@ public class MyDB extends SQLiteOpenHelper {
 			ret = cursor.getString(cursor.getColumnIndex("json"));
 		}
 		cursor.close();
+		db.close();
 		return ret;
 	}
 }

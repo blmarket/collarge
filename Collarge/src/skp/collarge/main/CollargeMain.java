@@ -41,30 +41,27 @@ public class CollargeMain extends Activity {
 
 		
 		
-		// Gridview 부분
+		// Gridview & Listener
 		GridView gridview = (GridView) findViewById(R.id.gridview);
 		gridview.setAdapter(new ImageAdapter(this));
-
 		gridview.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				Toast.makeText(CollargeMain.this,
-						"" + ((GridView) findViewById(R.id.gridview)).getChildCount() + " " + position,
-						Toast.LENGTH_SHORT).show();
-
-				Intent intent = new Intent(CollargeMain.this, EventView.class);
-				intent.putExtra("eventNuber", position);
-				startActivity(intent);
-				overridePendingTransition(R.anim.fade_out, R.anim.hold);
+				if (position == 0) {
+					Toast.makeText(CollargeMain.this, "New Eposode를 추가해야 할 때", Toast.LENGTH_SHORT).show();
+				} else {
+					Intent intent = new Intent(CollargeMain.this, EventView.class);
+					intent.putExtra("eventNuber", position);
+					startActivity(intent);
+					overridePendingTransition(R.anim.fade_out, R.anim.hold);
+				}
 			}
-		}); // GridView 끝
+		}); // end GridView
 
 		
 		
-		// 메뉴 애니매이션 효과
-		final Animation animation_moveRight = AnimationUtils.loadAnimation(
-				this, R.anim.push_right_in);
-		final Animation animation_moveLeft = AnimationUtils.loadAnimation(this,
-				R.anim.push_left_out);
+		// menu animation
+		final Animation animation_moveRight = AnimationUtils.loadAnimation(this, R.anim.push_right_in);
+		final Animation animation_moveLeft = AnimationUtils.loadAnimation(this, R.anim.push_left_out);
 
 		leftImageButton = (ImageView) findViewById(R.id.table_leftbutton);
 		rightImageButton = (ImageView) findViewById(R.id.table_rightbutton);
@@ -111,9 +108,6 @@ public class CollargeMain extends Activity {
 								.getDrawable(R.drawable.top_btn_right_over));
 
 						// 즐겨찾기 메뉴 활성화
-						Intent intent = new Intent(CollargeMain.this,
-								MyMapView.class);
-						startActivity(intent);
 						rightImageButton_action = false;
 					}
 				} else {
