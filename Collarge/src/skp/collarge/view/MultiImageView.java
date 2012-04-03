@@ -1,10 +1,10 @@
 package skp.collarge.view;
 
+import java.util.Random;
+
 import skp.collarge.R;
-import skp.collarge.event.EventManager;
 import skp.collarge.event.IEvent;
 import android.content.Context;
-import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
@@ -17,12 +17,13 @@ public class MultiImageView extends ViewSwitcher implements ViewFactory {
 	
 	private IEvent event;
 	private int index = 0;
+	Random random = new Random();
 	
 	public MultiImageView(Context context, IEvent event) {
 		super(context);
 		this.event = event;
 		this.addView(makeView());		
-		postDelayed(new Zwitter(this), 2000);
+		postDelayed(new Zwitter(this), (random.nextInt(4)+4)*500);
 	}
 
 	@Override
@@ -54,11 +55,11 @@ public class MultiImageView extends ViewSwitcher implements ViewFactory {
 				view.addView(view.makeView());
 			// TODO: do proper animations.
 			//view.setInAnimation(AnimationUtils.loadAnimation(view.getContext(),
-			//		R.anim.push_left_in));
+			//		R.anim.push_up));
 			view.setOutAnimation(AnimationUtils.loadAnimation(view.getContext(),
 					R.anim.push_up));
 			view.showNext();
-			view.postDelayed(this, 2000);
+			view.postDelayed(this, (random.nextInt(4)+4)*500);
 
 			view.removeViewAt(current);
 		}
