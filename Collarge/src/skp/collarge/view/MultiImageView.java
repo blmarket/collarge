@@ -4,6 +4,8 @@ import java.util.AbstractList;
 import java.util.Random;
 
 import skp.collarge.AllTheEvil;
+import java.util.Random;
+
 import skp.collarge.R;
 import skp.collarge.event.IEvent;
 import skp.collarge.thumbnail.DBCacheThumbnailBuilder;
@@ -20,12 +22,13 @@ public class MultiImageView extends ViewSwitcher {
 
 	private IEvent event;
 	private int index = 0;
-
+	Random random = new Random();
+	
 	public MultiImageView(Context context, IEvent event) {
 		super(context);
 		this.event = event;
-		this.addView(makeView());
-		postDelayed(new Zwitter(this), 2000);
+		this.addView(makeView());		
+		postDelayed(new Zwitter(this), (random.nextInt(4)+4)*500);
 	}
 
 	/**
@@ -77,8 +80,7 @@ public class MultiImageView extends ViewSwitcher {
 					view.getContext(), animations[AllTheEvil.getInstance()
 							.getRandom().nextInt(animations.length)]));
 			view.showNext();
-			view.postDelayed(this, 2000);
-
+			view.postDelayed(this, (random.nextInt(4)+4)*500);
 			view.removeViewAt(current);
 		}
 	}
