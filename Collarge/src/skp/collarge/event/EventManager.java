@@ -85,7 +85,7 @@ public class EventManager {
 			arr.put(toJSONObject(e));
 		}
 		arr.put(toJSONObject(instance.getEvent(0)));
-		System.out.println("JSON Output : " + arr.toString());
+		System.out.println("JSON Output : " + arr.length());
 
 		try {
 			Context c = AllTheEvil.getInstance().getContext();
