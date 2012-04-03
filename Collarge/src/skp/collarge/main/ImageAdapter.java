@@ -3,6 +3,7 @@ package skp.collarge.main;
 import skp.collarge.R;
 import skp.collarge.event.EventManager;
 import skp.collarge.event.IEvent;
+import skp.collarge.view.MultiImageView;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ public class ImageAdapter extends BaseAdapter {
 
 	// create a new ImageView for each item referenced by the Adapter
 	public View getView(int position, View convertView, ViewGroup parent) {
-
+/*
 		ImageView imageView = (ImageView) convertView;
 		if (imageView == null) {
 			imageView = new ImageView(mContext);
@@ -40,14 +41,20 @@ public class ImageAdapter extends BaseAdapter {
 					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 			imageView.setPadding(0, 0, 0, 0);
 			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-		}
-
+		}*/
 		if (position == 0) {
+			ImageView imageView = new ImageView(mContext);
+			imageView.setLayoutParams(new GridView.LayoutParams(
+					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+			imageView.setPadding(0, 0, 0, 0);
+			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 			imageView.setImageResource(R.drawable.newepisode);
+			return imageView;
 		} else {
 			IEvent event = EventManager.getInstance().getEvent(position - 1);
-			return event.getThumbnailView();
+			skp.collarge.view.MultiImageView miv = new MultiImageView(mContext, event);
+			miv.setLayoutParams(new GridView.LayoutParams(240, 200));
+			return miv;
 		}
-		return imageView;
 	}
 }

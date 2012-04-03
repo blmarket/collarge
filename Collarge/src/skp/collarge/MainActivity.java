@@ -42,7 +42,7 @@ public class MainActivity extends Activity implements MediaScannerConnectionClie
     	mHandler.postDelayed(new Runnable() {
     		public void run() { 
     			// 1.5초 뒤에 Menu 액티비티 전환
-    			Intent intent = new Intent(MainActivity.this, TestActivity.class);
+    			Intent intent = new Intent(MainActivity.this, CollargeMain.class);
     			startActivity(intent);
     			overridePendingTransition(R.anim.fade_out, R.anim.hold);
     			finish();
