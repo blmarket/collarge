@@ -11,18 +11,8 @@
 
     <skp.collarge.view.MultiImageView
         android:id="@+id/imageSwitcher1"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/episode1" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/episode2" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
     </skp.collarge.view.MultiImageView>
 
 </LinearLayout>

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ViewSwitcher;
@@ -17,14 +19,14 @@ public class MultiImageView extends ViewSwitcher implements ViewFactory {
 
 	public MultiImageView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init();
 		setFactory(this);
+		init();
 	}
 
 	public MultiImageView(Context context) {
 		super(context);
-		init();
 		setFactory(this);
+		init();
 	}
 
 	int[] inxs = { R.drawable.episode1, R.drawable.episode2,
@@ -38,7 +40,7 @@ public class MultiImageView extends ViewSwitcher implements ViewFactory {
 		ImageView imv = new ImageView(getContext());
 
 		imv.setImageResource(inxs[index++]);
-		imv.setLayoutParams(new ViewGroup.LayoutParams(240, 200));
+		imv.setLayoutParams(new FrameLayout.LayoutParams(240, 200));
 		imv.setScaleType(ScaleType.CENTER_CROP);
 		if (index == inxs.length)
 			index = 0;
@@ -56,8 +58,13 @@ public class MultiImageView extends ViewSwitcher implements ViewFactory {
 		@Override
 		public void run() {
 			int current = view.getDisplayedChild();
-
-			// TODO: do some animations
+			if(view.getChildCount() < 2)
+				view.addView(view.makeView());
+			// TODO: do proper animations.
+			view.setInAnimation(AnimationUtils.loadAnimation(view.getContext(),
+					R.anim.push_left_in));
+			view.setOutAnimation(AnimationUtils.loadAnimation(view.getContext(),
+					R.anim.push_left_out));
 			view.showNext();
 			view.postDelayed(this, 1000);
 
