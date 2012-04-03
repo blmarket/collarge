@@ -1,13 +1,23 @@
 package skp.collarge.event;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import skp.collarge.AllTheEvil;
 import skp.collarge.db.MyDB;
 import android.content.ContentUris;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -16,22 +26,34 @@ import android.provider.MediaStore.Images;
 public class EventManager {
 
 	private static EventManager instance;
-
+	private static final String FILENAME = "eventlist.txt";
 	private ArrayList<IEvent> eventList;
 
 	private EventManager() {
 		eventList = new ArrayList<IEvent>();
-		MyDB mydb = AllTheEvil.getInstance().getDB();
-		SQLiteDatabase db = mydb.getReadableDatabase();
-		Cursor c = db.rawQuery("select * from events", null);
-		while (c.moveToNext()) {
-			String json = c.getString(c.getColumnIndex("json"));
-			IEvent ev = fromString(json);
-			if (ev.getEventPhotoList().size() == 0)
-				continue;
-			eventList.add(ev);
+		try {
+			File file = AllTheEvil.getInstance().openFile(FILENAME);
+			byte[] buffer = new byte[(int) file.length()];
+			FileInputStream str = new FileInputStream(file);
+			str.read(buffer);
+			str.close();
+
+			String string = new String(buffer);
+
+			JSONArray arr = new JSONArray(string);
+
+			System.out.println("File loaded : " + arr.length());
+
+			for (int i = 0; i < arr.length(); i++) {
+				JSONObject obj = arr.getJSONObject(i);
+				IEvent ev = fromJSONObject(obj);
+				if (ev.getEventPhotoList().size() == 0)
+					continue;
+				eventList.add(ev);
+			}
+		} catch (Exception e) { // 파일 없으면? 그냥 안하는 거지 뭐...
+			System.out.println("File Open Failed TT");
 		}
-		c.close();
 
 		// FIXME: remove this bunch of shit
 		if (eventList.size() == 0) {
@@ -56,10 +78,27 @@ public class EventManager {
 	public static void close() {
 		if (instance == null)
 			return;
+
+		JSONArray arr = new JSONArray();
 		for (int i = 0; i < instance.getEventSize(); i++) {
 			IEvent e = instance.getEvent(i);
-			String json = instance.serializeEvent(e);
-			AllTheEvil.getInstance().getDB().putEvent(i, json);
+			arr.put(toJSONObject(e));
+		}
+		arr.put(toJSONObject(instance.getEvent(0)));
+		System.out.println("JSON Output : " + arr.toString());
+
+		try {
+			Context c = AllTheEvil.getInstance().getContext();
+
+			FileOutputStream str = new FileOutputStream(AllTheEvil
+					.getInstance().openFile(FILENAME));
+			str.write(arr.toString().getBytes());
+			str.flush();
+			str.close();
+			System.out.println("write done");
+		} catch (Exception e) {
+			System.out.println("EventManager Serialization failed TT");
+			e.printStackTrace();
 		}
 	}
 
@@ -71,7 +110,11 @@ public class EventManager {
 		return eventList.size();
 	}
 
-	public String serializeEvent(IEvent event) {
+	public static String serializeEvent(IEvent event) {
+		return toJSONObject(event).toString();
+	}
+
+	public static JSONObject toJSONObject(IEvent event) {
 		JSONObject obj = new JSONObject();
 		JSONArray arr = new JSONArray();
 		for (Uri uri : event.getEventPhotoList()) {
@@ -83,19 +126,27 @@ public class EventManager {
 		} catch (Exception E) {
 			E.printStackTrace();
 		}
-		return obj.toString();
+		return obj;
 	}
 
-	public IEvent fromString(String jsonString) {
+	public static IEvent fromString(String jsonString) {
 		try {
 			JSONObject obj = new JSONObject(jsonString);
+			return fromJSONObject(obj);
+		} catch (Exception E) {
+			E.printStackTrace();
+			return null;
+		}
+	}
+
+	public static IEvent fromJSONObject(JSONObject obj) {
+		try {
 			JSONArray arr = (JSONArray) obj.get("Array");
 			ArrayList<Uri> uriarr = new ArrayList<Uri>();
 			for (int i = 0; i < arr.length(); i++)
 				uriarr.add(Uri.parse(arr.getString(i)));
 			return new Event(AllTheEvil.getInstance().getContext(), uriarr);
-		} catch (Exception E) {
-			E.printStackTrace();
+		} catch (JSONException E) {
 			return null;
 		}
 	}

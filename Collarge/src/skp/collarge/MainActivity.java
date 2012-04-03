@@ -36,7 +36,6 @@ public class MainActivity extends Activity implements MediaScannerConnectionClie
 
 	@Override
 	public void onScanCompleted(String arg0, Uri arg1) {
-		System.out.println(arg0 + " " + arg1);
 		mConnection.disconnect();
 		
     	mHandler.postDelayed(new Runnable() {

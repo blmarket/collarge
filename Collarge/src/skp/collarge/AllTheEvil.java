@@ -1,5 +1,7 @@
 package skp.collarge;
 
+import java.io.File;
+
 import skp.collarge.db.MyDB;
 import android.content.Context;
 
@@ -34,5 +36,11 @@ public class AllTheEvil {
 
 	public MyDB getDB() {
 		return myDB;
+	}
+	
+	public File openFile(String fileName) {
+		System.out.println("openFile : " + context.getExternalFilesDir(null));
+		File file = new File(context.getExternalFilesDir(null), fileName);
+		return file;
 	}
 }
