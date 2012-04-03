@@ -9,7 +9,9 @@ import skp.collarge.thumbnail.DBCacheThumbnailBuilder;
 import android.content.Context;
 import android.net.Uri;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -68,13 +70,15 @@ public class MultiImageView extends ViewSwitcher {
 						.nextInt(4) + 4) * 500);
 				return;
 			}
-
-			// TODO: add more animations!
-			int[] animations = { R.anim.push_up };
+			// TODO: do proper animations.
+			// view.setInAnimation(AnimationUtils.loadAnimation(view.getContext(),
+			// R.anim.push_left_in));
+			int[] animations = { R.anim.anticipate_interpolator, R.anim.push_right_out, R.anim.push_left_out };
 
 			view.setOutAnimation(AnimationUtils.loadAnimation(
 					view.getContext(), animations[AllTheEvil.getInstance()
 							.getRandom().nextInt(animations.length)]));
+
 			view.showNext();
 			view.postDelayed(this, (AllTheEvil.getInstance().getRandom()
 					.nextInt(4) + 4) * 500);
