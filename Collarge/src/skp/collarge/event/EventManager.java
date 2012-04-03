@@ -138,4 +138,11 @@ public class EventManager {
 			return null;
 		}
 	}
+
+	public IEvent createEvent() {
+		IEvent ret = new Event(AllTheEvil.getInstance().getContext(),
+				new ArrayList<Uri>());
+		this.eventList.add(ret);
+		return ret;
+	}
 }
