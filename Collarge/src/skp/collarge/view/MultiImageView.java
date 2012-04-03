@@ -4,15 +4,15 @@ import java.util.AbstractList;
 import java.util.Random;
 
 import skp.collarge.AllTheEvil;
-import java.util.Random;
-
 import skp.collarge.R;
 import skp.collarge.event.IEvent;
 import skp.collarge.thumbnail.DBCacheThumbnailBuilder;
 import android.content.Context;
 import android.net.Uri;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -29,6 +29,7 @@ public class MultiImageView extends ViewSwitcher {
 		this.event = event;
 		this.addView(makeView());		
 		postDelayed(new Zwitter(this), (random.nextInt(4)+4)*500);
+		
 	}
 
 	/**
@@ -74,12 +75,11 @@ public class MultiImageView extends ViewSwitcher {
 			// TODO: do proper animations.
 			// view.setInAnimation(AnimationUtils.loadAnimation(view.getContext(),
 			// R.anim.push_left_in));
-			int[] animations = { R.anim.push_up, R.anim.push_right_out,
-					R.anim.push_left_out };
+			int[] animations = { R.anim.anticipate_interpolator, R.anim.push_right_out, R.anim.push_left_out };
 			view.setOutAnimation(AnimationUtils.loadAnimation(
 					view.getContext(), animations[AllTheEvil.getInstance()
 							.getRandom().nextInt(animations.length)]));
-			view.showNext();
+					view.showNext();
 			view.postDelayed(this, (random.nextInt(4)+4)*500);
 			view.removeViewAt(current);
 		}
