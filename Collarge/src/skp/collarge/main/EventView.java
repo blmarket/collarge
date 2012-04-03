@@ -1,7 +1,10 @@
 package skp.collarge.main;
 
+import com.google.android.maps.MapActivity;
+
 import skp.collarge.R;
 import skp.collarge.event.EventManager;
+import skp.collarge.viewer.mapview.MyMapView;
 import android.app.Activity;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -17,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class EventView extends Activity {
@@ -31,7 +35,11 @@ public class EventView extends Activity {
 	ImageView rightImageButton;
 	ImageView bookmarkButton;
 	ImageView groupImageView;
-	ImageView viewImageView;
+	ImageView mapViewButton;
+	ImageView timeViewButton;
+	int eventNum;
+	
+	LinearLayout viewImageView;
 	
 	private boolean leftImageButton_action = true;
 	private boolean rightImageButton_action = true;
@@ -43,7 +51,7 @@ public class EventView extends Activity {
 		setContentView(R.layout.main_event);
 		
 		Intent intent = getIntent();
-		int eventNum = intent.getExtras().getInt("eventNumber");
+		eventNum = intent.getExtras().getInt("eventNumber");
 		
 		
 		// Gridview ºÎºÐ
@@ -69,10 +77,12 @@ public class EventView extends Activity {
 		leftImageButton = (ImageView) findViewById(R.id.table_leftbutton);
 		rightImageButton = (ImageView) findViewById(R.id.table_rightbutton);
 		bookmarkButton = (ImageView) findViewById(R.id.bookmark_menu);
+		mapViewButton = (ImageView) findViewById(R.id.map_view_menu);
+		timeViewButton = (ImageView) findViewById(R.id.time_view_menu);
 		bookmarkButton.scrollTo(200, 0);
 		
 		groupImageView = (ImageView) findViewById(R.id.group_menu);
-		viewImageView = (ImageView)findViewById(R.id.view_menu);
+		viewImageView = (LinearLayout)findViewById(R.id.view_menu);
 
 		leftImageButton.setOnTouchListener(new OnTouchListener() {
 
@@ -141,7 +151,28 @@ public class EventView extends Activity {
 				
 			}
 		});
-
+		
+		
+		mapViewButton.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				Intent intent = new Intent(EventView.this, MyMapView.class);
+				intent.putExtra("eventNuber", eventNum);
+				startActivity(intent);
+				return false;
+			}
+		});
+		
+		
+		timeViewButton.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
 		/*
 		 * animation_moveRight = AnimationUtils.loadAnimation( this,
 		 * R.anim.push_right_in); imageView1 =

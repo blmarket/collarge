@@ -5,9 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import skp.collarge.R;
+import skp.collarge.event.EventManager;
+import skp.collarge.event.IEvent;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -23,18 +30,20 @@ public class MyMapView extends MapActivity {
 
 	private ArrayList<String> imagePathList = new ArrayList<String>();
 	private ArrayList<ExifInterface> exifList = new ArrayList<ExifInterface>();
-	private ArrayList<GeoPoint> geoList = new ArrayList<GeoPoint>();
 	private MapView mapView;
 
 	ExifInterface exif, exif2;
 	private int latitude;
 	private int longitude;
 	private Boolean buttonAction = true; // true 면 on, false 면 off
-
+	private int eventNum;
+	
+	
 	Drawable drawable;
 	MyItemizedOverlay itemizedOverlay;
 	BalloonOverlayView balloonView;
 	List<Overlay> mapOverlays;
+	IEvent event;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +52,35 @@ public class MyMapView extends MapActivity {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.main_mapview);
 
+			// intent로 이벤트 번호를 얻어옴
+			Intent intent = getIntent();
+			eventNum = intent.getExtras().getInt("eventNumber");
+			
+			//event에서 받아옴
+			event = EventManager.getInstance().getEvent(eventNum); 
+			
+			Log.e("MapView", "" + eventNum + " " + event.getEventPhotoList().size());
+			
+			// mapView setting
 			mapView = (MapView) findViewById(R.id.mapview);
 			mapView.setBuiltInZoomControls(true);
 			mapOverlays = mapView.getOverlays();
-			imagePathList.add("/mnt/sdcard/DCIM/Camera/collarge/20120329_125341.jpg");
-			imagePathList.add("/mnt/sdcard/DCIM/Camera/collarge/20120329_123720.jpg");
-			imagePathList.add("/mnt/sdcard/DCIM/Camera/collarge/20120329_124707.jpg");
-			imagePathList.add("/mnt/sdcard/DCIM/Camera/collarge/20120329_122943.jpg");
+			
+			GeoPoint point = new GeoPoint(37566417, 126985133);
+			MapController mapController = mapView.getController();
+			mapController.setCenter(point);
+			mapController.setZoom(17);
+			
+			
+			
+			System.out.println(getRealPathFromURI(event.getEventPhotoList().get(0)));
+			System.out.println(getRealPathFromURI(event.getEventPhotoList().get(1)));
+			System.out.println(getRealPathFromURI(event.getEventPhotoList().get(2)));
+			System.out.println(getRealPathFromURI(event.getEventPhotoList().get(3)));
+			
+			for (int i = 0; i < event.getEventPhotoList().size(); i++) {
+				imagePathList.add(getRealPathFromURI(event.getEventPhotoList().get(i)));
+			}
 
 			// 사진 GEO 태그 찾음
 			try {
@@ -60,11 +91,7 @@ public class MyMapView extends MapActivity {
 				e.printStackTrace();
 			}
 
-			// 티타워를 중심으로...
-			GeoPoint point = new GeoPoint(37566417, 126985133);
-			MapController mapController = mapView.getController();
-			mapController.setCenter(point);
-			mapController.setZoom(17);
+			
 
 			drawable = getResources().getDrawable(R.drawable.bubble_point);
 			itemizedOverlay = new MyItemizedOverlay(drawable, mapView);
@@ -76,15 +103,6 @@ public class MyMapView extends MapActivity {
 				itemizedOverlay.addOverlay(overlayItem);
 				
 			}
-			/*
-			
-			GeoPoint basePoint = new GeoPoint(getLatitude(exif), getLongitude(exif));
-			OverlayItem overlayItem = new OverlayItem(basePoint, "", "");
-			itemizedOverlay.addOverlay(overlayItem);
-
-			GeoPoint basePoint2 = new GeoPoint(getLatitude(exif2), getLongitude(exif2));
-			OverlayItem overlayItem2 = new OverlayItem(basePoint2, "", "");
-			itemizedOverlay.addOverlay(overlayItem2);*/
 
 			// 2 .itemizedOverlay 순회하면서 마커(말풍선) 띄우기
 			for (int i = 0; i < itemizedOverlay.size(); i++) {
@@ -110,14 +128,6 @@ public class MyMapView extends MapActivity {
 				}
 			});
 
-			/*
-			 * 내 위치를 찾고 싶다면 이 코드를 살리면 mLocation = new MyLocationOverlay2(this,
-			 * mapView); mapOverlays.add(mLocation); mLocation.runOnFirstFix(new
-			 * Runnable() { public void run() {
-			 * mapView.getController().animateTo(mLocation.getMyLocation()); }
-			 * });
-			 */
-			
 			
 		} catch (Exception E) {
 			E.printStackTrace();
@@ -141,18 +151,29 @@ public class MyMapView extends MapActivity {
 		return false;
 	}
 
-	/*
-	 * 나침반 실행하는 부분
-	 * 
-	 * @Override protected void onPause() { super.onPause();
-	 * //mLocation.disableMyLocation(); //mLocation.disableCompass(); }
-	 * 
-	 * @Override protected void onResume() { super.onResume();
-	 * //mLocation.enableMyLocation(); //mLocation.enableCompass(); }
-	 * 
-	 * // 나의 위치를 표시해주는- class MyLocationOverlay2 extends MyLocationOverlay {
-	 * public MyLocationOverlay2(Context context, MapView mapView) {
-	 * super(context, mapView); } }
-	 */
+	// Uri로 String path 얻어내기
+	public String getRealPathFromURI(Uri contentUri) 
+	{
+	    // can post image
+	    String [] proj={MediaStore.Images.Media.DATA};
+	    
+	    Cursor cursor = managedQuery( contentUri,
+	        proj, // Which columns to return
+	        null, // WHERE clause; which rows to return (all rows)
+	        null, // WHERE clause selection arguments (none)
+	        null); // Order-by clause (ascending by name)
+	    int i=0;
+	    cursor.moveToFirst();
+	    while(cursor.moveToNext()) {
+	    	i++;
+	    	System.out.println(""+i);
+	    }
+	    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+	 
+	    cursor.moveToFirst();
+	 
+	    return cursor.getString(column_index);
+	}
+	
 
 }
