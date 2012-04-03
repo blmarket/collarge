@@ -50,7 +50,7 @@ public class CollargeMain extends Activity {
 				} else {
 					Intent intent = new Intent(CollargeMain.this,
 							EventView.class);
-					intent.putExtra("eventNuber", position);
+					intent.putExtra("eventNumber", position - 1);
 					startActivity(intent);
 					overridePendingTransition(R.anim.fade_out, R.anim.hold);
 				}
