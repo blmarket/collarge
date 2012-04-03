@@ -31,7 +31,8 @@ public class EventImageAdapter extends BaseAdapter {
 	public EventImageAdapter(Context c, IEvent e) {
 		mContext = c;
 		event = e;
-		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = (LayoutInflater) mContext
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
@@ -54,24 +55,28 @@ public class EventImageAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {		
-		
+	public View getView(int position, View convertView, ViewGroup parent) {
+
 		View newView = null;
 		ViewHolder holder;
-		
-		if (convertView==null) {
-			holder = new ViewHolder();
-			newView = mInflater.inflate(R.layout.event_gridview_layout, parent, false);
 
-			holder.imageview = (ImageView) newView.findViewById(R.id.gridview_item_image);
-			holder.checkbox = (CheckBox) newView.findViewById(R.id.gridvew_item_checkbox);
-			holder.imageview.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.FILL_PARENT,
-					LayoutParams.FILL_PARENT));
+		if (convertView == null) {
+			holder = new ViewHolder();
+			newView = mInflater.inflate(R.layout.event_gridview_layout, parent,
+					false);
+
+			holder.imageview = (ImageView) newView
+					.findViewById(R.id.gridview_item_image);
+			holder.checkbox = (CheckBox) newView
+					.findViewById(R.id.gridvew_item_checkbox);
+			holder.imageview.setLayoutParams(new FrameLayout.LayoutParams(
+					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 			holder.imageview.setPadding(0, 0, 0, 0);
 			holder.imageview.setScaleType(ImageView.ScaleType.CENTER_CROP);
-			
+
 			newView.setTag(holder);
 		} else {
+			newView = convertView;
 			holder = (ViewHolder) newView.getTag();
 		}
 
@@ -82,8 +87,8 @@ public class EventImageAdapter extends BaseAdapter {
 			ImageView imv = holder.imageview;
 
 			Uri tmp = event.getEventPhotoList().get(position - 1);
-			IThumbnailBuilder builder = new DBCacheThumbnailBuilder(mContext, new MySimpleThumbnailBuilder(
-					mContext.getContentResolver()));
+			IThumbnailBuilder builder = new DBCacheThumbnailBuilder(mContext,
+					new MySimpleThumbnailBuilder(mContext.getContentResolver()));
 			Bitmap thumbnail = builder.build(tmp);
 
 			imv.setImageBitmap(thumbnail);
