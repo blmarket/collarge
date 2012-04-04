@@ -48,8 +48,8 @@ public class CollargeMain extends Activity {
 							Toast.LENGTH_SHORT).show();
 					addNewEpisode();
 				} else {
-					Intent intent = new Intent(CollargeMain.this,
-							EventView.class);
+					Toast.makeText(CollargeMain.this, "Enter Eposode", Toast.LENGTH_SHORT).show();
+					Intent intent = new Intent(CollargeMain.this, EventView.class);
 					intent.putExtra("eventNumber", position - 1);
 					startActivity(intent);
 					overridePendingTransition(R.anim.fade_out, R.anim.hold);
