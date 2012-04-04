@@ -41,8 +41,10 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" /> 
         <activity android:name=".main.EventMakeMain"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        
+        <activity android:name=".main.BookMarkMain"
+			android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <uses-library android:name="com.google.android.maps" />
+        
         
         
     </application>

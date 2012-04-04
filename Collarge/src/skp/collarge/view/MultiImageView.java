@@ -110,7 +110,7 @@ public class MultiImageView extends ViewSwitcher implements
 				if (tmpView != null)
 					view.addView(tmpView);
 				view.postDelayed(this, (AllTheEvil.getInstance().getRandom()
-						.nextInt(4) + 4) * 500);
+						.nextInt(5) + 4) * 500);
 				return;
 			}
 
