@@ -51,7 +51,11 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.timeline);
 
-		int eventNum = getIntent().getExtras().getInt("EventNumber");
+		int eventNum = 0;
+		System.out.println(getIntent());
+		System.out.println(getIntent().getExtras());
+		if (getIntent().getExtras() != null)
+			eventNum = getIntent().getExtras().getInt("EventNumber");
 
 		AbstractList<Uri> uris;
 
@@ -77,6 +81,7 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 
 		levelpos = new ArrayList<ArrayList<Float>>();
 
+		int pow = 1;
 		for (int i = 0; i < 3; i++) {
 			View tmp = getLayoutInflater().inflate(R.layout.timeline_scroll,
 					null);
@@ -88,7 +93,8 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 
 			flipper.addView(tmp);
 			levelpos.add(setImages(scrollView.findViewById(R.id.timeline),
-					uris, (int) Math.pow(5, i), i));
+					uris, pow, i));
+			pow *= 5;
 			scrollView.setOnTouchListener(this);
 			scroller.add(scrollView);
 		}

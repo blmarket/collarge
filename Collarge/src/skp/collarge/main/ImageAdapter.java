@@ -19,11 +19,9 @@ import android.widget.TextView;
 
 public class ImageAdapter extends BaseAdapter {
 	private Context mContext;
-	private String epiName;
 
-	public ImageAdapter(Context c, String epiName) {
+	public ImageAdapter(Context c) {
 		mContext = c;
-		this.epiName = epiName;
 	}
 
 	public int getCount() {
@@ -55,12 +53,14 @@ public class ImageAdapter extends BaseAdapter {
 
 			RelativeLayout view = (RelativeLayout) inflater.inflate(
 					R.layout.collarge_gridview_layout, null);
-			
+
 			IEvent event = EventManager.getInstance().getEvent(position - 1);
-			((MultiImageView)view.findViewById(R.id.collarge_gridview_image)).setEvent(event, true);
-			((TextView)view.findViewById(R.id.event_name)).setText("EP."+(EventManager.getInstance().getEventSize()+1)+" "+epiName);
+			((MultiImageView) view.findViewById(R.id.collarge_gridview_image))
+					.setEvent(event, true);
+			((TextView) view.findViewById(R.id.event_name)).setText("EP."
+					+ position + " " + event.getEventName());
 			view.findViewById(R.id.event_name).setSelected(true);
-			//miv.setLayoutParams(new GridView.LayoutParams(240, 200));
+			// miv.setLayoutParams(new GridView.LayoutParams(240, 200));
 			return view;
 		}
 	}

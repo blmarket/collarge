@@ -19,30 +19,31 @@ public class EventMakeMain extends Activity {
 		setContentView(R.layout.episode_make);
 
 		Button confirmButton = (Button) findViewById(R.id.episode_dia_button1);
-		Button cancleButton = (Button) findViewById(R.id.episode_dia_button2);
-		final EditText epiNameEditText = (EditText) findViewById(R.id.editEpisodeName);
+		Button cancelButton = (Button) findViewById(R.id.episode_dia_button2);
+		EditText epiNameEditText = (EditText) findViewById(R.id.editEpisodeName);
 
 		confirmButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				addNewEpisode(epiNameEditText.getText().toString());
+				addNewEpisode(((EditText) EventMakeMain.this
+						.findViewById(R.id.editEpisodeName)).getText()
+						.toString());
+				getIntent();
+				finish();
 			}
 		});
 
-		cancleButton.setOnClickListener(new OnClickListener() {
+		cancelButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(EventMakeMain.this, CollargeMain.class);
-				startActivity(intent);
+				finish();
 			}
 		});
 	}
 
-	private void addNewEpisode(String epsiodeName) {
-		EventManager.getInstance().createEvent();
-		GridView gridview = (GridView) findViewById(R.id.gridview_collarge);
-		gridview.setAdapter(new ImageAdapter(this, epsiodeName));
+	private void addNewEpisode(String episodeName) {
+		EventManager.getInstance().createEvent().setEventName(episodeName);
 	}
 }
