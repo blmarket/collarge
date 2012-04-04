@@ -60,20 +60,24 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 					cursor.getLong(cursor
 							.getColumnIndex(MediaStore.Images.Media._ID))));
 		}
-		
+
 		flipper = ((ViewFlipper) findViewById(R.id.timelineflipper));
 		flipper.setOnTouchListener(this);
-		
+
 		levelpos = new ArrayList<ArrayList<Float>>();
 
-		for(int i=0;i<3;i++)
-		{
-			View tmp = getLayoutInflater().inflate(R.layout.timeline_scroll, null);
+		for (int i = 0; i < 3; i++) {
+			View tmp = getLayoutInflater().inflate(R.layout.timeline_scroll,
+					null);
 			System.out.println("HEHE : " + tmp);
-			
+			System.out.println(tmp.findViewById(R.id.timeline_scrollview));
+			ScrollView scrollView = (ScrollView) (tmp
+					.findViewById(R.id.timeline_scrollview));
+			System.out.println("HEHE : " + tmp);
+
 			flipper.addView(tmp);
-			levelpos.add(setImages(tmp.findViewById(R.id.timeline), uris, (int)Math.pow(5, i), i));
-			ScrollView scrollView = (ScrollView) tmp.findViewById(R.id.timeline_scroll);
+			levelpos.add(setImages(scrollView.findViewById(R.id.timeline), uris,
+					(int) Math.pow(5, i), i));
 			scrollView.setOnTouchListener(this);
 			scroller.add(scrollView);
 		}
