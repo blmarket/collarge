@@ -5,8 +5,8 @@
     <item 
     	android:state_checked="true" 
     	android:drawable="@drawable/star_select"/>
-    	
     <item 
+        android:state_checked="false"
     	android:drawable="@drawable/star"/>
     	
 </selector>

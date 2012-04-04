@@ -14,7 +14,10 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
 public class Event implements IEvent {
+	
 	private Context mContext;
+	private String eventName;
+	private String eventPriod;
 	private AbstractList<Uri> imageList;
 	private OnImageAddedListener listener;
 
@@ -22,6 +25,28 @@ public class Event implements IEvent {
 		mContext = context;
 		this.imageList = imageList;
 	}
+	
+	@Override
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
+	}
+
+	@Override
+	public void setEventPriod(String eventPriod) {
+		this.eventPriod = eventPriod;
+	}
+	
+	@Override
+	public String getEventName() {
+		return this.eventName;
+	}
+
+	@Override
+	public String getEventPriod() {
+		return this.eventPriod;
+	}
+
+
 
 	@Override
 	public AbstractList<Uri> getEventPhotoList() {

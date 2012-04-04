@@ -11,6 +11,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class ImageAdapter extends BaseAdapter {
 	private Context mContext;
@@ -49,4 +50,5 @@ public class ImageAdapter extends BaseAdapter {
 			return miv;
 		}
 	}
+
 }

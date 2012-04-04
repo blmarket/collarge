@@ -9,7 +9,6 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore.Images;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +17,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,6 +39,7 @@ public class EventView extends Activity {
 	ImageView groupImageView;
 	ImageView mapViewButton;
 	ImageView timeViewButton;
+	
 	int eventNum;
 
 	LinearLayout viewImageView;
@@ -61,16 +62,34 @@ public class EventView extends Activity {
 		gridview.setAdapter(new EventImageAdapter(this, event));
 
 		gridview.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View v,
-					int position, long id) {
-				Toast.makeText(EventView.this, "" + position,
-						Toast.LENGTH_SHORT).show();
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+				Toast.makeText(EventView.this, "Click" + position, Toast.LENGTH_SHORT).show();
 				if (position == 0) // do add
 				{
 					addImage();
 				}
 			}
 		}); // GridView ³¡
+		
+		gridview.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				ImageView starImage;
+				starImage = (ImageView) arg1.findViewById(R.id.gridview_item_star);
+				Boolean flag = (Boolean) starImage.getTag();
+				boolean nextFlag = false;
+				if (flag == null || flag.booleanValue() == false) {
+					starImage.setImageDrawable(getResources().getDrawable(R.drawable.star_select));
+					nextFlag = true;
+				} else {
+					starImage.setImageDrawable(getResources().getDrawable(R.drawable.star));
+				}
+				starImage.setTag(new Boolean(nextFlag));
+				return false;
+			}
+			
+		});
 
 		// title bar ºÎºÐ
 
