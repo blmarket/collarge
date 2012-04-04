@@ -10,7 +10,6 @@ import skp.collarge.db.MyDB;
 import android.content.ContentUris;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.provider.MediaStore.Images;
 

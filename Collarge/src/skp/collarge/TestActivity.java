@@ -2,9 +2,6 @@ package skp.collarge;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.ImageSwitcher;
-import android.widget.ImageView;
 
 public class TestActivity extends Activity {
 

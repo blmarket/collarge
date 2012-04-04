@@ -4,6 +4,7 @@ import skp.collarge.R;
 import skp.collarge.event.EventManager;
 import skp.collarge.event.IEvent;
 import skp.collarge.viewer.mapview.MyMapView;
+import skp.collarge.viewer.timeline.TimelineViewActivity;
 import android.app.Activity;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -208,7 +209,9 @@ public class EventView extends Activity {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
+				Intent intent = new Intent(EventView.this, TimelineViewActivity.class);
+				intent.putExtra("eventNumber", eventNum);
+				startActivity(intent);
 				return false;
 			}
 		});

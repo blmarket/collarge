@@ -56,9 +56,10 @@ public class MultiImageView extends ViewSwitcher implements
 
 	public void setEvent(IEvent event, boolean resetView) {
 		this.event = event;
+		if (event != null)
+			event.setOnImageAdded(this);
 		this.oldIdx = -1;
-		if(resetView == true)
-		{
+		if (resetView == true) {
 			removeAllViews();
 			addView(makeView());
 		}
@@ -70,15 +71,14 @@ public class MultiImageView extends ViewSwitcher implements
 	 */
 	View makeView() {
 		ImageView imv = new ImageView(getContext());
-		
-		if(event == null || event.getEventPhotoList().size() == 0)
-		{
+
+		if (event == null || event.getEventPhotoList().size() == 0) {
 			imv.setImageResource(R.drawable.noimage);
 			imv.setLayoutParams(new FrameLayout.LayoutParams(240, 200));
 			imv.setScaleType(ScaleType.CENTER_CROP);
 			return imv;
 		}
-		
+
 		AbstractList<Uri> list = event.getEventPhotoList();
 
 		int idx = AllTheEvil.getInstance().getRandom().nextInt(list.size());
