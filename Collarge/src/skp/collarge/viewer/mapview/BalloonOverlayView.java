@@ -30,7 +30,7 @@ public class BalloonOverlayView extends FrameLayout {
 		// TODO
 		// 최적화 해야 함(썸네일을 이용해야할 듯)
 		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inSampleSize = 20;
+		options.inSampleSize = 4;
 		bMap = BitmapFactory.decodeFile(path, options);
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

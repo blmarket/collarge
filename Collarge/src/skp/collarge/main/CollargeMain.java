@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -24,7 +25,6 @@ public class CollargeMain extends Activity {
 	ImageView groupImageView;
 
 	private boolean leftImageButton_action = true;
-	private boolean rightImageButton_action = true;
 
 	/*
 	 * AlertDialog.Builder builder; static final int DIALOG_EPISODE_MAKE = 0;
@@ -103,30 +103,13 @@ public class CollargeMain extends Activity {
 			}
 		});
 
-		rightImageButton.setOnTouchListener(new OnTouchListener() {
+		rightImageButton.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (rightImageButton_action) {
-					if (event.getAction() == MotionEvent.ACTION_DOWN) {
-						rightImageButton.setImageDrawable(getResources()
-								.getDrawable(R.drawable.top_btn_right_on));
-					} else {
-						rightImageButton.setImageDrawable(getResources()
-								.getDrawable(R.drawable.top_btn_right_over));
-
-						// 즐겨찾기 메뉴 활성화
-						rightImageButton_action = false;
-					}
-				} else {
-					if (event.getAction() == MotionEvent.ACTION_UP) {
-						rightImageButton.setImageDrawable(getResources()
-								.getDrawable(R.drawable.top_btn_right_normal));
-						// 즐겨찾기 버튼 비활성화
-						rightImageButton_action = true;
-					}
-				}
-				return true;
+			public void onClick(View v) {
+				Intent intent = new Intent(CollargeMain.this, BookMarkMain.class);
+				startActivity(intent);
+				overridePendingTransition(R.anim.fade_out, R.anim.hold);
 			}
 		});
 
@@ -140,39 +123,6 @@ public class CollargeMain extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	/*
-	 * private void addNewEpisode() { EventManager.getInstance().createEvent();
-	 * GridView gridview = (GridView) findViewById(R.id.gridview);
-	 * gridview.setAdapter(new ImageAdapter(this)); }
-	 */
 
-	/*
-	 * @Override protected Dialog onCreateDialog(int id) {
-	 * 
-	 * switch(id) { case DIALOG_EPISODE_MAKE: break; } Context mContext =
-	 * getApplicationContext(); LayoutInflater inflater = (LayoutInflater)
-	 * mContext.getSystemService(LAYOUT_INFLATER_SERVICE); View layout =
-	 * inflater.inflate(R.layout.episode_dialog,(ViewGroup)
-	 * findViewById(R.id.layout_root));
-	 * 
-	 * Button confirmButton = (Button) findViewById(R.id.episode_dia_button1);
-	 * Button cancleButton = (Button) findViewById(R.id.episode_dia_button2);
-	 * 
-	 * confirmButton.setOnClickListener(new OnClickListener() {
-	 * 
-	 * @Override public void onClick(View v) { addNewEpisode();
-	 * builder.create().cancel(); } });
-	 * 
-	 * cancleButton.setOnClickListener(new OnClickListener() {
-	 * 
-	 * @Override public void onClick(View v) { // TODO Auto-generated method
-	 * stub
-	 * 
-	 * } });
-	 * 
-	 * builder = new AlertDialog.Builder(this); builder.setView(layout);
-	 * 
-	 * return builder.create(); }
-	 */
 
 }
