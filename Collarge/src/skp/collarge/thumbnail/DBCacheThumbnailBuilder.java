@@ -53,7 +53,7 @@ public class DBCacheThumbnailBuilder implements IThumbnailBuilder {
 					+ bmp.getHeight());
 
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
-			bmp.compress(CompressFormat.JPEG, 80, stream);
+			bmp.compress(CompressFormat.PNG, 100, stream);
 			System.out.println("Stream size : " + stream.size());
 			AllTheEvil.getInstance().getDB().putThumb(key, stream.toByteArray(), path);
 			return bmp;

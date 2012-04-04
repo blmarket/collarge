@@ -3,6 +3,7 @@ package skp.collarge.viewer.timeline;
 import java.security.InvalidParameterException;
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import skp.collarge.R;
 import skp.collarge.event.EventManager;
@@ -10,13 +11,14 @@ import skp.collarge.thumbnail.DBCacheThumbnailBuilder;
 import skp.collarge.thumbnail.IThumbnailBuilder;
 import skp.collarge.thumbnail.MySimpleThumbnailBuilder;
 import android.app.Activity;
-import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.MediaStore.Images;
+import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,6 +47,29 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 	ArrayList<ArrayList<Float>> levelpos;
 	Gallery gallery;
 
+	class ImageWithTime implements Comparable<ImageWithTime> {
+		public ImageWithTime(Uri uri) {
+			this.uri = uri;
+			Cursor cursor = MediaStore.Images.Media.query(getContentResolver(),
+					uri, null);
+			while (cursor.moveToNext()) {
+				this.date = new Long(cursor.getLong(cursor
+						.getColumnIndex(Images.Media.DATE_ADDED)));
+				System.out.println("" + this.date + " "
+						+ DateFormat.format("MM/dd/yy", this.date * 1000));
+				// DateFormat.format("MM/dd/yy h:mmaa", date);
+			}
+		}
+
+		Uri uri;
+		Long date;
+
+		@Override
+		public int compareTo(ImageWithTime another) {
+			return date.compareTo(another.date);
+		}
+	}
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,24 +82,17 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 		if (getIntent().getExtras() != null)
 			eventNum = getIntent().getExtras().getInt("EventNumber");
 
-		AbstractList<Uri> uris;
+		ArrayList<ImageWithTime> uris = new ArrayList<TimelineViewActivity.ImageWithTime>();
 
 		if (EventManager.getInstance().getEventSize() <= eventNum) {
-			String[] projection = { MediaStore.Images.Media._ID };
-			Cursor cursor = MediaStore.Images.Media.query(getContentResolver(),
-					MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection);
-			uris = new ArrayList<Uri>();
-
-			while (cursor.moveToNext()) {
-				uris.add(ContentUris.withAppendedId(
-						MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-						cursor.getLong(cursor
-								.getColumnIndex(MediaStore.Images.Media._ID))));
-			}
+			throw new RuntimeException("invalid eventNum");
 		} else {
-			uris = EventManager.getInstance().getEvent(eventNum)
-					.getEventPhotoList();
+			for (Uri uri : EventManager.getInstance().getEvent(eventNum)
+					.getEventPhotoList()) {
+				uris.add(new ImageWithTime(uri));
+			}
 		}
+		Collections.sort(uris);
 
 		flipper = ((ViewFlipper) findViewById(R.id.timelineflipper));
 		flipper.setOnTouchListener(this);
@@ -85,11 +103,8 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 		for (int i = 0; i < 3; i++) {
 			View tmp = getLayoutInflater().inflate(R.layout.timeline_scroll,
 					null);
-			System.out.println("HEHE : " + tmp);
-			System.out.println(tmp.findViewById(R.id.timeline_scrollview));
 			ScrollView scrollView = (ScrollView) (tmp
 					.findViewById(R.id.timeline_scrollview));
-			System.out.println("HEHE : " + tmp);
 
 			flipper.addView(tmp);
 			levelpos.add(setImages(scrollView.findViewById(R.id.timeline),
@@ -105,8 +120,8 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 		gallery.setOnItemSelectedListener(this);
 	}
 
-	private ArrayList<Float> setImages(View v, AbstractList<Uri> uris,
-			int step, int level) {
+	private ArrayList<Float> setImages(View v,
+			AbstractList<ImageWithTime> uris, int step, int level) {
 		ArrayList<Float> result = new ArrayList<Float>();
 		if (step == 0)
 			throw new InvalidParameterException();
@@ -127,7 +142,7 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 			}
 			result.add(new Float(nextvpos));
 
-			Uri item = uris.get(i);
+			Uri item = uris.get(i).uri;
 			Bitmap image;
 			try {
 				image = builder.build(item);
@@ -137,7 +152,7 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 
 			if (image == null)
 				continue;
-			ImageTextView imtv = new ImageTextView(this);
+			ImageView imtv = new ImageView(this);
 			imtv.setId(i);
 			imtv.setTag(R.string.timeline_level, new Integer(level));
 			imtv.setTag(R.string.vpos, new Integer(vpos));
@@ -145,9 +160,20 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 			vpos = nextvpos;
 			nextvpos = vpos + image.getHeight();
 			imtv.setImageBitmap(image);
+			imtv.setLayoutParams(new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.WRAP_CONTENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT));
 			imtv.setOnTouchListener(this);
 			// imv.setOnClickListener(this);
 			ll.addView(imtv);
+
+			TextView tv = new TextView(this);
+			tv.setText(DateFormat.format("MM/dd/yy h:mmaa", uris.get(i).date * 1000));
+			tv.setLayoutParams(new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.WRAP_CONTENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT));
+			tv.setTextColor(0xff000000);
+			ll.addView(tv);
 		}
 		builder.close();
 		return result;
@@ -199,7 +225,6 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		System.out.println(v);
 		int level = ((Integer) v.getTag(R.string.timeline_level)).intValue();
 		if (level > 0) {

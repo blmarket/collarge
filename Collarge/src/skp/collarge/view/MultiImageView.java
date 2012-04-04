@@ -2,6 +2,8 @@ package skp.collarge.view;
 
 import java.util.AbstractList;
 
+import org.apache.http.client.HttpClient;
+
 import skp.collarge.AllTheEvil;
 import skp.collarge.R;
 import skp.collarge.event.IEvent;
@@ -89,7 +91,7 @@ public class MultiImageView extends ViewSwitcher implements
 				.get(idx)));
 		imv.setLayoutParams(new FrameLayout.LayoutParams(240, 200));
 		imv.setScaleType(ScaleType.CENTER_CROP);
-
+		
 		return imv;
 	}
 

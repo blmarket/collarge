@@ -59,7 +59,6 @@ public class EventManager {
 			IEvent e = instance.getEvent(i);
 			arr.put(toJSONObject(e));
 		}
-		arr.put(toJSONObject(instance.getEvent(0)));
 		System.out.println("JSON Output : " + arr.length());
 
 		try {
@@ -130,8 +129,7 @@ public class EventManager {
 	public IEvent createEvent() {
 		IEvent ret = new Event(AllTheEvil.getInstance().getContext(),
 				new ArrayList<Uri>());
-		ret.setEventName("EP1. SK Planet");
-		ret.setEventPriod("12.4.1 ~ 12.4.4");
+		ret.setEventPeriod("12.4.1 ~ 12.4.4");
 		this.eventList.add(ret);
 		return ret;
 	}

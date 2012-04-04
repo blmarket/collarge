@@ -71,13 +71,6 @@ public class MyMapView extends MapActivity {
 			mapController.setCenter(point);
 			mapController.setZoom(17);
 			
-			
-			
-			System.out.println(getRealPathFromURI(event.getEventPhotoList().get(0)));
-			System.out.println(getRealPathFromURI(event.getEventPhotoList().get(1)));
-			System.out.println(getRealPathFromURI(event.getEventPhotoList().get(2)));
-			System.out.println(getRealPathFromURI(event.getEventPhotoList().get(3)));
-			
 			for (int i = 0; i < event.getEventPhotoList().size(); i++) {
 				imagePathList.add(getRealPathFromURI(event.getEventPhotoList().get(i)));
 			}
