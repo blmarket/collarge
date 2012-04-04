@@ -52,22 +52,6 @@ public class PictureView extends Activity {
 		        mWebView.setWebViewClient(new HelloWebViewClient());  // WebViewClient ÁöÁ¤ 		        
 		        
 		        
-		        
-		
-		/*
-		findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				buttonHandling1();
-				
-			}
-			
-			
-			
-		});
-		
-		*/
 		
 	}//on Create end
 	
