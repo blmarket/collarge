@@ -11,7 +11,7 @@ public interface IEvent {
 	public void addData(Uri item);
 	public void setOnImageAdded(OnImageAddedListener listener);
 	public void setEventName(String eventName);
-	public void setEventPriod(String eventPriod);
+	public void setEventPeriod(String eventPriod);
 	public String getEventName();
 	public String getEventPriod();
 	

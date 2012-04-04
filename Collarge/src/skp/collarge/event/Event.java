@@ -32,7 +32,7 @@ public class Event implements IEvent {
 	}
 
 	@Override
-	public void setEventPriod(String eventPriod) {
+	public void setEventPeriod(String eventPriod) {
 		this.eventPriod = eventPriod;
 	}
 
