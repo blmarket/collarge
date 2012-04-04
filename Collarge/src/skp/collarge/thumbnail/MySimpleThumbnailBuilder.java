@@ -7,7 +7,7 @@ import android.provider.MediaStore;
 
 public class MySimpleThumbnailBuilder implements IThumbnailBuilder {
 
-	private static final int THUMBNAIL_HEIGHT = 150;
+	private static final int THUMBNAIL_HEIGHT = 200;
 
 	ContentResolver contentResolver;
 
