@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/collarge_gridview_frame"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="240px"
+    android:layout_height="200px"
     android:orientation="vertical" >
-    
-    <FrameLayout 
+
+    <skp.collarge.view.MultiImageView
         android:id="@+id/collarge_gridview_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-        
-    <ImageView
-        android:id="@+id/collarge_gridview_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    
+        android:layout_height="match_parent" 
+        />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:background="@color/textbox_white"
         android:orientation="vertical" >
 
         <TextView
@@ -26,23 +24,21 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:text="EP.1 SK Planet People" 
+            android:layout_marginLeft="10dp"
+            android:text="EP.1 SK Planet People"
             android:textColor="#69B8FF"
             android:textSize="18dp"
-            android:textStyle="italic"
-            android:layout_marginLeft="10dp"/>
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/event_priod"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
             android:text="2012.4.1 ~ 2012.4.3"
             android:textSize="14dp"
-            android:textStyle="italic"
-            android:layout_marginLeft="10dp" />
-        
+            android:textStyle="italic" />
     </LinearLayout>
-    </FrameLayout>
-    
-</LinearLayout>
+
+</RelativeLayout>

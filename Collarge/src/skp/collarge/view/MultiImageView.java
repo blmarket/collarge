@@ -9,48 +9,82 @@ import skp.collarge.event.IEvent.OnImageAddedListener;
 import skp.collarge.thumbnail.DBCacheThumbnailBuilder;
 import android.content.Context;
 import android.net.Uri;
+import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ViewSwitcher;
 
-public class MultiImageView extends ViewSwitcher implements OnImageAddedListener {
+public class MultiImageView extends ViewSwitcher implements
+		OnImageAddedListener {
 
 	private IEvent event;
+	private AnimateTimeRunner pendingFlip;
+	private int oldIdx = -1;
 
-	public MultiImageView(Context context, IEvent event) {
-		super(context);
-		this.event = event;
-		if (event.getEventPhotoList().size() == 0) {
-			event.setOnImageAdded(this);
-			ImageView imv = new ImageView(getContext());
-			imv.setImageResource(R.drawable.noimage);
-			imv.setLayoutParams(new FrameLayout.LayoutParams(240, 200));
-			imv.setScaleType(ScaleType.CENTER_CROP);
-			this.addView(imv);
-		} else {
-			this.addView(makeView());
-			postDelayed(new Zwitter(this), (AllTheEvil.getInstance()
-					.getRandom().nextInt(4) + 4) * 500);
+	private void refreshViews() {
+		int eventSize = 0;
+		if (event != null)
+			eventSize = event.getEventPhotoList().size();
+
+		if (eventSize < 2) // nothing to animate
+		{
+			if (pendingFlip != null) {
+				removeCallbacks(pendingFlip);
+				pendingFlip = null;
+			}
 		}
+
+		if (eventSize == 0) {
+			this.removeAllViews();
+			this.addView(makeView());
+		} else {
+			if (pendingFlip == null)
+				pendingFlip = new AnimateTimeRunner(this);
+			else
+				removeCallbacks(pendingFlip);
+			pendingFlip.run();
+		}
+	}
+
+	public MultiImageView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		refreshViews();
+	}
+
+	public void setEvent(IEvent event, boolean resetView) {
+		this.event = event;
+		this.oldIdx = -1;
+		if(resetView == true)
+		{
+			removeAllViews();
+			addView(makeView());
+		}
+		refreshViews();
 	}
 
 	/**
 	 * @return null if randomized result has same result.
 	 */
 	View makeView() {
-		AbstractList<Uri> list = event.getEventPhotoList();
 		ImageView imv = new ImageView(getContext());
+		
+		if(event == null || event.getEventPhotoList().size() == 0)
+		{
+			imv.setImageResource(R.drawable.noimage);
+			imv.setLayoutParams(new FrameLayout.LayoutParams(240, 200));
+			imv.setScaleType(ScaleType.CENTER_CROP);
+			return imv;
+		}
+		
+		AbstractList<Uri> list = event.getEventPhotoList();
 
-		Integer oldIdx = (Integer) getTag(R.string.hello);
 		int idx = AllTheEvil.getInstance().getRandom().nextInt(list.size());
-		if (oldIdx != null && idx == oldIdx.intValue())
+		if (idx == oldIdx)
 			return null;
-		setTag(R.string.hello, new Integer(idx));
+		oldIdx = idx;
 		imv.setImageBitmap(new DBCacheThumbnailBuilder(getContext()).build(list
 				.get(idx)));
 		imv.setLayoutParams(new FrameLayout.LayoutParams(240, 200));
@@ -59,10 +93,10 @@ public class MultiImageView extends ViewSwitcher implements OnImageAddedListener
 		return imv;
 	}
 
-	class Zwitter implements Runnable {
+	class AnimateTimeRunner implements Runnable {
 		MultiImageView view;
 
-		public Zwitter(MultiImageView view) {
+		public AnimateTimeRunner(MultiImageView view) {
 			this.view = view;
 		}
 
@@ -77,9 +111,7 @@ public class MultiImageView extends ViewSwitcher implements OnImageAddedListener
 						.nextInt(4) + 4) * 500);
 				return;
 			}
-			// TODO: do proper animations.
-			// view.setInAnimation(AnimationUtils.loadAnimation(view.getContext(),
-			// R.anim.push_left_in));
+
 			int[] animations = { R.anim.anticipate_interpolator,
 					R.anim.push_right_out, R.anim.push_left_out };
 
@@ -96,6 +128,6 @@ public class MultiImageView extends ViewSwitcher implements OnImageAddedListener
 
 	@Override
 	public void OnImageAdded() {
-		new Zwitter(this).run();
+		refreshViews();
 	}
 }

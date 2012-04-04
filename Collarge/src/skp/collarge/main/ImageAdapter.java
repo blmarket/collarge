@@ -5,13 +5,14 @@ import skp.collarge.event.EventManager;
 import skp.collarge.event.IEvent;
 import skp.collarge.view.MultiImageView;
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 public class ImageAdapter extends BaseAdapter {
 	private Context mContext;
@@ -44,10 +45,16 @@ public class ImageAdapter extends BaseAdapter {
 			imageView.setImageResource(R.drawable.newepisode);
 			return imageView;
 		} else {
+			LayoutInflater inflater = (LayoutInflater) mContext
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+			RelativeLayout view = (RelativeLayout) inflater.inflate(
+					R.layout.collarge_gridview_layout, null);
+			
 			IEvent event = EventManager.getInstance().getEvent(position - 1);
-			skp.collarge.view.MultiImageView miv = new MultiImageView(mContext, event);
-			miv.setLayoutParams(new GridView.LayoutParams(240, 200));
-			return miv;
+			((MultiImageView)view.findViewById(R.id.collarge_gridview_image)).setEvent(event, true);
+			//miv.setLayoutParams(new GridView.LayoutParams(240, 200));
+			return view;
 		}
 	}
 
