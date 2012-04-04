@@ -31,6 +31,10 @@ public class EventImageAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
+	public IEvent getEvent() {
+		return event;
+	}
+
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
@@ -58,11 +62,14 @@ public class EventImageAdapter extends BaseAdapter {
 
 		if (convertView == null) {
 			holder = new ViewHolder();
-			newView = mInflater.inflate(R.layout.event_gridview_layout, parent, false);
-			holder.imageview = (ImageView) newView.findViewById(R.id.gridview_item_image);
-			holder.checkbox = (ImageView) newView.findViewById(R.id.gridview_item_star);
-			holder.imageview.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.FILL_PARENT,
-					LayoutParams.FILL_PARENT));
+			newView = mInflater.inflate(R.layout.event_gridview_layout, parent,
+					false);
+			holder.imageview = (ImageView) newView
+					.findViewById(R.id.gridview_item_image);
+			holder.checkbox = (ImageView) newView
+					.findViewById(R.id.gridview_item_star);
+			holder.imageview.setLayoutParams(new FrameLayout.LayoutParams(
+					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 			holder.imageview.setPadding(0, 0, 0, 0);
 			holder.imageview.setScaleType(ImageView.ScaleType.CENTER_CROP);
 			holder.checkbox.setVisibility(View.VISIBLE);
@@ -88,7 +95,7 @@ public class EventImageAdapter extends BaseAdapter {
 			imv.setScaleType(ScaleType.CENTER_CROP);
 			imv.setLayoutParams(new FrameLayout.LayoutParams(240, 200));
 		}
-		
+
 		return newView;
 	}
 

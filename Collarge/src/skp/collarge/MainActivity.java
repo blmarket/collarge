@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements
 			public void run() {
 				// 1.5초 뒤에 Menu 액티비티 전환
 				Intent intent = new Intent(MainActivity.this,
-						CollargeMain.class);
+						skp.collarge.main.CollargeMain.class);
 				startActivity(intent);
 				overridePendingTransition(R.anim.fade_out, R.anim.hold);
 				finish();

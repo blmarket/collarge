@@ -9,6 +9,7 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,7 +40,7 @@ public class EventView extends Activity {
 	ImageView groupImageView;
 	ImageView mapViewButton;
 	ImageView timeViewButton;
-	
+
 	int eventNum;
 
 	LinearLayout viewImageView;
@@ -47,6 +48,42 @@ public class EventView extends Activity {
 	private boolean leftImageButton_action = true;
 	private boolean rightImageButton_action = true;
 	private boolean bookmarkButton_action = true;
+
+	class OnItemClickHandler implements OnItemClickListener {
+		
+		private Uri tmp;
+		private IEvent event;
+
+		public OnItemClickHandler(IEvent event) {
+			this.event = event;
+		}
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View v, int position,
+				long id) {
+			Toast.makeText(EventView.this, "Click" + position,
+					Toast.LENGTH_SHORT).show();
+		
+			if (position == 0) // do add
+			{
+				addImage();
+			} else {
+			
+			//Log.d("aaa", position + "" + event.getEventPhotoList().get(position-1));
+			// PictureView로 Intent 넘겨주는 부분
+			tmp = event.getEventPhotoList().get(position-1);
+			
+			Intent intent = new Intent(EventView.this,
+					skp.collarge.pictureview.PictureView.class);
+			intent.putExtra("dir", tmp.toString());
+			startActivity(intent);			
+			
+			}
+			
+			
+		}
+
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,34 +98,30 @@ public class EventView extends Activity {
 		GridView gridview = (GridView) findViewById(R.id.gridview);
 		gridview.setAdapter(new EventImageAdapter(this, event));
 
-		gridview.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				Toast.makeText(EventView.this, "Click" + position, Toast.LENGTH_SHORT).show();
-				if (position == 0) // do add
-				{
-					addImage();
-				}
-			}
-		}); // GridView 끝
-		
+		gridview.setOnItemClickListener(new OnItemClickHandler(event));
+
 		gridview.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
 				ImageView starImage;
-				starImage = (ImageView) arg1.findViewById(R.id.gridview_item_star);
+				starImage = (ImageView) arg1
+						.findViewById(R.id.gridview_item_star);
 				Boolean flag = (Boolean) starImage.getTag();
 				boolean nextFlag = false;
 				if (flag == null || flag.booleanValue() == false) {
-					starImage.setImageDrawable(getResources().getDrawable(R.drawable.star_select));
+					starImage.setImageDrawable(getResources().getDrawable(
+							R.drawable.star_select));
 					nextFlag = true;
 				} else {
-					starImage.setImageDrawable(getResources().getDrawable(R.drawable.star));
+					starImage.setImageDrawable(getResources().getDrawable(
+							R.drawable.star));
 				}
 				starImage.setTag(new Boolean(nextFlag));
 				return false;
 			}
-			
+
 		});
 
 		// title bar 부분
@@ -247,12 +280,11 @@ public class EventView extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 		case PICK_GALLERY:
-			if(resultCode == RESULT_OK)
-			{
+			if (resultCode == RESULT_OK) {
 				Uri resultData = data.getData();
 				IEvent event = EventManager.getInstance().getEvent(eventNum);
 				event.addData(resultData);
-				
+
 				// reset gridview...
 				GridView gridview = (GridView) findViewById(R.id.gridview);
 				gridview.setAdapter(new EventImageAdapter(this, event));
