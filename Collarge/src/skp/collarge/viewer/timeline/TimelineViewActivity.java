@@ -55,6 +55,8 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 			while (cursor.moveToNext()) {
 				this.date = new Long(cursor.getLong(cursor
 						.getColumnIndex(Images.Media.DATE_ADDED)));
+				System.out.println("" + this.date + " "
+						+ DateFormat.format("MM/dd/yy", this.date * 1000));
 				// DateFormat.format("MM/dd/yy h:mmaa", date);
 			}
 		}
@@ -164,12 +166,13 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 			imtv.setOnTouchListener(this);
 			// imv.setOnClickListener(this);
 			ll.addView(imtv);
-			
+
 			TextView tv = new TextView(this);
-			tv.setText(DateFormat.format("MM/dd/yy h:mmaa", uris.get(i).date));
+			tv.setText(DateFormat.format("MM/dd/yy h:mmaa", uris.get(i).date * 1000));
 			tv.setLayoutParams(new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT));
+			tv.setTextColor(0xff000000);
 			ll.addView(tv);
 		}
 		builder.close();

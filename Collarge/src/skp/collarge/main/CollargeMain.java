@@ -107,7 +107,7 @@ public class CollargeMain extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(CollargeMain.this, BookMarkMain.class);
+				Intent intent = new Intent(CollargeMain.this, CollargeMain.class);
 				startActivity(intent);
 				overridePendingTransition(R.anim.fade_out, R.anim.hold);
 			}
