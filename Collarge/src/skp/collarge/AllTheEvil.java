@@ -8,7 +8,6 @@ import android.content.Context;
 
 public class AllTheEvil {
 	private static AllTheEvil instance = null;
-
 	private Context context;
 	private MyDB myDB;
 	private Random random;
