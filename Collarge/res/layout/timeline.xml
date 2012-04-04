@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:text="@string/hello" />
 
-    <TextView
+    <Gallery
         android:id="@+id/timeline_footer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -23,43 +23,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@id/timeline_footer"
-        android:layout_below="@id/timeline_header" >
-
-        <ScrollView
-            android:id="@+id/timeline_scroll_1"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
-
-            <LinearLayout
-                android:id="@+id/timeline_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
-
-        <ScrollView
-            android:id="@+id/timeline_scroll_2"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
-
-            <LinearLayout
-                android:id="@+id/timeline_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
-        
-        <ScrollView
-            android:id="@+id/timeline_scroll_3"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
-
-            <LinearLayout
-                android:id="@+id/timeline_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
-    </ViewFlipper>
+        android:layout_below="@id/timeline_header"  />
 
 </RelativeLayout>
