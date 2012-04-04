@@ -3,7 +3,6 @@ package skp.collarge.thumbnail;
 import java.io.ByteArrayOutputStream;
 
 import skp.collarge.AllTheEvil;
-import skp.collarge.db.MyDB;
 import skp.collarge.db.MyDB.Thumb;
 import android.content.Context;
 import android.database.Cursor;

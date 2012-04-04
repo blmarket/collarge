@@ -7,9 +7,6 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 public class ImageTextView extends ImageView {
-
-	private String text;
-
 	public ImageTextView(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
@@ -23,10 +20,6 @@ public class ImageTextView extends ImageView {
 	public ImageTextView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		// TODO Auto-generated constructor stub
-	}
-
-	public void setText(String text) {
-		this.text = text;
 	}
 
 	@Override

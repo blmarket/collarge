@@ -10,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import skp.collarge.AllTheEvil;
-import android.content.Context;
 import android.net.Uri;
 
 public class EventManager {
@@ -76,8 +75,6 @@ public class EventManager {
 		System.out.println("JSON Output : " + arr.length());
 
 		try {
-			Context c = AllTheEvil.getInstance().getContext();
-
 			FileOutputStream str = new FileOutputStream(AllTheEvil
 					.getInstance().openFile(FILENAME));
 			str.write(arr.toString().getBytes());
