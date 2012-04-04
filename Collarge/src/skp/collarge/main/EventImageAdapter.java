@@ -12,14 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.LinearLayout;
 
 public class EventImageAdapter extends BaseAdapter {
 
@@ -58,22 +54,18 @@ public class EventImageAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		View newView = null;
-		ViewHolder holder;
+		final ViewHolder holder;
 
 		if (convertView == null) {
 			holder = new ViewHolder();
-			newView = mInflater.inflate(R.layout.event_gridview_layout, parent,
-					false);
-
-			holder.imageview = (ImageView) newView
-					.findViewById(R.id.gridview_item_image);
-			holder.checkbox = (CheckBox) newView
-					.findViewById(R.id.gridvew_item_checkbox);
-			holder.imageview.setLayoutParams(new FrameLayout.LayoutParams(
-					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+			newView = mInflater.inflate(R.layout.event_gridview_layout, parent, false);
+			holder.imageview = (ImageView) newView.findViewById(R.id.gridview_item_image);
+			holder.checkbox = (ImageView) newView.findViewById(R.id.gridview_item_star);
+			holder.imageview.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.FILL_PARENT,
+					LayoutParams.FILL_PARENT));
 			holder.imageview.setPadding(0, 0, 0, 0);
 			holder.imageview.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
+			holder.checkbox.setVisibility(View.VISIBLE);
 			newView.setTag(holder);
 		} else {
 			newView = convertView;
@@ -82,7 +74,8 @@ public class EventImageAdapter extends BaseAdapter {
 
 		// GridView ø° ª—∑¡¡ÿ¥Ÿ.
 		if (position == 0) {
-			holder.imageview.setImageResource(R.drawable.newepisode);
+			holder.imageview.setImageResource(R.drawable.new_picture);
+			holder.checkbox.setVisibility(View.INVISIBLE);
 		} else {
 			ImageView imv = holder.imageview;
 
@@ -95,21 +88,13 @@ public class EventImageAdapter extends BaseAdapter {
 			imv.setScaleType(ScaleType.CENTER_CROP);
 			imv.setLayoutParams(new FrameLayout.LayoutParams(240, 200));
 		}
+		
 		return newView;
 	}
 
 	class ViewHolder {
 		ImageView imageview;
-		CheckBox checkbox;
-		int id;
+		ImageView checkbox;
 	};
 
 }
-
-// ImageView imageView = (ImageView) convertView;
-/*
- * if (imageView == null) { imageView = new ImageView(mContext);
- * imageView.setLayoutParams(new GridView.LayoutParams(LayoutParams.FILL_PARENT,
- * LayoutParams.FILL_PARENT)); imageView.setPadding(0, 0, 0, 0);
- * imageView.setScaleType(ImageView.ScaleType.CENTER_CROP); }
- */
