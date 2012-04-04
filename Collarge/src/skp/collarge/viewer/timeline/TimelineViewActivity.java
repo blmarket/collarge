@@ -60,20 +60,22 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 					cursor.getLong(cursor
 							.getColumnIndex(MediaStore.Images.Media._ID))));
 		}
-
-		levelpos = new ArrayList<ArrayList<Float>>();
-		levelpos.add(setImages(findViewById(R.id.timeline_1), uris, 1, 0));
-		levelpos.add(setImages(findViewById(R.id.timeline_2), uris, 5, 1));
-		levelpos.add(setImages(findViewById(R.id.timeline_3), uris, 25, 2));
-
+		
 		flipper = ((ViewFlipper) findViewById(R.id.timelineflipper));
 		flipper.setOnTouchListener(this);
+		
+		levelpos = new ArrayList<ArrayList<Float>>();
 
-		scroller.add((ScrollView) findViewById(R.id.timeline_scroll_1));
-		scroller.add((ScrollView) findViewById(R.id.timeline_scroll_2));
-		scroller.add((ScrollView) findViewById(R.id.timeline_scroll_3));
-		for (ScrollView view : scroller) {
-			view.setOnTouchListener(this);
+		for(int i=0;i<3;i++)
+		{
+			View tmp = getLayoutInflater().inflate(R.layout.timeline_scroll, null);
+			System.out.println("HEHE : " + tmp);
+			
+			flipper.addView(tmp);
+			levelpos.add(setImages(tmp.findViewById(R.id.timeline), uris, (int)Math.pow(5, i), i));
+			ScrollView scrollView = (ScrollView) tmp.findViewById(R.id.timeline_scroll);
+			scrollView.setOnTouchListener(this);
+			scroller.add(scrollView);
 		}
 
 		gallery = (Gallery) (findViewById(R.id.timeline_footer));

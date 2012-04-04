@@ -59,8 +59,6 @@ public class DBCacheThumbnailBuilder implements IThumbnailBuilder {
 			AllTheEvil.getInstance().getDB().putThumb(key, stream.toByteArray(), path);
 			return bmp;
 		}
-		System.out.println("Bitmap Loaded : " + bmp.getWidth() + " "
-				+ bmp.getHeight());
 		return bmp;
 	}
 
