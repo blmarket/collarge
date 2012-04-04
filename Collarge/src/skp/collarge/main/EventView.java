@@ -4,6 +4,7 @@ import skp.collarge.R;
 import skp.collarge.event.EventManager;
 import skp.collarge.event.IEvent;
 import skp.collarge.viewer.mapview.MyMapView;
+import skp.collarge.viewer.timeline.TimelineViewActivity;
 import android.app.Activity;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -135,15 +136,12 @@ public class EventView extends Activity {
 				this, R.anim.push_left_in);
 		final Animation animation_moveRight_out = AnimationUtils.loadAnimation(
 				this, R.anim.push_right_out);
-		final Animation animation_bookmark_out = AnimationUtils.loadAnimation(
-				this, R.anim.push_bookmark_out);
 
 		leftImageButton = (ImageView) findViewById(R.id.table_leftbutton);
 		rightImageButton = (ImageView) findViewById(R.id.table_rightbutton);
 		bookmarkButton = (ImageView) findViewById(R.id.bookmark_menu);
 		mapViewButton = (ImageView) findViewById(R.id.map_view_menu);
 		timeViewButton = (ImageView) findViewById(R.id.time_view_menu);
-		bookmarkButton.scrollTo(200, 0);
 
 		groupImageView = (ImageView) findViewById(R.id.group_menu);
 		viewImageView = (LinearLayout) findViewById(R.id.view_menu);
@@ -213,12 +211,16 @@ public class EventView extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if (bookmarkButton_action) {
-					bookmarkButton.scrollTo(0, 0);
+					bookmarkButton.startAnimation(animation_moveLeft_out);
+					bookmarkButton
+							.setImageDrawable(getResources().getDrawable(R.drawable.bookmark));
 					bookmarkButton.startAnimation(animation_moveLeft_in);
 					bookmarkButton_action = false;
 				} else {
-					bookmarkButton.scrollTo(200, 0);
-					bookmarkButton.startAnimation(animation_bookmark_out);
+					bookmarkButton.startAnimation(animation_moveLeft_out);
+					bookmarkButton
+					.setImageDrawable(getResources().getDrawable(R.drawable.bookmark_off));
+					bookmarkButton.startAnimation(animation_moveLeft_in);
 					bookmarkButton_action = true;
 				}
 
@@ -240,7 +242,9 @@ public class EventView extends Activity {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
+				Intent intent = new Intent(EventView.this, TimelineViewActivity.class);
+				intent.putExtra("eventNumber", eventNum);
+				startActivity(intent);
 				return false;
 			}
 		});

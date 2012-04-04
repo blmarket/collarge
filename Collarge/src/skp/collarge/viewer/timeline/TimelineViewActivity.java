@@ -1,9 +1,11 @@
 package skp.collarge.viewer.timeline;
 
 import java.security.InvalidParameterException;
+import java.util.AbstractList;
 import java.util.ArrayList;
 
 import skp.collarge.R;
+import skp.collarge.event.EventManager;
 import skp.collarge.thumbnail.DBCacheThumbnailBuilder;
 import skp.collarge.thumbnail.IThumbnailBuilder;
 import skp.collarge.thumbnail.MySimpleThumbnailBuilder;
@@ -49,16 +51,29 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.timeline);
 
-		String[] projection = { MediaStore.Images.Media._ID };
-		Cursor cursor = MediaStore.Images.Media.query(getContentResolver(),
-				MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection);
-		ArrayList<Uri> uris = new ArrayList<Uri>();
+		int eventNum = 0;
+		System.out.println(getIntent());
+		System.out.println(getIntent().getExtras());
+		if (getIntent().getExtras() != null)
+			eventNum = getIntent().getExtras().getInt("EventNumber");
 
-		while (cursor.moveToNext()) {
-			uris.add(ContentUris.withAppendedId(
-					MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-					cursor.getLong(cursor
-							.getColumnIndex(MediaStore.Images.Media._ID))));
+		AbstractList<Uri> uris;
+
+		if (EventManager.getInstance().getEventSize() <= eventNum) {
+			String[] projection = { MediaStore.Images.Media._ID };
+			Cursor cursor = MediaStore.Images.Media.query(getContentResolver(),
+					MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection);
+			uris = new ArrayList<Uri>();
+
+			while (cursor.moveToNext()) {
+				uris.add(ContentUris.withAppendedId(
+						MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+						cursor.getLong(cursor
+								.getColumnIndex(MediaStore.Images.Media._ID))));
+			}
+		} else {
+			uris = EventManager.getInstance().getEvent(eventNum)
+					.getEventPhotoList();
 		}
 
 		flipper = ((ViewFlipper) findViewById(R.id.timelineflipper));
@@ -66,6 +81,7 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 
 		levelpos = new ArrayList<ArrayList<Float>>();
 
+		int pow = 1;
 		for (int i = 0; i < 3; i++) {
 			View tmp = getLayoutInflater().inflate(R.layout.timeline_scroll,
 					null);
@@ -76,8 +92,9 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 			System.out.println("HEHE : " + tmp);
 
 			flipper.addView(tmp);
-			levelpos.add(setImages(scrollView.findViewById(R.id.timeline), uris,
-					(int) Math.pow(5, i), i));
+			levelpos.add(setImages(scrollView.findViewById(R.id.timeline),
+					uris, pow, i));
+			pow *= 5;
 			scrollView.setOnTouchListener(this);
 			scroller.add(scrollView);
 		}
@@ -88,8 +105,8 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 		gallery.setOnItemSelectedListener(this);
 	}
 
-	private ArrayList<Float> setImages(View v, ArrayList<Uri> uris, int step,
-			int level) {
+	private ArrayList<Float> setImages(View v, AbstractList<Uri> uris,
+			int step, int level) {
 		ArrayList<Float> result = new ArrayList<Float>();
 		if (step == 0)
 			throw new InvalidParameterException();

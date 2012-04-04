@@ -22,8 +22,13 @@ public class CollargeMain extends Activity {
 	ImageView leftImageButton;
 	ImageView rightImageButton;
 	ImageView groupImageView;
+
 	private boolean leftImageButton_action = true;
 	private boolean rightImageButton_action = true;
+
+	/*
+	 * AlertDialog.Builder builder; static final int DIALOG_EPISODE_MAKE = 0;
+	 */
 
 	@Override
 	protected void onDestroy() {
@@ -38,16 +43,19 @@ public class CollargeMain extends Activity {
 		setContentView(R.layout.main_collage);
 
 		// Gridview & Listener
-		GridView gridview = (GridView) findViewById(R.id.gridview);
+		GridView gridview = (GridView) findViewById(R.id.gridview_collarge);
 		gridview.setAdapter(new ImageAdapter(this));
 		gridview.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v,
 					int position, long id) {
 				if (position == 0) {
-					Toast.makeText(CollargeMain.this, "New Eposode를 추가해야 할 때",
-							Toast.LENGTH_SHORT).show();
-					addNewEpisode();
+					Intent intent = new Intent(CollargeMain.this,
+							EventMakeMain.class);
+					startActivityForResult(intent, 0);
+					// addNewEpisode();
 				} else {
+					Toast.makeText(CollargeMain.this, "Enter Eposode",
+							Toast.LENGTH_SHORT).show();
 					Intent intent = new Intent(CollargeMain.this,
 							EventView.class);
 					intent.putExtra("eventNumber", position - 1);
@@ -121,11 +129,50 @@ public class CollargeMain extends Activity {
 				return true;
 			}
 		});
+
 	}
 
-	private void addNewEpisode() {
-		EventManager.getInstance().createEvent();
-		GridView gridview = (GridView) findViewById(R.id.gridview);
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// FIXME: add condition if requested activity succeeded or canceled.
+		GridView gridview = (GridView) findViewById(R.id.gridview_collarge);
 		gridview.setAdapter(new ImageAdapter(this));
+		super.onActivityResult(requestCode, resultCode, data);
 	}
+
+	/*
+	 * private void addNewEpisode() { EventManager.getInstance().createEvent();
+	 * GridView gridview = (GridView) findViewById(R.id.gridview);
+	 * gridview.setAdapter(new ImageAdapter(this)); }
+	 */
+
+	/*
+	 * @Override protected Dialog onCreateDialog(int id) {
+	 * 
+	 * switch(id) { case DIALOG_EPISODE_MAKE: break; } Context mContext =
+	 * getApplicationContext(); LayoutInflater inflater = (LayoutInflater)
+	 * mContext.getSystemService(LAYOUT_INFLATER_SERVICE); View layout =
+	 * inflater.inflate(R.layout.episode_dialog,(ViewGroup)
+	 * findViewById(R.id.layout_root));
+	 * 
+	 * Button confirmButton = (Button) findViewById(R.id.episode_dia_button1);
+	 * Button cancleButton = (Button) findViewById(R.id.episode_dia_button2);
+	 * 
+	 * confirmButton.setOnClickListener(new OnClickListener() {
+	 * 
+	 * @Override public void onClick(View v) { addNewEpisode();
+	 * builder.create().cancel(); } });
+	 * 
+	 * cancleButton.setOnClickListener(new OnClickListener() {
+	 * 
+	 * @Override public void onClick(View v) { // TODO Auto-generated method
+	 * stub
+	 * 
+	 * } });
+	 * 
+	 * builder = new AlertDialog.Builder(this); builder.setView(layout);
+	 * 
+	 * return builder.create(); }
+	 */
+
 }

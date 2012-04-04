@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+    
+    <ImageView 
+        android:id="@+id/imageView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ep_plus_title" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Episode Name"
+        android:textColor="#69B8FF"
+        android:textSize="18dp"
+        android:textStyle="italic"/>
+        
+    <EditText
+        android:id="@+id/editEpisodeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+	
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom">
+        
+   	<Button
+        android:id="@+id/episode_dia_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="확인"/>
+
+    <Button
+        android:id="@+id/episode_dia_button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="취소"/> 
+        
+    </LinearLayout>
+
+    
+</LinearLayout>

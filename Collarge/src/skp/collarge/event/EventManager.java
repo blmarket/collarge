@@ -10,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import skp.collarge.AllTheEvil;
-import android.content.Context;
 import android.net.Uri;
 
 public class EventManager {
@@ -42,18 +41,6 @@ public class EventManager {
 		} catch (Exception e) { // 파일 없으면? 그냥 안하는 거지 뭐...
 			System.out.println("File Open Failed TT");
 		}
-
-		// FIXME: remove this bunch of shit
-		if (eventList.size() == 0 || true) {
-			eventList.clear();
-			System.out.println("getit");
-			DummyEventManager.getInstance().getEventSize();
-			for (int i = 0; i < Math.min(2, DummyEventManager.getInstance()
-					.getEventSize()); i++) {
-				System.out.println("Creating trash event " + i);
-				eventList.add(DummyEventManager.getInstance().getEvent(i));
-			}
-		}
 	}
 
 	public static EventManager getInstance() {
@@ -76,8 +63,6 @@ public class EventManager {
 		System.out.println("JSON Output : " + arr.length());
 
 		try {
-			Context c = AllTheEvil.getInstance().getContext();
-
 			FileOutputStream str = new FileOutputStream(AllTheEvil
 					.getInstance().openFile(FILENAME));
 			str.write(arr.toString().getBytes());
@@ -109,7 +94,7 @@ public class EventManager {
 			arr.put(uri);
 		}
 		try {
-			obj.put("Title", "Some Title");
+			obj.put("Title", event.getEventName());
 			obj.put("Array", arr);
 		} catch (Exception E) {
 			E.printStackTrace();
@@ -133,7 +118,10 @@ public class EventManager {
 			ArrayList<Uri> uriarr = new ArrayList<Uri>();
 			for (int i = 0; i < arr.length(); i++)
 				uriarr.add(Uri.parse(arr.getString(i)));
-			return new Event(AllTheEvil.getInstance().getContext(), uriarr);
+			IEvent event = new Event(AllTheEvil.getInstance().getContext(),
+					uriarr);
+			event.setEventName(obj.getString("Title"));
+			return event;
 		} catch (JSONException E) {
 			return null;
 		}

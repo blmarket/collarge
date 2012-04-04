@@ -38,9 +38,12 @@
         <activity android:name="skp.collarge.viewer.timeline.TimelineViewActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 		<activity android:name="skp.collarge.pictureview.PictureView"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />        
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" /> 
+        <activity android:name=".main.EventMakeMain"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         
         <uses-library android:name="com.google.android.maps" />
+        
         
     </application>
 

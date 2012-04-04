@@ -1,5 +1,7 @@
 package skp.collarge.main;
 
+import org.w3c.dom.Text;
+
 import skp.collarge.R;
 import skp.collarge.event.EventManager;
 import skp.collarge.event.IEvent;
@@ -13,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class ImageAdapter extends BaseAdapter {
 	private Context mContext;
@@ -50,10 +53,14 @@ public class ImageAdapter extends BaseAdapter {
 
 			RelativeLayout view = (RelativeLayout) inflater.inflate(
 					R.layout.collarge_gridview_layout, null);
-			
+
 			IEvent event = EventManager.getInstance().getEvent(position - 1);
-			((MultiImageView)view.findViewById(R.id.collarge_gridview_image)).setEvent(event, true);
-			//miv.setLayoutParams(new GridView.LayoutParams(240, 200));
+			((MultiImageView) view.findViewById(R.id.collarge_gridview_image))
+					.setEvent(event, true);
+			((TextView) view.findViewById(R.id.event_name)).setText("EP."
+					+ position + " " + event.getEventName());
+			view.findViewById(R.id.event_name).setSelected(true);
+			// miv.setLayoutParams(new GridView.LayoutParams(240, 200));
 			return view;
 		}
 	}
