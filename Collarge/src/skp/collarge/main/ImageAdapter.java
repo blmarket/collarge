@@ -1,7 +1,5 @@
 package skp.collarge.main;
 
-import org.w3c.dom.Text;
-
 import skp.collarge.R;
 import skp.collarge.event.EventManager;
 import skp.collarge.event.IEvent;

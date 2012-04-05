@@ -3,13 +3,11 @@ package skp.collarge.main;
 import skp.collarge.R;
 import skp.collarge.event.EventManager;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 
 public class EventMakeMain extends Activity {
 
@@ -20,7 +18,7 @@ public class EventMakeMain extends Activity {
 
 		Button confirmButton = (Button) findViewById(R.id.episode_dia_button1);
 		Button cancelButton = (Button) findViewById(R.id.episode_dia_button2);
-		EditText epiNameEditText = (EditText) findViewById(R.id.editEpisodeName);
+		//EditText epiNameEditText = (EditText) findViewById(R.id.editEpisodeName);
 
 		confirmButton.setOnClickListener(new OnClickListener() {
 

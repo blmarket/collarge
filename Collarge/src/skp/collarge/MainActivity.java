@@ -1,8 +1,6 @@
 package skp.collarge;
 
 import skp.collarge.event.EventManager;
-import skp.collarge.main.CollargeMain;
-import skp.collarge.viewer.timeline.TimelineViewActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaScannerConnection;

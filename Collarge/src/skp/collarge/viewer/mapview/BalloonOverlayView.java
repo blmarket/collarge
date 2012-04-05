@@ -17,7 +17,6 @@ public class BalloonOverlayView extends FrameLayout {
 
 	private LinearLayout layout;
 	private ImageView image;
-	private String imagePath = "/mnt/sdcard/DCIM/Camera/20120329_125341.jpg";
 	Bitmap bMap;
 
 	public BalloonOverlayView(Context context, int balloonBottomOffset, String path) {
@@ -30,7 +29,7 @@ public class BalloonOverlayView extends FrameLayout {
 		// TODO
 		// 최적화 해야 함(썸네일을 이용해야할 듯)
 		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inSampleSize = 8;
+		options.inSampleSize = 5;
 		bMap = BitmapFactory.decodeFile(path, options);
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -50,7 +49,7 @@ public class BalloonOverlayView extends FrameLayout {
 	}
 
 	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
+		//this.imagePath = imagePath;
 	}
 
 	// 말풍선 Visibility 조절
