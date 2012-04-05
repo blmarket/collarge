@@ -49,6 +49,11 @@ public class EventView extends Activity {
 	private boolean rightImageButton_action = true;
 	private boolean bookmarkButton_action = true;
 
+	Animation animation_moveLeft_in;
+	Animation animation_moveLeft_out;
+	Animation animation_moveRight_in;
+	Animation animation_moveRight_out;
+
 	class OnItemClickHandler implements OnItemClickListener {
 
 		private Uri tmp;
@@ -75,6 +80,7 @@ public class EventView extends Activity {
 				Intent intent = new Intent(EventView.this, skp.collarge.pictureview.PictureView.class);
 				intent.putExtra("dir", tmp.toString());
 				startActivity(intent);
+				toggleRightImageButton(true, null);
 			}
 		}
 	}
@@ -116,10 +122,10 @@ public class EventView extends Activity {
 		// title bar 부분
 
 		// 메뉴 애니매이션 효과
-		final Animation animation_moveLeft_in = AnimationUtils.loadAnimation(this, R.anim.push_right_in);
-		final Animation animation_moveLeft_out = AnimationUtils.loadAnimation(this, R.anim.push_left_out);
-		final Animation animation_moveRight_in = AnimationUtils.loadAnimation(this, R.anim.push_left_in);
-		final Animation animation_moveRight_out = AnimationUtils.loadAnimation(this, R.anim.push_right_out);
+		animation_moveLeft_in = AnimationUtils.loadAnimation(this, R.anim.push_right_in);
+		animation_moveLeft_out = AnimationUtils.loadAnimation(this, R.anim.push_left_out);
+		animation_moveRight_in = AnimationUtils.loadAnimation(this, R.anim.push_left_in);
+		animation_moveRight_out = AnimationUtils.loadAnimation(this, R.anim.push_right_out);
 
 		leftImageButton = (ImageView) findViewById(R.id.table_leftbutton);
 		rightImageButton = (ImageView) findViewById(R.id.table_rightbutton);
@@ -156,29 +162,9 @@ public class EventView extends Activity {
 		});
 
 		rightImageButton.setOnTouchListener(new OnTouchListener() {
-
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				if (rightImageButton_action) {
-					if (event.getAction() == MotionEvent.ACTION_DOWN) {
-						rightImageButton
-								.setImageDrawable(getResources().getDrawable(R.drawable.event_top_btn_right_on));
-					} else {
-						rightImageButton.setImageDrawable(getResources().getDrawable(
-								R.drawable.event_top_btn_right_over));
-						viewImageView.setVisibility(View.VISIBLE);
-						viewImageView.startAnimation(animation_moveRight_in);
-						rightImageButton_action = false;
-					}
-				} else {
-					if (event.getAction() == MotionEvent.ACTION_UP) {
-						rightImageButton.setImageDrawable(getResources().getDrawable(
-								R.drawable.event_top_btn_right_normal));
-						viewImageView.startAnimation(animation_moveRight_out);
-						viewImageView.setVisibility(View.INVISIBLE);
-						rightImageButton_action = true;
-					}
-				}
+				toggleRightImageButton(!rightImageButton_action, event);
 				return true;
 			}
 		});
@@ -210,6 +196,7 @@ public class EventView extends Activity {
 				Intent intent = new Intent(EventView.this, MyMapView.class);
 				intent.putExtra("EventNumber", eventNum);
 				startActivity(intent);
+				toggleRightImageButton(true, null);
 				return false;
 			}
 		});
@@ -221,6 +208,7 @@ public class EventView extends Activity {
 				Intent intent = new Intent(EventView.this, TimelineViewActivity.class);
 				intent.putExtra("EventNumber", eventNum);
 				startActivity(intent);
+				toggleRightImageButton(true, null);
 				return false;
 			}
 		});
@@ -271,6 +259,30 @@ public class EventView extends Activity {
 			}
 			break;
 		}
+		toggleRightImageButton(true, null);
+		
 		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	private void toggleRightImageButton(boolean newValue, MotionEvent event) {
+		if (rightImageButton_action == newValue)
+			return;
+		if (rightImageButton_action) {
+			if (event != null && event.getAction() == MotionEvent.ACTION_DOWN) {
+				rightImageButton.setImageDrawable(getResources().getDrawable(R.drawable.event_top_btn_right_on));
+			} else {
+				rightImageButton.setImageDrawable(getResources().getDrawable(R.drawable.event_top_btn_right_over));
+				viewImageView.setVisibility(View.VISIBLE);
+				viewImageView.startAnimation(animation_moveRight_in);
+				rightImageButton_action = false;
+			}
+		} else {
+			if (event == null || event.getAction() == MotionEvent.ACTION_UP) {
+				rightImageButton.setImageDrawable(getResources().getDrawable(R.drawable.event_top_btn_right_normal));
+				viewImageView.startAnimation(animation_moveRight_out);
+				viewImageView.setVisibility(View.INVISIBLE);
+				rightImageButton_action = true;
+			}
+		}
 	}
 }
