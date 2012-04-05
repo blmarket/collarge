@@ -36,8 +36,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-public class TimelineViewActivity extends Activity implements OnTouchListener,
-		OnClickListener, OnItemSelectedListener {
+public class TimelineViewActivity extends Activity implements OnTouchListener, OnClickListener, OnItemSelectedListener {
 
 	ViewFlipper flipper;
 	ArrayList<ScrollView> scroller = new ArrayList<ScrollView>();
@@ -50,13 +49,10 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 	class ImageWithTime implements Comparable<ImageWithTime> {
 		public ImageWithTime(Uri uri) {
 			this.uri = uri;
-			Cursor cursor = MediaStore.Images.Media.query(getContentResolver(),
-					uri, null);
+			Cursor cursor = MediaStore.Images.Media.query(getContentResolver(), uri, null);
 			while (cursor.moveToNext()) {
-				this.date = new Long(cursor.getLong(cursor
-						.getColumnIndex(Images.Media.DATE_ADDED)));
-				System.out.println("" + this.date + " "
-						+ DateFormat.format("MM/dd/yy", this.date * 1000));
+				this.date = new Long(cursor.getLong(cursor.getColumnIndex(Images.Media.DATE_ADDED)));
+				System.out.println("" + this.date + " " + DateFormat.format("MM/dd/yy", this.date * 1000));
 				// DateFormat.format("MM/dd/yy h:mmaa", date);
 			}
 		}
@@ -87,8 +83,7 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 		if (EventManager.getInstance().getEventSize() <= eventNum) {
 			throw new RuntimeException("invalid eventNum");
 		} else {
-			for (Uri uri : EventManager.getInstance().getEvent(eventNum)
-					.getEventPhotoList()) {
+			for (Uri uri : EventManager.getInstance().getEvent(eventNum).getEventPhotoList()) {
 				uris.add(new ImageWithTime(uri));
 			}
 		}
@@ -101,14 +96,11 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 
 		int pow = 1;
 		for (int i = 0; i < 3; i++) {
-			View tmp = getLayoutInflater().inflate(R.layout.timeline_scroll,
-					null);
-			ScrollView scrollView = (ScrollView) (tmp
-					.findViewById(R.id.timeline_scrollview));
+			View tmp = getLayoutInflater().inflate(R.layout.timeline_scroll, null);
+			ScrollView scrollView = (ScrollView) (tmp.findViewById(R.id.timeline_scrollview));
 
 			flipper.addView(tmp);
-			levelpos.add(setImages(scrollView.findViewById(R.id.timeline),
-					uris, pow, i));
+			levelpos.add(setImages(scrollView.findViewById(R.id.timeline), uris, pow, i));
 			pow *= 5;
 			scrollView.setOnTouchListener(this);
 			scroller.add(scrollView);
@@ -120,8 +112,7 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 		gallery.setOnItemSelectedListener(this);
 	}
 
-	private ArrayList<Float> setImages(View v,
-			AbstractList<ImageWithTime> uris, int step, int level) {
+	private ArrayList<Float> setImages(View v, AbstractList<ImageWithTime> uris, int step, int level) {
 		ArrayList<Float> result = new ArrayList<Float>();
 		if (step == 0)
 			throw new InvalidParameterException();
@@ -136,8 +127,7 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 			int mi = (i % step);
 
 			if (mi != 0) {
-				result.add(new Float((nextvpos * mi + vpos * (step - mi))
-						/ step));
+				result.add(new Float((nextvpos * mi + vpos * (step - mi)) / step));
 				continue;
 			}
 			result.add(new Float(nextvpos));
@@ -160,19 +150,19 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 			vpos = nextvpos;
 			nextvpos = vpos + image.getHeight();
 			imtv.setImageBitmap(image);
-			imtv.setLayoutParams(new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.WRAP_CONTENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT));
+			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(240,
+					LinearLayout.LayoutParams.WRAP_CONTENT);
+			layoutParams.gravity = Gravity.CENTER;
+			imtv.setLayoutParams(layoutParams);
+
 			imtv.setOnTouchListener(this);
 			// imv.setOnClickListener(this);
 			ll.addView(imtv);
 
 			TextView tv = new TextView(this);
 			tv.setText(DateFormat.format("MM/dd/yy h:mmaa", uris.get(i).date * 1000));
-			tv.setLayoutParams(new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.WRAP_CONTENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT));
-			tv.setTextColor(0xff000000);
+			tv.setLayoutParams(layoutParams);
+			tv.setTextColor(getResources().getColor(R.color.film_yellow));
 			ll.addView(tv);
 		}
 		builder.close();
@@ -228,8 +218,7 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 		System.out.println(v);
 		int level = ((Integer) v.getTag(R.string.timeline_level)).intValue();
 		if (level > 0) {
-			scroller.get(level - 1).setScrollY(
-					levelpos.get(level - 1).get(v.getId()).intValue());
+			scroller.get(level - 1).setScrollY(levelpos.get(level - 1).get(v.getId()).intValue());
 			setFlipperPage(-1);
 			gallery.setSelection(flipper.getDisplayedChild());
 		}
@@ -237,7 +226,7 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 
 	class GalleryAdapter extends BaseAdapter {
 		private Context mContext;
-		private String[] items = { "사진순", "5장단위", "25장단위" };
+		private int[] items = { R.drawable.timeview_btn1, R.drawable.timeview_btn2, R.drawable.timeview_btn3 };
 
 		public GalleryAdapter(Context context) {
 			this.mContext = context;
@@ -260,17 +249,14 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			TextView tv = new TextView(mContext);
-			tv.setText(items[position]);
-			tv.setMinimumHeight(50);
-			tv.setGravity(Gravity.CENTER);
-			return tv;
+			ImageView imv = new ImageView(mContext);
+			imv.setImageDrawable(mContext.getResources().getDrawable(items[position]));
+			return imv;
 		}
 	}
 
 	@Override
-	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
-			long arg3) {
+	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		flipper.setInAnimation(null);
 		flipper.setOutAnimation(null);
 		flipper.setDisplayedChild(arg2);
@@ -288,18 +274,14 @@ public class TimelineViewActivity extends Activity implements OnTouchListener,
 
 		if (direction == 1) {
 			// 왼쪽 방향 에니메이션 지정
-			flipper.setInAnimation(AnimationUtils.loadAnimation(this,
-					R.anim.push_left_in));
-			flipper.setOutAnimation(AnimationUtils.loadAnimation(this,
-					R.anim.push_left_out));
+			flipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_in));
+			flipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_out));
 			// 다음 view 보여줌
 			flipper.showNext();
 		} else if (direction == -1) {
 			// 오른쪽 방향 에니메이션 지정
-			flipper.setInAnimation(AnimationUtils.loadAnimation(this,
-					R.anim.push_right_in));
-			flipper.setOutAnimation(AnimationUtils.loadAnimation(this,
-					R.anim.push_right_out));
+			flipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_right_in));
+			flipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_right_out));
 			// 전 view 보여줌
 			flipper.showPrevious();
 		} else {

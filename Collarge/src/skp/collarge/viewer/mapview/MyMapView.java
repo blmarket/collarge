@@ -54,7 +54,7 @@ public class MyMapView extends MapActivity {
 
 			// intent로 이벤트 번호를 얻어옴
 			Intent intent = getIntent();
-			eventNum = intent.getExtras().getInt("eventNumber");
+			eventNum = intent.getExtras().getInt("EventNumber");
 			
 			//event에서 받아옴
 			event = EventManager.getInstance().getEvent(eventNum); 
@@ -92,6 +92,7 @@ public class MyMapView extends MapActivity {
 			// 1. 마커(말풍선) 생성
 			for(int i=0; i<imagePathList.size(); i++) {
 				GeoPoint basePoint = new GeoPoint(getLatitude(exifList.get(i)), getLongitude(exifList.get(i)));
+				System.out.println("BasePoint : " + basePoint);
 				OverlayItem overlayItem = new OverlayItem(basePoint, "", "");
 				itemizedOverlay.addOverlay(overlayItem);
 				
