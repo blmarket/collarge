@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 
+
 public class MainActivity extends Activity implements
 		MediaScannerConnectionClient {
 	MediaScannerConnection mConnection;
