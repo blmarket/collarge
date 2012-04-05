@@ -43,8 +43,9 @@ public class PictureView extends Activity {
 
 		        ImageView iv = (ImageView)findViewById(R.id.imageView);
 
-
+		        
 		        iv.setImageURI(Uri.parse(imgPath));
+		        
 		
 		        mWebView.setInitialScale(100);
 		        mWebView.getSettings().setJavaScriptEnabled(true);  // 웹뷰에서 자바스크립트실행가능

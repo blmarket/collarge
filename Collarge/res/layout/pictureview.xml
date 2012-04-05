@@ -40,7 +40,9 @@
         android:layout_height="240dp"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="0dp"
-        android:paddingLeft="0dp" >
+        android:paddingLeft="0dp" 
+        android:background="@color/bgc"
+        >
 
         <!-- PictureGallery 위치하는 곳 -->
         
@@ -55,8 +57,10 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="90" />
+        android:layout_height="wrap_content" 
+        android:scaleType="fitCenter"
+        
+        />
        
     </FrameLayout>
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -66,7 +70,8 @@
 	<WebView
         android:id="@+id/webView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="300dp"        
+        />
 
 </ScrollView>
     
