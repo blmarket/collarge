@@ -242,7 +242,7 @@ public class EventView extends Activity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				Intent intent = new Intent(EventView.this, TimelineViewActivity.class);
-				intent.putExtra("eventNumber", eventNum);
+				intent.putExtra("EventNumber", eventNum);
 				startActivity(intent);
 				return false;
 			}
